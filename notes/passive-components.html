@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台灣被動元件產業全景圖 · Taiwan Passive Components</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&family=JetBrains+Mono:wght@400;700&family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0c0a;
+    --bg-2: #15130f;
+    --paper: #f5f0e6;
+    --ink: #1a1814;
+    --gold: #c9a961;
+    --copper: #b8743f;
+    --rust: #8a3a1f;
+    --jade: #4a7a6a;
+    --plum: #5b3f5e;
+    --line: rgba(245,240,230,0.12);
+    --line-strong: rgba(245,240,230,0.28);
+    --serif: 'Noto Serif TC', 'Bodoni Moda', serif;
+    --display: 'Bodoni Moda', 'Noto Serif TC', serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--paper);
+    font-family: var(--serif);
+    line-height: 1.7;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(ellipse at top, rgba(201,169,97,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse at bottom right, rgba(184,116,63,0.05) 0%, transparent 50%);
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1000; opacity: 0.5;
+  }
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+  /* HERO */
+  .hero {
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 32px 40px;
+    position: relative;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    max-width: 1280px;
+    margin-left: auto; margin-right: auto;
+    width: 100%;
+  }
+  .hero h1 {
+    font-family: var(--display);
+    font-size: clamp(56px, 11vw, 168px);
+    font-weight: 900;
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 400;
+  }
+  .hero-sub {
+    max-width: 1280px;
+    margin: 48px auto 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+  .hero-sub p {
+    font-size: 17px;
+    color: rgba(245,240,230,0.75);
+    max-width: 520px;
+  }
+  .hero-stats { display: flex; gap: 48px; }
+  .stat .num {
+    font-family: var(--display);
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--copper);
+    line-height: 1;
+  }
+  .stat .lbl {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,240,230,0.5);
+    margin-top: 8px;
+  }
+
+  /* SECTION HEADER */
+  .section { padding: 120px 0 60px; border-bottom: 1px solid var(--line); }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 64px;
+  }
+  .section-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+  }
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(36px, 5vw, 72px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .section-title em { font-style: italic; color: var(--copper); font-weight: 400; }
+  .section-intro {
+    max-width: 720px;
+    font-size: 17px;
+    color: rgba(245,240,230,0.7);
+    margin-bottom: 64px;
+  }
+
+  /* COMPONENT CARDS — 四種被動元件 */
+  .components-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .comp-card {
+    border: 1px solid var(--line-strong);
+    padding: 40px;
+    background: linear-gradient(135deg, var(--bg-2) 0%, var(--bg) 100%);
+    position: relative;
+    transition: transform 0.4s ease, border-color 0.4s ease;
+  }
+  .comp-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--gold);
+  }
+  .comp-card .glyph {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+  .comp-card h3 {
+    font-family: var(--display);
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .comp-card .symbol {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    margin-bottom: 24px;
+  }
+  .comp-card .role {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 22px;
+    color: var(--copper);
+    margin-bottom: 20px;
+    border-left: 2px solid var(--copper);
+    padding-left: 16px;
+  }
+  .comp-card p {
+    font-size: 15px;
+    color: rgba(245,240,230,0.75);
+    margin-bottom: 16px;
+  }
+  .comp-card .analogy {
+    background: rgba(201,169,97,0.08);
+    border-left: 2px solid var(--gold);
+    padding: 14px 18px;
+    margin: 20px 0;
+    font-size: 14px;
+    font-style: italic;
+  }
+  .comp-card .apps {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: rgba(245,240,230,0.5);
+    text-transform: uppercase;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--line-strong);
+  }
+
+  /* COMPANY MAP */
+  .map-tier {
+    margin-bottom: 56px;
+  }
+  .tier-label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .tier-label .badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    padding: 4px 10px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+  }
+  .tier-label h4 {
+    font-family: var(--display);
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .tier-label .tag-line {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+  .tier-label .desc {
+    font-family: var(--serif);
+    font-style: italic;
+    color: rgba(245,240,230,0.6);
+    font-size: 14px;
+  }
+  .companies {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .company {
+    border: 1px solid var(--line);
+    padding: 24px;
+    background: var(--bg-2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .company::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent, var(--gold));
+  }
+  .company:hover {
+    background: #1d1a14;
+    transform: translateX(4px);
+  }
+  .company-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+  }
+  .company-name {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .company-code {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--gold);
+  }
+  .company-en {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(245,240,230,0.4);
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+  }
+  .company-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .company-tags span {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    background: rgba(245,240,230,0.06);
+    border: 1px solid var(--line);
+    letter-spacing: 0.05em;
+  }
+  .company-desc {
+    font-size: 13px;
+    color: rgba(245,240,230,0.7);
+    line-height: 1.6;
+  }
+  /* tier accent colors */
+  .tier-1 .company { --accent: var(--gold); }
+  .tier-2 .company { --accent: var(--copper); }
+  .tier-3 .company { --accent: var(--jade); }
+  .tier-4 .company { --accent: var(--plum); }
+  .tier-5 .company { --accent: var(--rust); }
+  .tier-6 .company { --accent: #8c9eff; }
+
+  /* CIRCUIT */
+  .circuit-section {
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+    padding: 100px 0;
+  }
+  .circuit-svg-wrap {
+    border: 1px solid var(--line-strong);
+    padding: 24px;
+    background: var(--bg);
+  }
+
+  /* AI BENEFICIARIES — 重新設計 */
+  .ai-rank-grid {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 56px;
+  }
+  .ai-card {
+    display: grid;
+    grid-template-columns: 80px 1fr 280px;
+    gap: 32px;
+    padding: 32px 28px;
+    background: var(--bg-2);
+    border: 1px solid var(--line-strong);
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  .ai-card:hover {
+    border-color: var(--gold);
+    background: #1a1813;
+  }
+  .ai-card.tier-s {
+    border-left: 4px solid #ffb800;
+    background: linear-gradient(90deg, rgba(255,184,0,0.08) 0%, var(--bg-2) 30%);
+  }
+  .ai-card.tier-a {
+    border-left: 4px solid var(--gold);
+  }
+  .ai-card.tier-b {
+    border-left: 4px solid var(--copper);
+  }
+  .ai-rank {
+    font-family: var(--display);
+    font-size: 56px;
+    font-weight: 900;
+    line-height: 1;
+    color: rgba(245,240,230,0.15);
+    font-style: italic;
+  }
+  .ai-card.tier-s .ai-rank { color: #ffb800; }
+  .ai-card.tier-a .ai-rank { color: var(--gold); }
+  .ai-card.tier-b .ai-rank { color: var(--copper); }
+
+  .ai-content h4 {
+    font-family: var(--display);
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .ai-content h4 .code {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--gold);
+    font-weight: 400;
+  }
+  .ai-content .tagline {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 17px;
+    color: var(--copper);
+    margin-bottom: 16px;
+  }
+  .ai-content p {
+    font-size: 14.5px;
+    color: rgba(245,240,230,0.78);
+    margin-bottom: 12px;
+  }
+  .ai-content .bull {
+    border-left: 2px solid var(--gold);
+    padding-left: 14px;
+    font-size: 13px;
+    color: rgba(245,240,230,0.65);
+    margin-top: 12px;
+  }
+  .ai-content .bear {
+    border-left: 2px solid var(--rust);
+    padding-left: 14px;
+    font-size: 13px;
+    color: rgba(245,240,230,0.55);
+    margin-top: 8px;
+  }
+  .ai-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-left: 1px solid var(--line);
+    padding-left: 24px;
+  }
+  .ai-meta-item {
+    display: flex;
+    flex-direction: column;
+  }
+  .ai-meta-item .lbl {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,240,230,0.4);
+    margin-bottom: 4px;
+  }
+  .ai-meta-item .val {
+    font-family: var(--display);
+    font-size: 18px;
+    color: var(--paper);
+  }
+  .ai-meta-item .val.hot { color: #ff7e5f; font-weight: 700; }
+  .ai-meta-item .val.warm { color: var(--gold); }
+  .ai-meta-item .val.cool { color: rgba(245,240,230,0.7); }
+
+  .tier-rating {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    padding: 4px 10px;
+    border-radius: 2px;
+    font-weight: 700;
+    margin-left: 8px;
+  }
+  .rating-s { background: rgba(255,184,0,0.2); color: #ffb800; border: 1px solid #ffb800; }
+  .rating-a { background: rgba(201,169,97,0.15); color: var(--gold); border: 1px solid var(--gold); }
+  .rating-b { background: rgba(184,116,63,0.15); color: var(--copper); border: 1px solid var(--copper); }
+
+  /* RANKING SUMMARY */
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 32px;
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+  .summary-table th {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--gold);
+  }
+  .summary-table td {
+    padding: 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .summary-table tr:hover { background: rgba(201,169,97,0.04); }
+  .summary-table .co {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  /* footer */
+  footer {
+    padding: 80px 32px 60px;
+    text-align: center;
+    border-top: 1px solid var(--line);
+  }
+  footer .mark {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 24px;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  footer p {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: rgba(245,240,230,0.4);
+    text-transform: uppercase;
+  }
+
+  /* DISCLAIMER box */
+  .disclaimer {
+    border: 1px dashed var(--rust);
+    padding: 24px 28px;
+    margin: 40px 0;
+    background: rgba(138,58,31,0.08);
+    font-size: 13px;
+    color: rgba(245,240,230,0.65);
+    line-height: 1.7;
+  }
+  .disclaimer strong {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--rust);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  @media (max-width: 880px) {
+    .components-grid, .companies, .hero-sub { grid-template-columns: 1fr; gap: 16px; }
+    .hero-stats { gap: 24px; }
+    .stat .num { font-size: 40px; }
+    .ai-card { grid-template-columns: 1fr; gap: 16px; }
+    .ai-meta { border-left: none; border-top: 1px solid var(--line); padding-left: 0; padding-top: 16px; flex-direction: row; flex-wrap: wrap; }
+    .ai-meta-item { flex: 1; min-width: 140px; }
+  }
+
+  /* fade-in on load */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero h1, .hero-sub, .section-head, .section-intro { animation: fadeUp 0.8s ease both; }
+  .hero-sub { animation-delay: 0.2s; }
+</style>
+</head>
+<body>
+<a href="../index.html" style="position:fixed;top:14px;left:14px;z-index:9999;font-family:'JetBrains Mono','Noto Sans TC',monospace;font-size:12px;letter-spacing:.06em;color:rgba(235,235,235,.75);background:rgba(10,12,20,.72);border:1px solid rgba(255,255,255,.18);padding:7px 14px;border-radius:99px;text-decoration:none;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,.45)'" onmouseout="this.style.color='rgba(235,235,235,.75)';this.style.borderColor='rgba(255,255,255,.18)'">← 檔案室首頁</a>
+
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-meta">
+    <span>◉ TAIWAN · 2026</span>
+    <span>PASSIVE COMPONENTS / 被動元件</span>
+    <span>VOL.02 · REVISED</span>
+  </div>
+  <h1>被動元件<br><em>Passive</em> 之島</h1>
+  <div class="hero-sub">
+    <p>它們不放大訊號、不運算邏輯，只是默默地<em>儲能、阻流、共振</em>。但每一台 iPhone 有 1,000 顆，每一張 NVIDIA GPU 機板上有上萬顆。台灣，是全球被動元件供應鏈中無法繞過的一塊拼圖。</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="num">04</div><div class="lbl">核心元件類別</div></div>
+      <div class="stat"><div class="num">25+</div><div class="lbl">主要上市櫃廠</div></div>
+      <div class="stat"><div class="num">#1</div><div class="lbl">國巨 全球前段班</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 1 — 四大元件 -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-num">§ 01</span>
+      <h2 class="section-title">四大<em>被動</em>元件</h2>
+    </div>
+    <p class="section-intro">所謂「被動」(passive)，指的是元件本身不消耗外部能量去放大訊號 —— 它們只儲存、釋放、阻擋。電路板上每一顆主動晶片 (CPU、GPU) 旁邊，都圍繞著數十、數百顆被動元件，像護城河一樣穩定電壓、過濾雜訊、儲存能量。</p>
+
+    <div class="components-grid">
+
+      <!-- 電容 -->
+      <div class="comp-card">
+        <div class="glyph">
+          <svg viewBox="0 0 240 200" width="220" height="180">
+            <line x1="20" y1="100" x2="100" y2="100" stroke="#c9a961" stroke-width="2"/>
+            <line x1="100" y1="50" x2="100" y2="150" stroke="#c9a961" stroke-width="4"/>
+            <line x1="140" y1="50" x2="140" y2="150" stroke="#c9a961" stroke-width="4"/>
+            <line x1="140" y1="100" x2="220" y2="100" stroke="#c9a961" stroke-width="2"/>
+            <text x="80" y="40" fill="#f5f0e6" font-family="JetBrains Mono" font-size="14">+++</text>
+            <text x="148" y="40" fill="#f5f0e6" font-family="JetBrains Mono" font-size="14">−−−</text>
+            <line x1="105" y1="70" x2="135" y2="70" stroke="#b8743f" stroke-width="1" opacity="0.4" stroke-dasharray="2,2"/>
+            <line x1="105" y1="100" x2="135" y2="100" stroke="#b8743f" stroke-width="1" opacity="0.4" stroke-dasharray="2,2"/>
+            <line x1="105" y1="130" x2="135" y2="130" stroke="#b8743f" stroke-width="1" opacity="0.4" stroke-dasharray="2,2"/>
+            <text x="100" y="180" fill="#c9a961" font-family="JetBrains Mono" font-size="11" letter-spacing="2">CAPACITOR</text>
+          </svg>
+        </div>
+        <h3>電容 Capacitor</h3>
+        <div class="symbol">SYMBOL · C · 單位 法拉 F</div>
+        <div class="role">電的水庫</div>
+        <p>兩片金屬板中間夾介質。電壓加上時兩板儲存電荷，電壓拿掉時電荷釋放。它的工作不是「導電」，而是「<em>儲電與放電</em>」。</p>
+        <div class="analogy">想像兩個面對面的水桶中間隔一片橡皮膜：你按一邊，膜變形儲能；你放手，能量就推回去。</div>
+        <p><strong style="color:var(--gold)">主流產品：</strong>MLCC（積層陶瓷電容）、鋁質電容、鉭質電容、固態高分子電容、薄膜電容。MLCC 是體積最小、用量最大的明星產品。</p>
+        <div class="apps">應用 · 電源去耦 · 訊號濾波 · 儲能緩衝 · AI 伺服器去雜訊</div>
+      </div>
+
+      <!-- 電阻 -->
+      <div class="comp-card">
+        <div class="glyph">
+          <svg viewBox="0 0 240 200" width="220" height="180">
+            <line x1="20" y1="100" x2="60" y2="100" stroke="#b8743f" stroke-width="2"/>
+            <polyline points="60,100 70,80 90,120 110,80 130,120 150,80 170,120 180,100"
+                      fill="none" stroke="#b8743f" stroke-width="3" stroke-linejoin="round"/>
+            <line x1="180" y1="100" x2="220" y2="100" stroke="#b8743f" stroke-width="2"/>
+            <rect x="68" y="92" width="3" height="16" fill="#8a3a1f"/>
+            <rect x="120" y="92" width="3" height="16" fill="#c9a961"/>
+            <rect x="172" y="92" width="3" height="16" fill="#4a7a6a"/>
+            <text x="112" y="180" fill="#b8743f" font-family="JetBrains Mono" font-size="11" letter-spacing="2">RESISTOR</text>
+            <text x="170" y="60" fill="#f5f0e6" font-family="JetBrains Mono" font-size="14">Ω</text>
+          </svg>
+        </div>
+        <h3>電阻 Resistor</h3>
+        <div class="symbol">SYMBOL · R · 單位 歐姆 Ω</div>
+        <div class="role">電流的減速帶</div>
+        <p>一段刻意做成「不太導電」的材料。電流經過會被阻擋一部分，能量轉成熱。它的工作是<em>分壓、限流、保護</em>後級脆弱的 IC。</p>
+        <div class="analogy">就像水管中的細口收束：水量被擠小、水壓被拉低，下游元件才不會被沖壞。</div>
+        <p><strong style="color:var(--gold)">主流產品：</strong>晶片電阻（Chip Resistor）、排阻、可調電阻。晶片電阻是最大宗，毛利雖低，但一張板子要用上數百顆。</p>
+        <div class="apps">應用 · 限流保護 · 分壓電路 · LED 驅動 · 訊號終端阻抗匹配</div>
+      </div>
+
+      <!-- 電感 -->
+      <div class="comp-card">
+        <div class="glyph">
+          <svg viewBox="0 0 240 200" width="220" height="180">
+            <line x1="20" y1="100" x2="60" y2="100" stroke="#4a7a6a" stroke-width="2"/>
+            <path d="M 60,100 Q 75,60 90,100 Q 105,60 120,100 Q 135,60 150,100 Q 165,60 180,100"
+                  fill="none" stroke="#4a7a6a" stroke-width="3"/>
+            <line x1="180" y1="100" x2="220" y2="100" stroke="#4a7a6a" stroke-width="2"/>
+            <line x1="120" y1="40" x2="120" y2="20" stroke="#c9a961" stroke-width="1" marker-end="url(#arr)"/>
+            <line x1="100" y1="45" x2="95" y2="25" stroke="#c9a961" stroke-width="1" marker-end="url(#arr)"/>
+            <line x1="140" y1="45" x2="145" y2="25" stroke="#c9a961" stroke-width="1" marker-end="url(#arr)"/>
+            <defs>
+              <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 z" fill="#c9a961"/>
+              </marker>
+            </defs>
+            <text x="115" y="180" fill="#4a7a6a" font-family="JetBrains Mono" font-size="11" letter-spacing="2">INDUCTOR</text>
+          </svg>
+        </div>
+        <h3>電感 Inductor</h3>
+        <div class="symbol">SYMBOL · L · 單位 亨利 H</div>
+        <div class="role">電流的慣性飛輪</div>
+        <p>一段繞成圈的導線。電流變化時會產生磁場、磁場又反過來阻止電流變化。<em>抗變、儲磁能、過濾高頻雜訊</em>是它的看家本領。</p>
+        <div class="analogy">就像水車的沉重輪子：你想突然加速，它抗拒；你想突然停下，它還在轉。它討厭「變」。</div>
+        <p><strong style="color:var(--gold)">主流產品：</strong>一體成型扼流器（Molding Choke）、繞線電感、積層電感。AI GPU 的供電 (VRM) 旁邊，全是這種小黑方塊。</p>
+        <div class="apps">應用 · DC-DC 電源轉換 · EMI 雜訊抑制 · 射頻阻抗匹配 · GPU/CPU 供電</div>
+      </div>
+
+      <!-- 石英晶體/晶振 -->
+      <div class="comp-card">
+        <div class="glyph">
+          <svg viewBox="0 0 240 200" width="220" height="180">
+            <line x1="20" y1="100" x2="80" y2="100" stroke="#5b3f5e" stroke-width="2"/>
+            <line x1="80" y1="60" x2="80" y2="140" stroke="#5b3f5e" stroke-width="3"/>
+            <rect x="92" y="60" width="56" height="80" fill="none" stroke="#5b3f5e" stroke-width="2" rx="2"/>
+            <line x1="160" y1="60" x2="160" y2="140" stroke="#5b3f5e" stroke-width="3"/>
+            <line x1="160" y1="100" x2="220" y2="100" stroke="#5b3f5e" stroke-width="2"/>
+            <path d="M 95,100 Q 105,75 115,100 T 135,100 T 145,100"
+                  fill="none" stroke="#c9a961" stroke-width="2"/>
+            <text x="105" y="180" fill="#5b3f5e" font-family="JetBrains Mono" font-size="11" letter-spacing="2">OSCILLATOR</text>
+            <text x="170" y="50" fill="#f5f0e6" font-family="JetBrains Mono" font-size="11">f₀</text>
+          </svg>
+        </div>
+        <h3>石英晶體 Crystal / Oscillator</h3>
+        <div class="symbol">SYMBOL · XTAL · 單位 赫茲 Hz</div>
+        <div class="role">系統的心跳節拍器</div>
+        <p>切割成特定形狀的石英晶體，加上電場會以<em>極穩定的頻率</em>振動。一切數位電路都需要一個「時鐘」告訴它什麼時候該動 —— 那就是它。</p>
+        <div class="analogy">就像音樂家手中的節拍器：沒有它，CPU 不知道什麼時候該執行下一條指令，藍牙、5G 也找不到頻率對齊。</div>
+        <p><strong style="color:var(--gold)">主流產品：</strong>石英晶體（Crystal）、振盪器（OSC）、TCXO 溫補振盪器。台灣晶技 (3042) 為全球前三大。</p>
+        <div class="apps">應用 · CPU 時鐘 · 藍牙/Wi-Fi 頻率 · GPS 定位 · 通訊基地台</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2 — 廠商地圖 -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-num">§ 02</span>
+      <h2 class="section-title">廠商<em>地圖</em></h2>
+    </div>
+    <p class="section-intro">台灣被動元件產業可大致分為「綜合龍頭 → 電容專業廠 → 電感專業廠 → 石英晶體廠 → 利基廠 → 上游材料 / 通路代理」六大層級。國巨是無可爭議的全球巨頭（已將奇力新併入集團、不另上市），其他則各據山頭、深耕細分市場。</p>
+
+    <!-- TIER 1 -->
+    <div class="map-tier tier-1">
+      <div class="tier-label">
+        <span class="badge">TIER 01</span>
+        <h4>綜合龍頭</h4>
+        <span class="desc">全產品線、全球佈局、產業定價權</span>
+        <span class="tag-line"></span>
+      </div>
+      <div class="companies">
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">國巨</span>
+            <span class="company-code">2327</span>
+          </div>
+          <div class="company-en">YAGEO CORPORATION</div>
+          <div class="company-tags">
+            <span>MLCC</span><span>晶片電阻</span><span>鉭電容</span><span>電感</span>
+          </div>
+          <div class="company-desc">全球第一大晶片電阻廠、第三大 MLCC 廠。陸續併購基美 (Kemet)、奇力新（已下市併入）、普思 (Pulse) 等，三大被動元件全球皆為前三名。AI 伺服器、車用、蘋果三軌並進，鉭電容無對手。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">華新科</span>
+            <span class="company-code">2492</span>
+          </div>
+          <div class="company-en">WALSIN TECHNOLOGY</div>
+          <div class="company-tags">
+            <span>MLCC</span><span>晶片電阻</span><span>射頻元件</span>
+          </div>
+          <div class="company-desc">華新麗華集團旗下。MLCC 占營收近六成，2026 年因 AI 與車用高壓需求受惠。旗下信昌電 (6173) 切入 800V HVDC 高壓 MLCC 供應鏈。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">台達電</span>
+            <span class="company-code">2308</span>
+          </div>
+          <div class="company-en">DELTA ELECTRONICS</div>
+          <div class="company-tags">
+            <span>電源系統</span><span>磁性元件</span>
+          </div>
+          <div class="company-desc">電源供應龍頭，旗下乾坤科技（已下市併入）為全球最大一體成型扼流器廠。雖以電源系統聞名，但磁性元件業務直接受惠 AI 伺服器電源高壓化趨勢。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIER 2 -->
+    <div class="map-tier tier-2">
+      <div class="tier-label">
+        <span class="badge">TIER 02</span>
+        <h4>電容專業廠</h4>
+        <span class="desc">MLCC、鋁電解、固態高分子電容利基經營</span>
+        <span class="tag-line"></span>
+      </div>
+      <div class="companies">
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">禾伸堂</span>
+            <span class="company-code">3026</span>
+          </div>
+          <div class="company-en">HOLY STONE</div>
+          <div class="company-tags">
+            <span>高壓 MLCC</span><span>NP0</span><span>代理</span>
+          </div>
+          <div class="company-desc">高壓、高穩定 NP0 MLCC 利基王者，台廠中少數能與日本 Murata、TDK 抗衡的供應商。AI 伺服器電源高壓化、輝達 GB 機櫃直接受惠者。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">鈺邦</span>
+            <span class="company-code">6449</span>
+          </div>
+          <div class="company-en">APAQ TECHNOLOGY</div>
+          <div class="company-tags">
+            <span>固態電容</span><span>V-Chip</span><span>AI 伺服器</span>
+          </div>
+          <div class="company-desc">台灣最大固態高分子電容廠、捲繞型 V-Chip 全球第一。NVIDIA GB200/300 標配電容供應商，B200 主機板每片需 70-80 顆 V-Chip。被臺慶科 (3357) 公開收購持股約 28%。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">立隆電</span>
+            <span class="company-code">2472</span>
+          </div>
+          <div class="company-en">LELON</div>
+          <div class="company-tags">
+            <span>鋁質電容</span>
+          </div>
+          <div class="company-desc">鋁質電解電容專業廠，立隆集團核心。AI 伺服器、電源供應器需要大容值濾波，鋁電容仍是不可取代的選擇。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">凱美</span>
+            <span class="company-code">2375</span>
+          </div>
+          <div class="company-en">KAIMEI</div>
+          <div class="company-tags">
+            <span>鋁電容</span><span>EMI 濾波</span>
+          </div>
+          <div class="company-desc">鋁電解電容廠商，產品涵蓋電源、車用、消費電子應用。國巨旗下事業群之一。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">信昌電</span>
+            <span class="company-code">6173</span>
+          </div>
+          <div class="company-en">PROSPERITY DIELECTRICS</div>
+          <div class="company-tags">
+            <span>高壓 MLCC</span><span>陶瓷</span>
+          </div>
+          <div class="company-desc">華新科集團子公司，受惠台達電 800V HVDC 供電架構帶動的高壓 MLCC 訂單外溢，MLCC 交期已延長 16-18 週。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">華容</span>
+            <span class="company-code">5328</span>
+          </div>
+          <div class="company-en">HEC</div>
+          <div class="company-tags">
+            <span>MLCC</span>
+          </div>
+          <div class="company-desc">華新科集團 MLCC 廠，主攻中階市場。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">三集瑞-KY</span>
+            <span class="company-code">6862</span>
+          </div>
+          <div class="company-en">3-SMERIT</div>
+          <div class="company-tags">
+            <span>MLCC</span><span>AI</span>
+          </div>
+          <div class="company-desc">高階 MLCC 利基廠，受惠 AI 伺服器與高階消費應用，跟隨國巨漲價題材聯動。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIER 3 -->
+    <div class="map-tier tier-3">
+      <div class="tier-label">
+        <span class="badge">TIER 03</span>
+        <h4>電感專業廠</h4>
+        <span class="desc">扼流器、繞線電感、AI 供電核心</span>
+        <span class="tag-line"></span>
+      </div>
+      <div class="companies">
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">臺慶科</span>
+            <span class="company-code">3357</span>
+          </div>
+          <div class="company-en">TAI-TECH</div>
+          <div class="company-tags">
+            <span>電感</span><span>射頻</span><span>持股鈺邦</span>
+          </div>
+          <div class="company-desc">電感專業廠，產品涵蓋功率電感、射頻電感。受惠 AI 伺服器供應鏈，並透過公開收購持股鈺邦 28%，跨足固態電容版圖。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">佳邦</span>
+            <span class="company-code">6284</span>
+          </div>
+          <div class="company-en">CHILISIN ELEC.</div>
+          <div class="company-tags">
+            <span>電感</span><span>EMI</span><span>ESD</span>
+          </div>
+          <div class="company-desc">電感與 EMI/ESD 防護元件並重，深耕手機、車用、AI 伺服器三大領域。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">千如</span>
+            <span class="company-code">3236</span>
+          </div>
+          <div class="company-en">CHENNUO</div>
+          <div class="company-tags">
+            <span>電感</span><span>變壓器</span>
+          </div>
+          <div class="company-desc">電感與磁性元件廠，產品涵蓋變壓器、扼流圈。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">鈞寶</span>
+            <span class="company-code">6155</span>
+          </div>
+          <div class="company-en">JUNBAO</div>
+          <div class="company-tags">
+            <span>EMI 磁芯</span><span>軟磁</span>
+          </div>
+          <div class="company-desc">軟磁材料、EMI 對策元件廠商。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">金山電</span>
+            <span class="company-code">8042</span>
+          </div>
+          <div class="company-en">KINGSTONE</div>
+          <div class="company-tags">
+            <span>磁性元件</span><span>變壓器</span>
+          </div>
+          <div class="company-desc">變壓器、電感模組廠，AI 伺服器電源供應鏈受惠者。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">鈺鎧</span>
+            <span class="company-code">5228</span>
+          </div>
+          <div class="company-en">UPI POWER</div>
+          <div class="company-tags">
+            <span>電感模組</span><span>電源</span>
+          </div>
+          <div class="company-desc">電感與電源模組廠，跟隨被動元件族群上漲。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIER 4 -->
+    <div class="map-tier tier-4">
+      <div class="tier-label">
+        <span class="badge">TIER 04</span>
+        <h4>石英 / 晶體廠</h4>
+        <span class="desc">時脈源、頻率元件、通訊心跳</span>
+        <span class="tag-line"></span>
+      </div>
+      <div class="companies">
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">晶技</span>
+            <span class="company-code">3042</span>
+          </div>
+          <div class="company-en">TXC CORPORATION</div>
+          <div class="company-tags">
+            <span>石英晶體</span><span>振盪器</span><span>TCXO</span>
+          </div>
+          <div class="company-desc">全球前三大石英元件廠。從智慧手機、5G、汽車到衛星通訊全覆蓋，台灣晶振王者。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">台嘉碩</span>
+            <span class="company-code">3221</span>
+          </div>
+          <div class="company-en">TAITIEN</div>
+          <div class="company-tags">
+            <span>振盪器</span><span>GPS</span>
+          </div>
+          <div class="company-desc">石英振盪器廠，深耕 GPS、車載與工業通訊應用。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">希華</span>
+            <span class="company-code">2484</span>
+          </div>
+          <div class="company-en">SIWARD</div>
+          <div class="company-tags">
+            <span>石英晶體</span>
+          </div>
+          <div class="company-desc">石英晶體元件廠，消費電子、IoT、車用應用。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIER 5 -->
+    <div class="map-tier tier-5">
+      <div class="tier-label">
+        <span class="badge">TIER 05</span>
+        <h4>利基保護元件廠</h4>
+        <span class="desc">熱敏、保護元件、高精度合金</span>
+        <span class="tag-line"></span>
+      </div>
+      <div class="companies">
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">興勤</span>
+            <span class="company-code">2428</span>
+          </div>
+          <div class="company-en">THINKING ELECTRONIC</div>
+          <div class="company-tags">
+            <span>熱敏電阻</span><span>突波吸收</span>
+          </div>
+          <div class="company-desc">PTC/NTC 熱敏電阻、保護元件世界級廠商。AI 伺服器與車用 BMS 電池保護受惠者。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">大毅</span>
+            <span class="company-code">2478</span>
+          </div>
+          <div class="company-en">RALEC</div>
+          <div class="company-tags">
+            <span>晶片電阻</span>
+          </div>
+          <div class="company-desc">專業晶片電阻廠，產品涵蓋一般、高精度、車用規格。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">光頡</span>
+            <span class="company-code">3624</span>
+          </div>
+          <div class="company-en">VIKING TECH</div>
+          <div class="company-tags">
+            <span>高精度電阻</span><span>合金</span>
+          </div>
+          <div class="company-desc">高精度、低阻值合金電阻廠，深耕車用、伺服器電源量測應用。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">聚鼎</span>
+            <span class="company-code">6224</span>
+          </div>
+          <div class="company-en">POLYTRONICS</div>
+          <div class="company-tags">
+            <span>PPTC 保護</span>
+          </div>
+          <div class="company-desc">PPTC 過電流保護元件，全球領先。電池、USB、AI 伺服器電路保護應用。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">九豪</span>
+            <span class="company-code">6127</span>
+          </div>
+          <div class="company-en">JIUHAO</div>
+          <div class="company-tags">
+            <span>陶瓷</span><span>MLCC 材料</span>
+          </div>
+          <div class="company-desc">陶瓷粉末、MLCC 上游材料廠。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIER 6 — 上游材料 / 通路 -->
+    <div class="map-tier tier-6">
+      <div class="tier-label">
+        <span class="badge">TIER 06</span>
+        <h4>上游材料 / 通路代理</h4>
+        <span class="desc">鋁箔原料、日系元件代理 — 不顯眼但卡關鍵位</span>
+        <span class="tag-line"></span>
+      </div>
+      <div class="companies">
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">立敦</span>
+            <span class="company-code">6175</span>
+          </div>
+          <div class="company-en">LITON TECHNOLOGY</div>
+          <div class="company-tags">
+            <span>化成鋁箔</span><span>電蝕箔</span><span>立隆集團</span>
+          </div>
+          <div class="company-desc">國內最大鋁質電解電容上游材料廠，立隆集團核心子公司。化成鋁箔占營收 92%、電蝕箔 28%，是鋁電容的「上游原料」廠商，車用 + 工業應用占比顯著提升。在四川阿壩州廠以水力發電供應，碳足跡僅同業 4%。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">蜜望實</span>
+            <span class="company-code">8043</span>
+          </div>
+          <div class="company-en">METHODE TECH</div>
+          <div class="company-tags">
+            <span>太陽誘電代理</span><span>MLCC</span><span>SRAM</span>
+          </div>
+          <div class="company-desc">日本 <em>太陽誘電 (Taiyo Yuden)</em> 獨家代理商，MLCC 占營收約 9 成、記憶體（SRAM）約 1 成。在高階 AI MLCC、車用 MLCC 上有獨家通路優勢。被視為被動元件「補漲領頭羊」，2025/12 月營收創 2022/2 月以來新高。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">日電貿</span>
+            <span class="company-code">3090</span>
+          </div>
+          <div class="company-en">NICHIDENBO</div>
+          <div class="company-tags">
+            <span>日系元件代理</span>
+          </div>
+          <div class="company-desc">日系被動元件代理通路商，代理 Murata、TDK 等品牌。</div>
+        </div>
+        <div class="company">
+          <div class="company-head">
+            <span class="company-name">堡達</span>
+            <span class="company-code">3537</span>
+          </div>
+          <div class="company-en">BODA</div>
+          <div class="company-tags">
+            <span>代理</span><span>AI</span>
+          </div>
+          <div class="company-desc">被動元件代理商，已切入 AI 伺服器供應鏈。</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 3 — 電路上的位置 -->
+<section class="section circuit-section">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-num">§ 03</span>
+      <h2 class="section-title">在<em>電路</em>上的位置</h2>
+    </div>
+    <p class="section-intro">下圖呈現一個典型 AI 伺服器電源 → GPU 的供電路徑。從外部 48V 電源輸入，經過層層電容濾波、電感儲能轉換、電阻分壓監測，最後乾淨地餵給 GPU。被動元件就藏在這每一段路上。</p>
+
+    <div class="circuit-svg-wrap">
+      <svg viewBox="0 0 1200 400" width="100%" style="max-width: 1200px;">
+        <defs>
+          <marker id="flow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#c9a961"/>
+          </marker>
+        </defs>
+
+        <rect x="20" y="160" width="100" height="80" fill="none" stroke="#c9a961" stroke-width="2"/>
+        <text x="70" y="195" text-anchor="middle" fill="#f5f0e6" font-family="Bodoni Moda" font-size="16" font-weight="700">電源</text>
+        <text x="70" y="215" text-anchor="middle" fill="#c9a961" font-family="JetBrains Mono" font-size="11">48V DC</text>
+
+        <line x1="120" y1="200" x2="1100" y2="200" stroke="#c9a961" stroke-width="2"/>
+
+        <!-- Stage 1: 鋁質電容 (大容值濾波) -->
+        <line x1="220" y1="200" x2="220" y2="280" stroke="#b8743f" stroke-width="2"/>
+        <rect x="200" y="280" width="40" height="20" fill="none" stroke="#b8743f" stroke-width="2"/>
+        <line x1="200" y1="305" x2="240" y2="305" stroke="#b8743f" stroke-width="3"/>
+        <line x1="220" y1="305" x2="220" y2="340" stroke="#b8743f" stroke-width="2"/>
+        <line x1="200" y1="340" x2="240" y2="340" stroke="#b8743f" stroke-width="2"/>
+        <line x1="208" y1="345" x2="232" y2="345" stroke="#b8743f" stroke-width="2"/>
+        <line x1="215" y1="350" x2="225" y2="350" stroke="#b8743f" stroke-width="2"/>
+        <text x="220" y="135" text-anchor="middle" fill="#b8743f" font-family="Bodoni Moda" font-size="14" font-weight="700">鋁/固態電容</text>
+        <text x="220" y="153" text-anchor="middle" fill="rgba(245,240,230,0.6)" font-family="JetBrains Mono" font-size="10">大容值穩壓</text>
+        <text x="220" y="378" text-anchor="middle" fill="#b8743f" font-family="JetBrains Mono" font-size="9">立隆電 · 凱美 · 鈺邦</text>
+
+        <!-- Stage 2: 電感 (DC-DC 轉換) -->
+        <path d="M 380,200 Q 395,170 410,200 Q 425,170 440,200 Q 455,170 470,200" 
+              fill="none" stroke="#4a7a6a" stroke-width="3"/>
+        <text x="425" y="155" text-anchor="middle" fill="#4a7a6a" font-family="Bodoni Moda" font-size="14" font-weight="700">扼流電感</text>
+        <text x="425" y="173" text-anchor="middle" fill="rgba(245,240,230,0.6)" font-family="JetBrains Mono" font-size="10">DC-DC 儲能</text>
+        <text x="425" y="240" text-anchor="middle" fill="#4a7a6a" font-family="JetBrains Mono" font-size="9">臺慶科 · 佳邦 · 千如</text>
+
+        <!-- Stage 3: 電阻 (分壓回授) -->
+        <line x1="600" y1="200" x2="600" y2="270" stroke="#c9a961" stroke-width="2"/>
+        <polyline points="600,270 590,278 610,290 590,302 610,314 600,322"
+                  fill="none" stroke="#c9a961" stroke-width="2.5"/>
+        <line x1="600" y1="322" x2="600" y2="350" stroke="#c9a961" stroke-width="2"/>
+        <line x1="585" y1="350" x2="615" y2="350" stroke="#c9a961" stroke-width="2"/>
+        <text x="600" y="135" text-anchor="middle" fill="#c9a961" font-family="Bodoni Moda" font-size="14" font-weight="700">晶片電阻</text>
+        <text x="600" y="153" text-anchor="middle" fill="rgba(245,240,230,0.6)" font-family="JetBrains Mono" font-size="10">分壓回授</text>
+        <text x="600" y="378" text-anchor="middle" fill="#c9a961" font-family="JetBrains Mono" font-size="9">國巨 · 大毅 · 光頡</text>
+
+        <!-- Stage 4: MLCC (高頻去耦) -->
+        <line x1="780" y1="200" x2="780" y2="270" stroke="#5b3f5e" stroke-width="2"/>
+        <line x1="765" y1="270" x2="795" y2="270" stroke="#5b3f5e" stroke-width="3"/>
+        <line x1="765" y1="280" x2="795" y2="280" stroke="#5b3f5e" stroke-width="3"/>
+        <line x1="820" y1="200" x2="820" y2="270" stroke="#5b3f5e" stroke-width="2"/>
+        <line x1="805" y1="270" x2="835" y2="270" stroke="#5b3f5e" stroke-width="3"/>
+        <line x1="805" y1="280" x2="835" y2="280" stroke="#5b3f5e" stroke-width="3"/>
+        <line x1="860" y1="200" x2="860" y2="270" stroke="#5b3f5e" stroke-width="2"/>
+        <line x1="845" y1="270" x2="875" y2="270" stroke="#5b3f5e" stroke-width="3"/>
+        <line x1="845" y1="280" x2="875" y2="280" stroke="#5b3f5e" stroke-width="3"/>
+        <text x="820" y="135" text-anchor="middle" fill="#b58cba" font-family="Bodoni Moda" font-size="14" font-weight="700">MLCC 陣列</text>
+        <text x="820" y="153" text-anchor="middle" fill="rgba(245,240,230,0.6)" font-family="JetBrains Mono" font-size="10">高頻去耦</text>
+        <text x="820" y="320" text-anchor="middle" fill="#b58cba" font-family="JetBrains Mono" font-size="9">國巨 · 華新科 · 禾伸堂 · 蜜望實</text>
+
+        <!-- GPU box -->
+        <rect x="990" y="140" width="180" height="120" fill="none" stroke="#c9a961" stroke-width="2"/>
+        <rect x="1010" y="160" width="140" height="80" fill="rgba(201,169,97,0.1)" stroke="#c9a961" stroke-width="1"/>
+        <text x="1080" y="195" text-anchor="middle" fill="#f5f0e6" font-family="Bodoni Moda" font-size="22" font-weight="700">GPU</text>
+        <text x="1080" y="218" text-anchor="middle" fill="#c9a961" font-family="JetBrains Mono" font-size="10">CORE</text>
+        <text x="1080" y="280" text-anchor="middle" fill="rgba(245,240,230,0.5)" font-family="JetBrains Mono" font-size="9">主動元件</text>
+
+        <!-- Crystal oscillator -->
+        <line x1="1080" y1="100" x2="1080" y2="140" stroke="#5b3f5e" stroke-width="2" stroke-dasharray="4,2"/>
+        <rect x="1040" y="60" width="80" height="40" fill="none" stroke="#5b3f5e" stroke-width="2"/>
+        <path d="M 1055,80 Q 1062,72 1069,80 T 1083,80 T 1097,80 T 1105,80" fill="none" stroke="#c9a961" stroke-width="1.5"/>
+        <text x="1080" y="50" text-anchor="middle" fill="#5b3f5e" font-family="Bodoni Moda" font-size="13" font-weight="700">石英晶振</text>
+        <text x="1080" y="125" text-anchor="middle" fill="#5b3f5e" font-family="JetBrains Mono" font-size="9">晶技 · 台嘉碩</text>
+
+        <!-- 上游材料 (立敦) — annotation -->
+        <line x1="220" y1="280" x2="80" y2="320" stroke="#8c9eff" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+        <text x="80" y="338" text-anchor="middle" fill="#8c9eff" font-family="JetBrains Mono" font-size="9">↑ 鋁箔原料：立敦</text>
+
+        <!-- ground line -->
+        <line x1="180" y1="370" x2="650" y2="370" stroke="rgba(245,240,230,0.3)" stroke-width="1"/>
+        <line x1="200" y1="375" x2="240" y2="375" stroke="rgba(245,240,230,0.3)" stroke-width="1"/>
+        <text x="170" y="375" text-anchor="end" fill="rgba(245,240,230,0.4)" font-family="JetBrains Mono" font-size="10">GND</text>
+
+        <line x1="155" y1="200" x2="180" y2="200" stroke="#c9a961" stroke-width="2" marker-end="url(#flow)"/>
+        <line x1="270" y1="200" x2="370" y2="200" stroke="#c9a961" stroke-width="2" marker-end="url(#flow)"/>
+        <line x1="490" y1="200" x2="580" y2="200" stroke="#c9a961" stroke-width="2" marker-end="url(#flow)"/>
+        <line x1="640" y1="200" x2="760" y2="200" stroke="#c9a961" stroke-width="2" marker-end="url(#flow)"/>
+        <line x1="900" y1="200" x2="985" y2="200" stroke="#c9a961" stroke-width="2" marker-end="url(#flow)"/>
+
+        <text x="600" y="30" text-anchor="middle" fill="#c9a961" font-family="JetBrains Mono" font-size="11" letter-spacing="3">AI SERVER POWER PATH · 一條供電路徑上的被動元件</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4 — AI 受惠者深度排行 -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-num">§ 04</span>
+      <h2 class="section-title">AI <em>受惠</em>排行榜</h2>
+    </div>
+    <p class="section-intro">這一節是這份報告的核心。我把追蹤名單上的廠商依「<em>AI 純度</em>」、「<em>不可取代性</em>」、「<em>2026 EPS 成長動能</em>」三個維度評分，分成 S / A / B 三個梯隊。下面是我看法 —— 不是建議，是分析。</p>
+
+    <div class="disclaimer">
+      <strong>⚠ 評分方法 / 立場聲明</strong>
+      評分基於目前公開法說會、研究報告、產業新聞之資訊整理，反映 2026 年 5 月時點的產業位階與題材濃度。S 級代表「結構性受惠 + 高不可取代性 + 法人目標價空間大」，A 級為「強題材 + 確定受惠但波段已部分反映」，B 級為「跟漲族群、補漲機會型」。本內容僅作產業科普與資訊整理，<strong style="color:var(--rust); display:inline; letter-spacing:0; font-family:var(--serif); font-size:13px;">不構成任何投資建議</strong>。被動元件族群波動劇烈、近期已有大幅漲幅，追高有顯著回檔風險，請務必獨立判斷。
+    </div>
+
+    <!-- S 級 -->
+    <h3 style="font-family: var(--display); font-size: 32px; margin-bottom: 16px; color: #ffb800; font-style: italic;">S 級 · 結構性大贏家</h3>
+    <p style="color: rgba(245,240,230,0.6); margin-bottom: 24px; font-size: 15px;">具備「日韓大廠做不來、台廠唯一做得到」的稀缺性，AI 主軸直接拉動，2026-2027 EPS 成長爆發力最大。</p>
+
+    <div class="ai-rank-grid">
+
+      <!-- 鈺邦 -->
+      <div class="ai-card tier-s">
+        <div class="ai-rank">01</div>
+        <div class="ai-content">
+          <h4>鈺邦 <span class="code">6449</span><span class="tier-rating rating-s">★ S 級</span></h4>
+          <div class="tagline">「AI 伺服器最大單一受惠者」</div>
+          <p>NVIDIA GB200/300 機櫃<strong style="color:var(--gold)">標配</strong>捲繞型固態電容 (V-Chip) 供應商，全球第一大。B200 主機板每片需 70-80 顆 V-Chip，整台 AI 伺服器用量 80-170 顆 —— AI 伺服器出貨量直接乘上這個倍數，就是鈺邦的營收結構性放大。</p>
+          <p>原訂 2027 年達成的 V-Chip 月產能 1 億顆目標，已<strong style="color:var(--gold)">提前到 2025 Q4 完成</strong>，2026 年再衝 1.2 億顆。法人預估 2026 EPS 年增 60%+。送樣 NVIDIA 中階 AI GPU 平台已順利，正爭取 2027 年 Rubin 新世代訂單。</p>
+          <div class="bull">▲ 利多：AI 伺服器需求結構性、非循環性；泰國新廠 2026 Q1 試產，搭上「非中國製造」供應鏈轉單；臺慶科戰略入股形成集團綜效。</div>
+          <div class="bear">▼ 風險：股價已大漲反映多數預期、近一年漲幅顯著；匯率敏感（2025Q2 匯損 1.6 億）；中國固態電容廠（江海）追趕。</div>
+        </div>
+        <div class="ai-meta">
+          <div class="ai-meta-item"><span class="lbl">主力產品</span><span class="val warm">捲繞固態電容 V-Chip</span></div>
+          <div class="ai-meta-item"><span class="lbl">AI 純度</span><span class="val hot">★★★★★</span></div>
+          <div class="ai-meta-item"><span class="lbl">不可取代性</span><span class="val hot">★★★★★</span></div>
+          <div class="ai-meta-item"><span class="lbl">2026 EPS 動能</span><span class="val hot">YoY +60%+</span></div>
+          <div class="ai-meta-item"><span class="lbl">關鍵客戶</span><span class="val cool">NVIDIA · HP · Dell · Meta · AMD</span></div>
+        </div>
+      </div>
+
+      <!-- 禾伸堂 -->
+      <div class="ai-card tier-s">
+        <div class="ai-rank">02</div>
+        <div class="ai-content">
+          <h4>禾伸堂 <span class="code">3026</span><span class="tier-rating rating-s">★ S 級</span></h4>
+          <div class="tagline">「高壓 MLCC 的台版 Murata」</div>
+          <p>AI 伺服器電源從 12V → 48V → 800V HVDC 一路高壓化，<strong style="color:var(--gold)">高電壓 NP0 MLCC</strong>需求爆增，但日韓大廠（Murata、TDK）產能無法滿足。禾伸堂是台廠中<strong style="color:var(--gold)">唯一能與日廠並列</strong>的供應商，訂單外溢直接受惠。</p>
+          <p>規劃 4 年投入 30 億擴產，董事長唐錦榮稱「營運將一路旺到 2030 年」。法人預估 2027 年 EPS 可達 12.88 元、年增近 6 成，目標價最高 151 元（18 倍本益比）。NVIDIA Vera Rubin 機櫃 2026 下半年量產直接受惠。</p>
+          <div class="bull">▲ 利多：稀缺技術門檻、AI 高壓化結構性趨勢、與國巨綜合廠競爭錯位（避開常規 MLCC 紅海）。</div>
+          <div class="bear">▼ 風險：股價已連續跳空大漲（一個月內近 4 成漲幅），追高風險高；產能擴張前需投入大量資本支出。</div>
+        </div>
+        <div class="ai-meta">
+          <div class="ai-meta-item"><span class="lbl">主力產品</span><span class="val warm">高壓 NP0 MLCC</span></div>
+          <div class="ai-meta-item"><span class="lbl">AI 純度</span><span class="val hot">★★★★★</span></div>
+          <div class="ai-meta-item"><span class="lbl">不可取代性</span><span class="val hot">★★★★★</span></div>
+          <div class="ai-meta-item"><span class="lbl">2026 EPS 動能</span><span class="val hot">YoY +30~60%</span></div>
+          <div class="ai-meta-item"><span class="lbl">關鍵客戶</span><span class="val cool">NVIDIA Vera Rubin · 高階電源廠</span></div>
+        </div>
+      </div>
+
+      <!-- 國巨 -->
+      <div class="ai-card tier-s">
+        <div class="ai-rank">03</div>
+        <div class="ai-content">
+          <h4>國巨 <span class="code">2327</span><span class="tier-rating rating-s">★ S 級</span></h4>
+          <div class="tagline">「全能百貨巨頭、產業定價權」</div>
+          <p>三大被動元件（電容、電阻、電感）全球皆為前段班的<strong style="color:var(--gold)">唯一台廠</strong>，鉭電容領域業界無對手。連 6 季營收獲利成長，2025 Q1 毛利率 38.1% 創 3 年新高。法人目標價 384-400 元，預估 2027 EPS 達 19.31 元。</p>
+          <p>透過 AVL 合格供應商機制長期供貨 NVIDIA GB200 等 AI 伺服器；<strong style="color:var(--gold)">蘋果供應鏈擴大</strong>納入 6 國 10 廠，符合 China+1 風險控管；車用、工業、醫療、航太特殊品比重已達 80%。</p>
+          <div class="bull">▲ 利多：產品線最完整、議價能力最強、AI + 蘋果 + 車用三軌成長；基美 (Kemet) 整合鉭電容地位。</div>
+          <div class="bear">▼ 風險：股本龐大、漲幅彈性小於小型股；中低階 MLCC 受中國風華等廠競爭壓力；股價已創新高。</div>
+        </div>
+        <div class="ai-meta">
+          <div class="ai-meta-item"><span class="lbl">主力產品</span><span class="val warm">MLCC + 電阻 + 鉭電容 + 電感</span></div>
+          <div class="ai-meta-item"><span class="lbl">AI 純度</span><span class="val hot">★★★★☆</span></div>
+          <div class="ai-meta-item"><span class="lbl">不可取代性</span><span class="val hot">★★★★★</span></div>
+          <div class="ai-meta-item"><span class="lbl">2026 EPS 動能</span><span class="val hot">YoY 穩定+15-20%</span></div>
+          <div class="ai-meta-item"><span class="lbl">關鍵客戶</span><span class="val cool">NVIDIA · Apple · 全球車廠 Tier1</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- A 級 -->
+    <h3 style="font-family: var(--display); font-size: 32px; margin-bottom: 16px; color: var(--gold); font-style: italic;">A 級 · 強題材確定受惠</h3>
+    <p style="color: rgba(245,240,230,0.6); margin-bottom: 24px; font-size: 15px;">明確受惠 AI / 高壓化 / 車用題材，但部分股價已反映預期，或受限於規模與替代性，爆發力次於 S 級。</p>
+
+    <div class="ai-rank-grid">
+
+      <!-- 蜜望實 -->
+      <div class="ai-card tier-a">
+        <div class="ai-rank">04</div>
+        <div class="ai-content">
+          <h4>蜜望實 <span class="code">8043</span><span class="tier-rating rating-a">A 級</span></h4>
+          <div class="tagline">「太陽誘電在台代理隊長」</div>
+          <p>日本太陽誘電 (Taiyo Yuden) <strong style="color:var(--gold)">獨家代理</strong>商，MLCC 占營收 9 成。AI 伺服器、AI PC 需要的高容值高階 MLCC 由日系廠商獨佔技術，蜜望實是台灣 ODM 廠拿料的關鍵窗口。</p>
+          <p>2025/12 月營收創 2022/2 月以來新高，被視為被動元件「補漲領頭羊」。同時代理來揚科技 SRAM、嵌入式記憶體（占 1 成）—— 在記憶體漲價週期中再添助力。輕資產通路模式，無資本支出壓力。益登科技持股 13.83% 為大股東。</p>
+          <div class="bull">▲ 利多：日系獨家代理護城河；通路商靈活配置；AI + 記憶體雙引擎；股本小、彈性高（曾從 28 → 70 元）。</div>
+          <div class="bear">▼ 風險：通路商毛利結構天花板較低；受原廠供貨配額影響大；股價屬投機性題材，曾被列為注意股票。</div>
+        </div>
+        <div class="ai-meta">
+          <div class="ai-meta-item"><span class="lbl">主力業務</span><span class="val warm">太陽誘電 MLCC + SRAM 代理</span></div>
+          <div class="ai-meta-item"><span class="lbl">AI 純度</span><span class="val warm">★★★★☆</span></div>
+          <div class="ai-meta-item"><span class="lbl">不可取代性</span><span class="val warm">★★★☆☆</span></div>
+          <div class="ai-meta-item"><span class="lbl">2026 動能</span><span class="val warm">營收 YoY +20-30%</span></div>
+          <div class="ai-meta-item"><span class="lbl">關鍵價值</span><span class="val cool">日系獨家代理通路</span></div>
+        </div>
+      </div>
+
+      <!-- 信昌電 -->
+      <div class="ai-card tier-a">
+        <div class="ai-rank">05</div>
+        <div class="ai-content">
+          <h4>信昌電 <span class="code">6173</span><span class="tier-rating rating-a">A 級</span></h4>
+          <div class="tagline">「800V HVDC 訂單外溢直接接班」</div>
+          <p>華新科集團子公司。台達電 800V HVDC 高壓供電架構吃下大量高壓 MLCC 產能，外溢訂單轉向信昌電。已對客戶發出 MLCC <strong style="color:var(--gold)">交期延長 16-18 週</strong>通知，連兩日漲停 (2026/5/7)，創 100 元歷史新高。</p>
+          <div class="bull">▲ 利多：明確客戶（台達電）AI 高壓供電結構性需求；訂單能見度已延長至年底以上；產能滿載。</div>
+          <div class="bear">▼ 風險：技術上仍是禾伸堂、Murata 的「跟隨者」；題材熱度導致漲幅集中、回檔風險。</div>
+        </div>
+        <div class="ai-meta">
+          <div class="ai-meta-item"><span class="lbl">主力產品</span><span class="val warm">高壓 MLCC</span></div>
+          <div class="ai-meta-item"><span class="lbl">AI 純度</span><span class="val warm">★★★★☆</span></div>
+          <div class="ai-meta-item"><span class="lbl">不可取代性</span><span class="val warm">★★★☆☆</span></div>
+          <div class="ai-meta-item"><span class="lbl">2026 動能</span><span class="val warm">交期已延長 16-18 週</span></div>
+          <div class="ai-meta-item"><span class="lbl">關鍵客戶</span><span class="val cool">台達電 HVDC 系統</span></div>
+        </div>
+      </div>
+
+      <!-- 華新科 -->
+      <div class="ai-card tier-a">
+        <div class="ai-rank">06</div>
+        <div class="ai-content">
+          <h4>華新科 <span class="code">2492</span><span class="tier-rating rating-a">A 級</span></h4>
+          <div class="tagline">「集團作戰、跟隨國巨漲價週期」</div>
+          <p>台廠第二大 MLCC 廠。MLCC 占營收近 6 成，車用、AI 高壓需求帶動。集團作戰：自身做主流 MLCC，旗下信昌電做高壓 MLCC、華容做中階 MLCC。國巨開漲價第一槍後通常會跟進。</p>
+          <div class="bull">▲ 利多：規模僅次於國巨、定價追隨能力強；車用 MLCC 比重持續提升；信昌電綜效。</div>
+          <div class="bear">▼ 風險：產品結構較常規、毛利率不及國巨；高壓 MLCC 比重比禾伸堂低、較不純粹。</div>
+        </div>
+        <div class="ai-meta">
+          <div class="ai-meta-item"><span class="lbl">主力產品</span><span class="val warm">MLCC + 晶片電阻</span></div>
+          <div class="ai-meta-item"><span class="lbl">AI 純度</span><span class="val warm">★★★☆☆</span></div>
+          <div class="ai-meta-item"><span class="lbl">不可取代性</span><span class="val warm">★★★★☆</span></div>
+          <div class="ai-meta-item"><span class="lbl">2026 動能</span><span class="val warm">跟漲 +15%</span></div>
+          <div class="ai-meta-item"><span class="lbl">關鍵客戶</span><span class="val cool">車用 Tier1 · 台達電</span></div>
+        </div>
+      </div>
+
+      <!-- 興勤 -->
+      <div class="ai-card tier-a">
+        <div class="ai-rank">07</div>
+        <div class="ai-content">
+          <h4>興勤 <span class="code">2428</span><span class="tier-rating rating-a">A 級</span></h4>
+          <div class="tagline">「AI 與電池保護的雙重隱形冠軍」</div>
+          <p>PTC/NTC 熱敏電阻全球領先廠。AI 伺服器密度提高 → 溫控元件需求拉升；車用電動化 → BMS 電池管理系統大量使用 NTC 溫度感測。連 30 年配息 131 元，財務體質扎實。</p>
+          <div class="bull">▲ 利多：AI + EV 雙軌；保護元件產品壽命長、毛利穩定；資本支出壓力小。</div>
+          <div class="bear">▼ 風險：保護元件單價低、營收成長相對緩慢；非主流題材、股價彈性較低。</div>
+        </div>
+        <div class="ai-meta">
+          <div class="ai-meta-item"><span class="lbl">主力產品</span><span class="val warm">PTC/NTC 熱敏電阻</span></div>
+          <div class="ai-meta-item"><span class="lbl">AI 純度</span><span class="val warm">★★★☆☆</span></div>
+          <div class="ai-meta-item"><span class="lbl">不可取代性</span><span class="val warm">★★★★☆</span></div>
+          <div class="ai-meta-item"><span class="lbl">2026 動能</span><span class="val warm">穩健 +20%</span></div>
+          <div class="ai-meta-item"><span class="lbl">關鍵客戶</span><span class="val cool">車用 BMS · 伺服器電源</span></div>
+        </div>
+      </div>
+
+      <!-- 臺慶科 -->
+      <div class="ai-card tier-a">
+        <div class="ai-rank">08</div>
+        <div class="ai-content">
+          <h4>臺慶科 <span class="code">3357</span><span class="tier-rating rating-a">A 級</span></h4>
+          <div class="tagline">「電感本業 + 鈺邦持股雙重題材」</div>
+          <p>電感專業廠，AI 伺服器供應鏈受惠者。透過公開收購持股鈺邦約 28% 成為最大單一股東，享有鈺邦 AI 受惠的<strong style="color:var(--gold)">股權連動效應</strong>。本業電感 + 持股題材雙引擎。</p>
+          <div class="bull">▲ 利多：鈺邦持股形成集團綜效；電感 AI 主軸直接受惠；本益比相對偏低。</div>
+          <div class="bear">▼ 風險：本業規模較小，持股價值貢獻會稀釋；電感 AI 純度不如鈺邦純粹。</div>
+        </div>
+        <div class="ai-meta">
+          <div class="ai-meta-item"><span class="lbl">主力產品</span><span class="val warm">功率電感 + 鈺邦持股</span></div>
+          <div class="ai-meta-item"><span class="lbl">AI 純度</span><span class="val warm">★★★☆☆</span></div>
+          <div class="ai-meta-item"><span class="lbl">不可取代性</span><span class="val warm">★★★☆☆</span></div>
+          <div class="ai-meta-item"><span class="lbl">2026 動能</span><span class="val warm">本業+持股雙增</span></div>
+          <div class="ai-meta-item"><span class="lbl">關鍵客戶</span><span class="val cool">AI 伺服器 + 持股鈺邦 28%</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- B 級 -->
+    <h3 style="font-family: var(--display); font-size: 32px; margin-bottom: 16px; color: var(--copper); font-style: italic;">B 級 · 跟漲族群 · 補漲機會型</h3>
+    <p style="color: rgba(245,240,230,0.6); margin-bottom: 24px; font-size: 15px;">屬被動元件族群整體題材的跟漲標的，AI 純度不高但有補漲空間，在族群輪動中提供機會。</p>
+
+    <div class="ai-rank-grid">
+
+      <!-- 立隆電 -->
+      <div class="ai-card tier-b">
+        <div class="ai-rank">09</div>
+        <div class="ai-content">
+          <h4>立隆電 <span class="code">2472</span><span class="tier-rating rating-b">B 級</span></h4>
+          <div class="tagline">「鋁電容大容值不可取代」</div>
+          <p>鋁質電解電容專業廠。AI 伺服器電源 PSU 仍需要大容值濾波電容，鋁電容在「容值/單價」上仍有不可取代性。族群上漲時受益。</p>
+          <div class="bull">▲ 利多：鋁電容族群龍頭、產業集中度高、立敦上游材料同集團。</div>
+          <div class="bear">▼ 風險：技術門檻不如固態電容、面對鈺邦逐漸侵蝕中高階市場。</div>
+        </div>
+        <div class="ai-meta">
+          <div class="ai-meta-item"><span class="lbl">主力產品</span><span class="val warm">鋁質電解電容</span></div>
+          <div class="ai-meta-item"><span class="lbl">AI 純度</span><span class="val cool">★★☆☆☆</span></div>
+          <div class="ai-meta-item"><span class="lbl">不可取代性</span><span class="val cool">★★★☆☆</span></div>
+          <div class="ai-meta-item"><span class="lbl">2026 動能</span><span class="val cool">族群跟漲</span></div>
+          <div class="ai-meta-item"><span class="lbl">同集團</span><span class="val cool">立敦 (鋁箔上游)</span></div>
+        </div>
+      </div>
+
+      <!-- 立敦 -->
+      <div class="ai-card tier-b">
+        <div class="ai-rank">10</div>
+        <div class="ai-content">
+          <h4>立敦 <span class="code">6175</span><span class="tier-rating rating-b">B 級</span></h4>
+          <div class="tagline">「鋁電容族群的賣鏟人」</div>
+          <p>立隆集團子公司。鋁電容上游<strong style="color:var(--gold)">化成鋁箔/電蝕箔</strong>原料供應商，化成箔占營收 92%。中國環保趨嚴 + 大陸鋁箔漲價 → 直接受益。四川阿壩州廠水力發電（碳排僅同業 4%）形成 ESG 護城河。車用占營收 25%。</p>
+          <div class="bull">▲ 利多：上游材料整合度提升（自製率達 70%）；ESG 低碳優勢；中國環保收緊使供給端緊縮。</div>
+          <div class="bear">▼ 風險：上游材料受下游景氣循環衝擊；非 AI 純題材；股本小波動大。</div>
+        </div>
+        <div class="ai-meta">
+          <div class="ai-meta-item"><span class="lbl">主力產品</span><span class="val warm">化成鋁箔 / 電蝕箔</span></div>
+          <div class="ai-meta-item"><span class="lbl">AI 純度</span><span class="val cool">★★☆☆☆</span></div>
+          <div class="ai-meta-item"><span class="lbl">不可取代性</span><span class="val warm">★★★★☆</span></div>
+          <div class="ai-meta-item"><span class="lbl">2026 動能</span><span class="val cool">原料漲價 + 車用 +20%</span></div>
+          <div class="ai-meta-item"><span class="lbl">客戶</span><span class="val cool">立隆電 / 全球鋁電容廠</span></div>
+        </div>
+      </div>
+
+      <!-- 三集瑞 -->
+      <div class="ai-card tier-b">
+        <div class="ai-rank">11</div>
+        <div class="ai-content">
+          <h4>三集瑞-KY <span class="code">6862</span><span class="tier-rating rating-b">B 級</span></h4>
+          <div class="tagline">「跟隨國巨漲價週期 MLCC 補漲股」</div>
+          <p>高階 MLCC 利基廠，跟隨國巨漲價週期、AI 利基題材聯動。屬族群中的「中段班補漲標的」。</p>
+          <div class="bull">▲ 利多：國巨漲價會帶動跟進；AI 伺服器 / 車用題材聯動。</div>
+          <div class="bear">▼ 風險：技術差異化有限、規模較小、議價能力弱。</div>
+        </div>
+        <div class="ai-meta">
+          <div class="ai-meta-item"><span class="lbl">主力產品</span><span class="val warm">MLCC</span></div>
+          <div class="ai-meta-item"><span class="lbl">AI 純度</span><span class="val cool">★★☆☆☆</span></div>
+          <div class="ai-meta-item"><span class="lbl">不可取代性</span><span class="val cool">★★☆☆☆</span></div>
+          <div class="ai-meta-item"><span class="lbl">2026 動能</span><span class="val cool">族群跟漲</span></div>
+          <div class="ai-meta-item"><span class="lbl">關鍵應用</span><span class="val cool">AI 伺服器 · 車用</span></div>
+        </div>
+      </div>
+
+      <!-- 聚鼎 / 光頡 / 佳邦 -->
+      <div class="ai-card tier-b">
+        <div class="ai-rank">12</div>
+        <div class="ai-content">
+          <h4>其他補漲族群 <span class="code">聚鼎 6224 · 光頡 3624 · 佳邦 6284</span><span class="tier-rating rating-b">B 級</span></h4>
+          <div class="tagline">「保護元件 / 高精度合金 / EMI 防護」</div>
+          <p><strong style="color:var(--gold)">聚鼎</strong>：PPTC 過電流保護元件全球領先，AI / 電池受惠。<strong style="color:var(--gold)">光頡</strong>：高精度低阻值合金電阻，伺服器電源量測利基。<strong style="color:var(--gold)">佳邦</strong>：電感 + EMI/ESD 防護元件。三家屬於利基保護元件，AI 主軸受惠但規模較小，適合輪動行情中關注。</p>
+        </div>
+        <div class="ai-meta">
+          <div class="ai-meta-item"><span class="lbl">族群定位</span><span class="val warm">利基保護 / 高精度元件</span></div>
+          <div class="ai-meta-item"><span class="lbl">AI 純度</span><span class="val cool">★★☆☆☆ - ★★★☆☆</span></div>
+          <div class="ai-meta-item"><span class="lbl">2026 動能</span><span class="val cool">族群跟漲</span></div>
+          <div class="ai-meta-item"><span class="lbl">特性</span><span class="val cool">利基市場、波段機會</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 個人觀察結論 -->
+    <h3 style="font-family: var(--display); font-size: 32px; margin: 56px 0 16px; color: var(--gold); font-style: italic;">個人觀察 · 哪些最有爆發潛力？</h3>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px;">
+      <div style="padding: 28px; background: linear-gradient(135deg, rgba(255,184,0,0.1) 0%, var(--bg-2) 100%); border: 1px solid #ffb800;">
+        <div style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; color: #ffb800; margin-bottom: 12px;">★ 最看好 · 結構性 + EPS 爆發力</div>
+        <h5 style="font-family: var(--display); font-size: 24px; font-weight: 700; margin-bottom: 12px;">鈺邦 · 禾伸堂</h5>
+        <p style="font-size: 14px; color: rgba(245,240,230,0.78); line-height: 1.7;">這兩家是「<em>純 AI 結構性受惠</em>」最明確的雙標。鈺邦的 V-Chip 卡進 NVIDIA Blackwell 機板每片 70-80 顆的標配位置，禾伸堂的高壓 NP0 MLCC 卡進 800V HVDC 不可取代位置。日韓大廠做不來、台廠唯二。<strong>差異</strong>：鈺邦 EPS 爆發力更強（YoY 60%+），禾伸堂題材純度更高（高壓 MLCC 利基）、營運可見度到 2030。</p>
+      </div>
+      <div style="padding: 28px; background: linear-gradient(135deg, rgba(201,169,97,0.1) 0%, var(--bg-2) 100%); border: 1px solid var(--gold);">
+        <div style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; color: var(--gold); margin-bottom: 12px;">★ 看好 · 規模 + 穩健成長</div>
+        <h5 style="font-family: var(--display); font-size: 24px; font-weight: 700; margin-bottom: 12px;">國巨</h5>
+        <p style="font-size: 14px; color: rgba(245,240,230,0.78); line-height: 1.7;">爆發力不如小型股，但「<em>確定性</em>」最高。三大被動元件全球前段班、AI + 蘋果 + 車用三軌、特殊品比重 80%、定價權在手。法人連續上修目標價（384-400 元）。對於想跟上 AI 但不想承擔小型股波動的人，國巨是相對安全的核心持股選擇。</p>
+      </div>
+      <div style="padding: 28px; background: linear-gradient(135deg, rgba(184,116,63,0.1) 0%, var(--bg-2) 100%); border: 1px solid var(--copper);">
+        <div style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; color: var(--copper); margin-bottom: 12px;">★ 中度看好 · 通路靈活高彈性</div>
+        <h5 style="font-family: var(--display); font-size: 24px; font-weight: 700; margin-bottom: 12px;">蜜望實</h5>
+        <p style="font-size: 14px; color: rgba(245,240,230,0.78); line-height: 1.7;">代理商輕資產商業模式 + 太陽誘電獨家代理護城河 + AI MLCC + SRAM 雙引擎。股本小、彈性高，曾從 28 元彈到 70 元。風險是通路商毛利天花板與題材投機性，但作為「中型彈性標的」具備吸引力。</p>
+      </div>
+      <div style="padding: 28px; background: linear-gradient(135deg, rgba(74,122,106,0.1) 0%, var(--bg-2) 100%); border: 1px solid #6ab098;">
+        <div style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; color: #6ab098; margin-bottom: 12px;">★ 觀察 · 訂單能見度明確</div>
+        <h5 style="font-family: var(--display); font-size: 24px; font-weight: 700; margin-bottom: 12px;">信昌電 · 興勤</h5>
+        <p style="font-size: 14px; color: rgba(245,240,230,0.78); line-height: 1.7;"><strong>信昌電</strong>：MLCC 交期延長 16-18 週，訂單能見度極高，但題材集中導致追高風險大。<strong>興勤</strong>：AI + EV 雙軌、保護元件穩定，連 30 年配息，適合穩健型投資人作中長期布局。</p>
+      </div>
+    </div>
+
+    <div class="disclaimer" style="margin-top: 40px;">
+      <strong>⚠ 重要風險提醒</strong>
+      被動元件族群在 2026 年初已出現劇烈波動 —— 短期內多家個股漲幅 30-100%，但 4/30 也曾出現禾伸堂跌停、族群普遍翻黑的修正。漲價題材已部分反映在股價上，<strong style="color:var(--rust); display:inline; letter-spacing:0; font-family:var(--serif); font-size:13px;">追高在歷史經驗中常伴隨大幅回檔</strong>。本內容為產業科普整理，不構成任何投資建議，請務必以最新財報、法說會與券商研究報告作獨立判斷。
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5 — 一句話總結 -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-num">§ 05</span>
+      <h2 class="section-title">一句話<em>記住</em>每家</h2>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-family: var(--serif); font-size: 16px;">
+      <div style="padding: 24px; border-left: 3px solid var(--gold); background: var(--bg-2);"><strong style="color:var(--gold); font-family: var(--display); font-size: 22px;">國巨</strong><br><em style="color:rgba(245,240,230,0.85)">「全能百貨巨頭」</em> — 三大元件皆全球前段班、定價權在手</div>
+      <div style="padding: 24px; border-left: 3px solid var(--gold); background: var(--bg-2);"><strong style="color:var(--gold); font-family: var(--display); font-size: 22px;">禾伸堂</strong><br><em style="color:rgba(245,240,230,0.85)">「高壓 MLCC 精品店」</em> — 跟日本 Murata 同台競技的台廠</div>
+      <div style="padding: 24px; border-left: 3px solid #ffb800; background: var(--bg-2);"><strong style="color:#ffb800; font-family: var(--display); font-size: 22px;">鈺邦</strong><br><em style="color:rgba(245,240,230,0.85)">「NVIDIA 機板上的隱形冠軍」</em> — 每塊 B200 板要 80 顆 V-Chip</div>
+      <div style="padding: 24px; border-left: 3px solid var(--copper); background: var(--bg-2);"><strong style="color:var(--copper); font-family: var(--display); font-size: 22px;">華新科</strong><br><em style="color:rgba(245,240,230,0.85)">「集團作戰」</em> — 旗下信昌電 / 華容分工高階 / 中階</div>
+      <div style="padding: 24px; border-left: 3px solid var(--copper); background: var(--bg-2);"><strong style="color:var(--copper); font-family: var(--display); font-size: 22px;">台達電</strong><br><em style="color:rgba(245,240,230,0.85)">「電源系統 + 磁性元件」</em> — 把乾坤吃下後做 800V HVDC</div>
+      <div style="padding: 24px; border-left: 3px solid var(--copper); background: var(--bg-2);"><strong style="color:var(--copper); font-family: var(--display); font-size: 22px;">蜜望實</strong><br><em style="color:rgba(245,240,230,0.85)">「太陽誘電在台代理隊長」</em> — 通路商輕資產 + 高階 MLCC 獨家</div>
+      <div style="padding: 24px; border-left: 3px solid var(--jade); background: var(--bg-2);"><strong style="color:#6ab098; font-family: var(--display); font-size: 22px;">臺慶科 / 佳邦</strong><br><em style="color:rgba(245,240,230,0.85)">「電感二線部隊」</em> — AI 與車用需求外溢時的補位者</div>
+      <div style="padding: 24px; border-left: 3px solid var(--jade); background: var(--bg-2);"><strong style="color:#6ab098; font-family: var(--display); font-size: 22px;">信昌電</strong><br><em style="color:rgba(245,240,230,0.85)">「800V HVDC 訂單外溢直接接班」</em> — 交期延長 16-18 週</div>
+      <div style="padding: 24px; border-left: 3px solid var(--plum); background: var(--bg-2);"><strong style="color:#b58cba; font-family: var(--display); font-size: 22px;">晶技</strong><br><em style="color:rgba(245,240,230,0.85)">「全世界的節拍器」</em> — 5G、車用、衛星都要它</div>
+      <div style="padding: 24px; border-left: 3px solid var(--plum); background: var(--bg-2);"><strong style="color:#b58cba; font-family: var(--display); font-size: 22px;">立隆電 / 凱美</strong><br><em style="color:rgba(245,240,230,0.85)">「鋁電容雙雄」</em> — 大容值濾波無可取代</div>
+      <div style="padding: 24px; border-left: 3px solid #8c9eff; background: var(--bg-2);"><strong style="color:#8c9eff; font-family: var(--display); font-size: 22px;">立敦</strong><br><em style="color:rgba(245,240,230,0.85)">「鋁電容族群的賣鏟人」</em> — 化成鋁箔上游材料供應商</div>
+      <div style="padding: 24px; border-left: 3px solid var(--rust); background: var(--bg-2);"><strong style="color:#d97757; font-family: var(--display); font-size: 22px;">興勤</strong><br><em style="color:rgba(245,240,230,0.85)">「熱敏電阻保鑣」</em> — AI 伺服器與電池都需要它把關</div>
+      <div style="padding: 24px; border-left: 3px solid var(--rust); background: var(--bg-2);"><strong style="color:#d97757; font-family: var(--display); font-size: 22px;">聚鼎</strong><br><em style="color:rgba(245,240,230,0.85)">「電路保險絲」</em> — PPTC 過電流保護全球領先</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="mark">FIN.</div>
+  <p>Taiwan Passive Components — Visualized · 資料整理自 公開新聞、法說會、產業報導 · 2026.05</p>
+  <p style="margin-top: 12px; color: rgba(245,240,230,0.3);">本內容僅為產業科普整理，不構成任何投資建議</p>
+</footer>
+
+</body>
+</html>

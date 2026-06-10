@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoPoS 與玻璃基板 — 視覺化解說</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg0:#070b16; --bg1:#0d1426; --bg2:#131d36;
+  --glass:rgba(255,255,255,.045);
+  --glass-strong:rgba(255,255,255,.07);
+  --line:rgba(255,255,255,.11);
+  --blue:#4da3ff; --blue-d:#2b7fff; --cyan:#73e3ff;
+  --amber:#f4ad3e; --copper:#e8852b; --copper-l:#ffb978;
+  --green:#46e08a; --red:#ff6f6f; --purple:#a98bff;
+  --tx:#e9eef8; --mut:#93a2bd; --mut2:#6a7894;
+  --disp:'Chakra Petch','Noto Sans TC',sans-serif;
+  --body:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body); color:var(--tx); line-height:1.72;
+  background:
+    radial-gradient(900px 600px at 12% -5%,rgba(45,127,255,.16),transparent 60%),
+    radial-gradient(800px 600px at 95% 8%,rgba(244,173,62,.10),transparent 55%),
+    radial-gradient(900px 800px at 50% 110%,rgba(115,227,255,.08),transparent 60%),
+    linear-gradient(180deg,var(--bg0),var(--bg1) 40%,var(--bg0));
+  background-attachment:fixed;
+  overflow-x:hidden;
+}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.4;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");}
+.wrap{max-width:980px;margin:0 auto;padding:0 22px;position:relative;z-index:2}
+
+/* ---------- HERO ---------- */
+.hero{min-height:78vh;display:flex;flex-direction:column;justify-content:center;padding:60px 0 40px}
+.kick{font-family:var(--disp);letter-spacing:.34em;color:var(--cyan);font-size:.72rem;font-weight:600;text-transform:uppercase;margin-bottom:18px;opacity:0;animation:rise .8s .1s forwards}
+.hero h1{font-family:var(--disp);font-weight:700;font-size:clamp(2.1rem,6.2vw,4.1rem);line-height:1.05;letter-spacing:.01em;opacity:0;animation:rise .9s .25s forwards}
+.hero h1 .g{background:linear-gradient(100deg,var(--blue),var(--cyan) 55%,var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{font-size:clamp(.98rem,2vw,1.12rem);color:var(--mut);max-width:620px;margin-top:22px;opacity:0;animation:rise .9s .45s forwards}
+.hero .tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:34px;opacity:0;animation:rise .9s .65s forwards}
+.tag{font-family:var(--disp);font-size:.72rem;letter-spacing:.12em;padding:7px 14px;border:1px solid var(--line);border-radius:30px;color:var(--mut);background:var(--glass)}
+.tag.b{color:var(--blue);border-color:rgba(77,163,255,.4)}
+.tag.a{color:var(--amber);border-color:rgba(244,173,62,.4)}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+.scrolltip{margin-top:60px;color:var(--mut2);font-size:.8rem;letter-spacing:.2em;font-family:var(--disp);opacity:0;animation:rise 1s 1s forwards,bob 2s 1.6s infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+
+/* ---------- SECTIONS ---------- */
+section{padding:46px 0;position:relative}
+.eyebrow{font-family:var(--disp);letter-spacing:.24em;font-size:.68rem;color:var(--cyan);text-transform:uppercase;margin-bottom:11px;display:flex;align-items:center;gap:10px}
+.eyebrow .num{font-size:1.25rem;color:var(--blue);font-weight:700;opacity:.85}
+h2{font-family:var(--disp);font-weight:700;font-size:clamp(1.45rem,3.6vw,2.1rem);line-height:1.18;margin-bottom:14px;letter-spacing:.005em}
+h3{font-size:1.1rem;font-weight:700;margin:24px 0 10px;color:#fff}
+p{color:#cdd6e6;margin-bottom:13px;font-size:.96rem}
+.lead{font-size:1.04rem;color:#dde5f2}
+strong{color:#fff;font-weight:700}
+.hl{color:var(--amber);font-weight:700}
+.hlb{color:var(--cyan);font-weight:700}
+.mut{color:var(--mut)}
+
+.panel{background:var(--glass);border:1px solid var(--line);border-radius:20px;padding:26px;backdrop-filter:blur(12px);box-shadow:0 18px 50px rgba(0,0,0,.35)}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:8px 0}
+.callout{border-left:3px solid var(--amber);background:rgba(244,173,62,.07);padding:16px 20px;border-radius:0 14px 14px 0;margin:22px 0}
+.callout.b{border-color:var(--blue);background:rgba(77,163,255,.08)}
+.callout .t{font-weight:700;color:#fff;margin-bottom:4px}
+
+/* fade-up on scroll */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* figure */
+.fig{margin:22px 0;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));border:1px solid var(--line);border-radius:16px;padding:18px 16px;text-align:center;overflow:hidden}
+.fig svg{max-width:100%;height:auto}
+.fig.sm{max-width:400px;margin-left:auto;margin-right:auto}
+.fig.med{max-width:560px;margin-left:auto;margin-right:auto}
+.figcap{font-size:.82rem;color:var(--mut);margin-top:12px;font-family:var(--body);line-height:1.6}
+.figcap b{color:var(--cyan)}
+
+/* ---- top nav / TOC ---- */
+.nav{position:sticky;top:0;z-index:50;background:rgba(8,12,22,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav .inner{max-width:980px;margin:0 auto;display:flex;align-items:center;gap:6px;padding:9px 14px;overflow-x:auto;scrollbar-width:none}
+.nav .inner::-webkit-scrollbar{display:none}
+.nav .brand{font-family:var(--disp);font-weight:700;color:#fff;font-size:.82rem;letter-spacing:.04em;white-space:nowrap;margin-right:6px;padding-right:10px;border-right:1px solid var(--line)}
+.nav a{white-space:nowrap;font-size:.8rem;color:var(--mut);text-decoration:none;padding:5px 10px;border-radius:18px;transition:.2s;font-weight:500}
+.nav a:hover{color:#fff;background:var(--glass)}
+.nav a .nn{font-family:var(--disp);color:var(--blue);font-size:.72rem;margin-right:4px}
+section{scroll-margin-top:58px}
+
+/* compare cards */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:26px 0}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:26px 0}
+@media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}}
+.card{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:22px}
+.card .ic{font-size:1.6rem;margin-bottom:8px}
+.card h4{font-size:1.08rem;font-weight:700;margin-bottom:8px;color:#fff}
+.card p{font-size:.95rem;margin:0;color:var(--mut)}
+.card.good{border-color:rgba(70,224,138,.28)}
+.card.good h4{color:var(--green)}
+.card.bad{border-color:rgba(255,111,111,.28)}
+.card.bad h4{color:var(--red)}
+
+/* simpler advantage/disadvantage rows (draft style) */
+.advrow{display:grid;grid-template-columns:repeat(5,1fr);gap:11px;margin:12px 0 6px}
+.disrow{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin:12px 0}
+@media(max-width:900px){.advrow{grid-template-columns:repeat(2,1fr)}.disrow{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.advrow,.disrow{grid-template-columns:1fr}}
+.scard{background:var(--glass);border:1px solid var(--line);border-radius:13px;padding:14px 15px;transition:.2s}
+.scard:hover{transform:translateY(-3px);border-color:rgba(115,227,255,.4)}
+.scard .num{font-family:var(--disp);font-size:.7rem;letter-spacing:.06em;font-weight:700;color:var(--cyan)}
+.scard h4{font-size:1rem;margin:5px 0 6px;color:#fff;font-weight:700}
+.scard p{font-size:.85rem;color:var(--mut);margin:0;line-height:1.6}
+.scard.good{border-color:rgba(70,224,138,.22)} .scard.good .num{color:var(--green)}
+.scard.bad{border-color:rgba(255,111,111,.22)} .scard.bad .num{color:var(--red)} .scard.bad:hover{border-color:rgba(255,111,111,.5)}
+
+/* glass vs silicon comparison table */
+table.cmp{width:100%;border-collapse:collapse;margin:18px 0 8px;font-size:.9rem}
+table.cmp th,table.cmp td{padding:10px 13px;border-bottom:1px solid var(--line);text-align:left}
+table.cmp th{font-family:var(--disp);font-size:.7rem;letter-spacing:.1em;color:var(--mut);text-transform:uppercase}
+table.cmp td.g{color:var(--green);font-weight:700}
+table.cmp td.s{color:var(--mut)}
+table.cmp tr td:first-child{color:#fff;font-weight:600}
+table.cmp tbody tr:hover{background:rgba(255,255,255,.025)}
+
+/* horizontal timeline (draft style) */
+.htl{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:26px 0 8px;position:relative}
+.htl:before{content:'';position:absolute;top:9px;left:12.5%;right:12.5%;height:2px;background:linear-gradient(90deg,var(--blue),var(--green),var(--purple),var(--amber));z-index:0}
+.htl:after{content:'';position:absolute;top:4px;right:11%;border-left:9px solid var(--amber);border-top:6px solid transparent;border-bottom:6px solid transparent;z-index:1}
+.phase{position:relative;padding-top:26px;z-index:1}
+.phase .pdot{position:absolute;top:1px;left:50%;transform:translateX(-50%);width:16px;height:16px;border-radius:50%;border:3px solid var(--blue);background:var(--bg1)}
+.phase .pbox{border:1px solid var(--line);border-radius:14px;padding:14px 15px 13px;background:var(--glass);height:100%}
+.phase .pyr{font-family:var(--disp);font-size:.76rem;font-weight:700;letter-spacing:.03em;color:var(--blue)}
+.phase .pph{font-size:1.05rem;font-weight:700;color:#fff;margin:3px 0 9px}
+.phase ul{list-style:none;margin:0}
+.phase li{font-size:.84rem;color:#c8d2e3;padding:3px 0 3px 14px;position:relative}
+.phase li:before{content:'·';position:absolute;left:3px;color:var(--mut);font-weight:700}
+.phase .pkey{font-size:.8rem;margin-top:11px;padding-top:9px;border-top:1px solid var(--line);font-weight:600;color:var(--blue)}
+.phase.p2 .pdot{border-color:var(--green)} .phase.p2 .pyr,.phase.p2 .pkey{color:var(--green)}
+.phase.p3 .pdot{border-color:var(--purple)} .phase.p3 .pyr,.phase.p3 .pkey{color:var(--purple)}
+.phase.p4 .pdot{border-color:var(--amber)} .phase.p4 .pyr,.phase.p4 .pkey{color:var(--amber)}
+@media(max-width:820px){.htl{grid-template-columns:repeat(2,1fr)}.htl:before,.htl:after{display:none}.phase{padding-top:8px}.phase .pdot{display:none}}
+@media(max-width:480px){.htl{grid-template-columns:1fr}}
+
+ul.clean{list-style:none;margin:14px 0}
+ul.clean li{padding:8px 0 8px 30px;position:relative;color:#d4dcec}
+ul.clean li:before{content:'';position:absolute;left:4px;top:16px;width:8px;height:8px;border-radius:2px;background:var(--blue);transform:rotate(45deg)}
+ul.clean.g li:before{background:var(--green)}
+ul.clean.r li:before{background:var(--red)}
+
+/* three plays */
+.play{border-radius:18px;padding:22px;border:1px solid var(--line);position:relative;overflow:hidden}
+.play .badge{position:absolute;top:0;right:0;font-family:var(--disp);font-weight:700;font-size:2.6rem;color:rgba(255,255,255,.06);padding:6px 18px}
+.play h4{font-size:1.15rem;margin-bottom:6px}
+.play .role{font-size:.74rem;letter-spacing:.14em;font-family:var(--disp);text-transform:uppercase;margin-bottom:12px}
+.play.p1{background:linear-gradient(160deg,rgba(70,224,138,.09),transparent)} .play.p1 h4,.play.p1 .role{color:var(--green)}
+.play.p2{background:linear-gradient(160deg,rgba(77,163,255,.10),transparent)} .play.p2 h4,.play.p2 .role{color:var(--blue)}
+.play.p3{background:linear-gradient(160deg,rgba(169,139,255,.11),transparent)} .play.p3 h4,.play.p3 .role{color:var(--purple)}
+.play p{font-size:.92rem;color:var(--mut)}
+
+/* ---- 3-up glass-play comparison ---- */
+.plays3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}
+@media(max-width:820px){.plays3{grid-template-columns:1fr}}
+.pcol{border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;background:var(--glass)}
+.pcol .ph{padding:13px 15px;border-bottom:1px solid var(--line)}
+.pcol .pn{font-family:var(--disp);font-weight:700;font-size:.78rem;letter-spacing:.06em;display:inline-flex;align-items:center;gap:7px;margin-bottom:5px}
+.pcol .pn i{width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-size:.72rem;color:#06101f;font-weight:700}
+.pcol .ptitle{font-size:1.02rem;font-weight:700;color:#fff;line-height:1.25}
+.pcol .psub{font-size:.78rem;color:var(--mut);margin-top:3px}
+.pcol .pfig{padding:12px 10px;background:rgba(0,0,0,.18);text-align:center}
+.pcol .pfig svg{max-width:100%;height:auto}
+.pcol .pbody{padding:13px 15px;font-size:.86rem;color:#c4cde0;flex:1}
+.pcol .pbody ul{list-style:none;margin:4px 0 0}
+.pcol .pbody li{padding:4px 0 4px 16px;position:relative}
+.pcol .pbody li:before{content:'✓';position:absolute;left:0;font-size:.78rem}
+.pcol .pnote{font-size:.78rem;padding:9px 15px;border-top:1px solid var(--line);color:var(--mut)}
+.pcol.g1{box-shadow:inset 0 3px 0 var(--green)} .pcol.g1 .pn,.pcol.g1 .pbody li:before{color:var(--green)} .pcol.g1 .pn i{background:var(--green)}
+.pcol.g2{box-shadow:inset 0 3px 0 var(--blue)} .pcol.g2 .pn,.pcol.g2 .pbody li:before{color:var(--blue)} .pcol.g2 .pn i{background:var(--blue)}
+.pcol.g3{box-shadow:inset 0 3px 0 var(--copper)} .pcol.g3 .pn,.pcol.g3 .pbody li:before{color:var(--copper-l)} .pcol.g3 .pn i{background:var(--copper-l)}
+
+/* TGV stepper */
+.tgv{margin:28px 0}
+.tgvstage{display:flex;align-items:center;justify-content:center;min-height:230px;background:radial-gradient(500px 240px at 50% 30%,rgba(232,133,43,.10),transparent 70%);border-radius:18px;border:1px solid var(--line);position:relative}
+.steps{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap;justify-content:center}
+.step{flex:1;min-width:120px;background:var(--glass);border:1px solid var(--line);border-radius:13px;padding:13px 12px;cursor:pointer;transition:.35s;text-align:center}
+.step.active{border-color:var(--copper);background:rgba(232,133,43,.14);box-shadow:0 0 24px rgba(232,133,43,.25)}
+.step .sn{font-family:var(--disp);font-weight:700;color:var(--copper-l);font-size:1.05rem}
+.step .st{font-size:.86rem;font-weight:700;color:#fff;margin:4px 0 2px}
+.step .ss{font-size:.72rem;color:var(--mut)}
+.step.active .ss{color:var(--copper-l)}
+.tgvdesc{margin-top:18px;padding:18px 20px;background:var(--glass);border:1px solid var(--line);border-radius:14px;min-height:70px}
+.tgvdesc b{color:var(--copper-l)}
+
+/* timeline */
+.tl{position:relative;margin:30px 0;padding-left:6px}
+.tl .axis{position:absolute;left:18px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,var(--blue),var(--green),var(--purple),var(--amber))}
+.tlitem{position:relative;padding:0 0 26px 56px}
+.tlitem .dot{position:absolute;left:9px;top:4px;width:20px;height:20px;border-radius:50%;background:var(--bg1);border:3px solid var(--blue);box-shadow:0 0 0 4px rgba(77,163,255,.12)}
+.tlitem.t2 .dot{border-color:var(--green);box-shadow:0 0 0 4px rgba(70,224,138,.12)}
+.tlitem.t3 .dot{border-color:var(--purple);box-shadow:0 0 0 4px rgba(169,139,255,.12)}
+.tlitem.t4 .dot{border-color:var(--amber);box-shadow:0 0 0 4px rgba(244,173,62,.12)}
+.tlitem .yr{font-family:var(--disp);font-weight:700;letter-spacing:.08em;font-size:.95rem;color:var(--blue)}
+.tlitem.t2 .yr{color:var(--green)} .tlitem.t3 .yr{color:var(--purple)} .tlitem.t4 .yr{color:var(--amber)}
+.tlitem .ph{font-size:1.18rem;font-weight:700;color:#fff;margin:2px 0 6px}
+.tlitem p{font-size:.95rem;color:var(--mut);margin:0}
+
+.bignum{font-family:var(--disp);font-weight:700;font-size:clamp(2.4rem,7vw,3.6rem);line-height:1;background:linear-gradient(100deg,var(--blue),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.statrow{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:24px 0}
+@media(max-width:560px){.statrow{grid-template-columns:1fr}}
+.stat{background:var(--glass);border:1px solid var(--line);border-radius:16px;padding:20px;text-align:center}
+.stat .lab{font-size:.8rem;color:var(--mut);margin-top:6px}
+
+.footer{padding:50px 0 80px;text-align:center;color:var(--mut2);font-size:.85rem}
+.footer .disc{max-width:640px;margin:18px auto 0;font-size:.8rem;line-height:1.7}
+
+/* ---- industry map ---- */
+.maplayer{margin:16px 0;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--glass)}
+.mlhead{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.025)}
+.mlhead .mn{font-family:var(--disp);font-weight:700;font-size:1.3rem;min-width:30px;text-align:center;opacity:.9}
+.mlhead .mt{font-weight:700;font-size:1.08rem;color:#fff}
+.mlhead .mr{font-size:.8rem;color:var(--mut);margin-top:1px}
+.mlbody{padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:720px){.mlbody{grid-template-columns:1fr}}
+.co{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:13px;padding:14px 15px}
+.co .ch{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:7px}
+.co .cname{font-weight:700;color:#fff;font-size:1rem}
+.co .ctk{font-family:var(--disp);font-size:.78rem;color:var(--cyan);letter-spacing:.04em}
+.co .cdo{font-size:.9rem;color:#c4cde0;margin:0 0 8px}
+.co .cdo b{color:#fff}
+.moat{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;padding:3px 9px;border-radius:20px;font-weight:600}
+.moat.h{background:rgba(70,224,138,.13);color:var(--green);border:1px solid rgba(70,224,138,.3)}
+.moat.m{background:rgba(244,173,62,.13);color:var(--amber);border:1px solid rgba(244,173,62,.3)}
+.moat.l{background:rgba(147,162,189,.12);color:var(--mut);border:1px solid rgba(147,162,189,.25)}
+.co .cm{font-size:.82rem;color:var(--mut);margin-top:7px;line-height:1.6}
+/* layer accent colors */
+.L0 .mn{color:#7fdfff} .L0{box-shadow:inset 3px 0 0 #7fdfff}
+.L1 .mn{color:#ff9a5c} .L1{box-shadow:inset 3px 0 0 #ff9a5c}
+.L2 .mn{color:#5aa9ff} .L2{box-shadow:inset 3px 0 0 #5aa9ff}
+.L3 .mn{color:#f4ad3e} .L3{box-shadow:inset 3px 0 0 #f4ad3e}
+.L4 .mn{color:#46e08a} .L4{box-shadow:inset 3px 0 0 #46e08a}
+.L5 .mn{color:#a98bff} .L5{box-shadow:inset 3px 0 0 #a98bff}
+.L6 .mn{color:#ffd089} .L6{box-shadow:inset 3px 0 0 #ffd089}
+.L7 .mn{color:#73e3ff} .L7{box-shadow:inset 3px 0 0 #73e3ff}
+.flowdown{text-align:center;color:var(--mut2);font-size:1.1rem;margin:2px 0}
+.legendbar{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin:18px 0 6px;font-size:.84rem;color:var(--mut)}
+.legendbar span{display:inline-flex;align-items:center;gap:6px}
+.mapwrap{display:flex;gap:16px;margin:20px 0;align-items:flex-start}
+.maptabs{flex:0 0 212px;display:flex;flex-direction:column;gap:7px;position:sticky;top:62px}
+.mtab{display:flex;gap:10px;align-items:flex-start;text-align:left;background:var(--glass);border:1px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;transition:.18s;color:var(--mut);font-family:var(--body);width:100%}
+.mtab:hover{color:#fff;border-color:rgba(255,255,255,.28)}
+.mtab.active{background:var(--glass-strong);color:#fff}
+.mtab .tn{font-family:var(--disp);font-weight:700;font-size:1.1rem;min-width:18px;text-align:center;line-height:1.4}
+.mtab .tt{font-size:.85rem;font-weight:600;line-height:1.25;display:block}
+.mtab .tr{font-size:.7rem;color:var(--mut);font-weight:400;display:block;margin-top:2px}
+.mapdetail{flex:1;min-width:0}
+.mappanel{display:none!important;margin:0!important}
+.mappanel.active{display:block!important;animation:mfade .35s}
+@keyframes mfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.mtab.t0 .tn{color:#7fdfff} .mtab.t0.active{border-color:#7fdfff}
+.mtab.t1 .tn{color:#ff9a5c} .mtab.t1.active{border-color:#ff9a5c}
+.mtab.t2 .tn{color:#5aa9ff} .mtab.t2.active{border-color:#5aa9ff}
+.mtab.t3 .tn{color:#f4ad3e} .mtab.t3.active{border-color:#f4ad3e}
+.mtab.t4 .tn{color:#46e08a} .mtab.t4.active{border-color:#46e08a}
+.mtab.t5 .tn{color:#a98bff} .mtab.t5.active{border-color:#a98bff}
+.mtab.t6 .tn{color:#ffd089} .mtab.t6.active{border-color:#ffd089}
+.mtab.t7 .tn{color:#73e3ff} .mtab.t7.active{border-color:#73e3ff}
+@media(max-width:760px){
+ .mapwrap{flex-direction:column}
+ .maptabs{flex:none;flex-direction:row;overflow-x:auto;width:100%;position:static;padding-bottom:6px;scrollbar-width:none;top:auto}
+ .maptabs::-webkit-scrollbar{display:none}
+ .mtab{flex:0 0 auto;min-width:148px}
+}
+
+/* anim helpers in SVG via CSS */
+@keyframes warp{0%,100%{d:path("M40,90 Q200,90 360,90")}50%{d:path("M40,70 Q200,118 360,70")}}
+@keyframes glow{0%,100%{opacity:.5}50%{opacity:1}}
+.flow{stroke-dasharray:5 7;animation:dash 1.4s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-24}}
+</style>
+</head>
+<body>
+<a href="../index.html" style="position:fixed;top:14px;left:14px;z-index:9999;font-family:'JetBrains Mono','Noto Sans TC',monospace;font-size:12px;letter-spacing:.06em;color:rgba(235,235,235,.75);background:rgba(10,12,20,.72);border:1px solid rgba(255,255,255,.18);padding:7px 14px;border-radius:99px;text-decoration:none;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,.45)'" onmouseout="this.style.color='rgba(235,235,235,.75)';this.style.borderColor='rgba(255,255,255,.18)'">← 檔案室首頁</a>
+
+<div class="grain"></div>
+
+<nav class="nav"><div class="inner">
+  <span class="brand">玻璃基板 · CoPoS</span>
+  <a href="#s1"><span class="nn">01</span>CoWoS</a>
+  <a href="#s2"><span class="nn">02</span>兩大極限</a>
+  <a href="#s3"><span class="nn">03</span>CoPoS</a>
+  <a href="#s4"><span class="nn">04</span>玻璃材料</a>
+  <a href="#s5"><span class="nn">05</span>三種玩法</a>
+  <a href="#s6"><span class="nn">06</span>TGV</a>
+  <a href="#s7"><span class="nn">07</span>時程</a>
+  <a href="#s8"><span class="nn">08</span>產業地圖</a>
+  <a href="#s9"><span class="nn">09</span>回顧</a>
+</div></nav>
+
+<!-- HERO -->
+<div class="wrap">
+<header class="hero">
+  <div class="kick">Chip · on · Panel · on · Substrate</div>
+  <h1>當摩爾定律撞牆，<br><span class="g">玻璃</span> 成了續命解藥</h1>
+  <p class="sub">AI 晶片越做越大、越來越燙，台積電的 CoWoS 開始撞上物理天花板。
+  接班的技術叫 <b>CoPoS</b>，而它背後最關鍵的材料，是你我每天都在用的——玻璃。</p>
+  <div class="tags">
+    <span class="tag b">CoWoS</span>
+    <span class="tag a">CoPoS</span>
+    <span class="tag">FOPLP</span>
+    <span class="tag b">Glass Substrate</span>
+    <span class="tag a">TGV</span>
+  </div>
+  <div class="scrolltip">↓ 往下捲，從「為什麼需要它」開始</div>
+</header>
+</div>
+
+<!-- 1. CoWoS -->
+<section id="s1"><div class="wrap reveal">
+  <div class="eyebrow"><span class="num">01</span> 先搞懂今天的主角：CoWoS</div>
+  <h2>把一棟「豪宅」蓋在超級地基上</h2>
+  <p class="lead">CoWoS 全名 <b>Chip on Wafer on Substrate</b>，是台積電讓 AI 晶片跑得飛快的祕密武器。
+  用一個比喻最好懂：</p>
+  <ul class="clean">
+    <li><b>引擎</b> = GPU / CPU 運算晶片（負責算力）</li>
+    <li><b>超大油箱</b> = HBM 高頻寬記憶體（負責餵資料）</li>
+    <li><b>超級地基</b> = 中間那層 <span class="hlb">矽中介層（Silicon Interposer）</span>，像一塊超高級主機板，讓引擎跟油箱「手牽手」用極快速度溝通</li>
+  </ul>
+
+  <div class="fig med">
+    <svg viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="die" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5aa9ff"/><stop offset="1" stop-color="#2b6fd6"/></linearGradient>
+        <linearGradient id="hbm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b48bff"/><stop offset="1" stop-color="#7d52d6"/></linearGradient>
+        <linearGradient id="intp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a4f78"/><stop offset="1" stop-color="#2a3a5c"/></linearGradient>
+        <linearGradient id="sub" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f7a4d"/><stop offset="1" stop-color="#155c39"/></linearGradient>
+      </defs>
+      <!-- substrate -->
+      <rect x="40" y="200" width="480" height="42" rx="6" fill="url(#sub)" stroke="#2aa86a" stroke-width="1.5"/>
+      <text x="280" y="226" fill="#bff0d4" font-size="13" text-anchor="middle" font-family="sans-serif">封裝載板 Package Substrate（塑膠載板）</text>
+      <!-- solder balls -->
+      <g fill="#9aa6bd">
+        <circle cx="80" cy="258" r="8"/><circle cx="140" cy="258" r="8"/><circle cx="200" cy="258" r="8"/><circle cx="260" cy="258" r="8"/><circle cx="320" cy="258" r="8"/><circle cx="380" cy="258" r="8"/><circle cx="440" cy="258" r="8"/><circle cx="480" cy="258" r="8"/>
+      </g>
+      <!-- interposer (地基) -->
+      <rect x="70" y="150" width="420" height="40" rx="5" fill="url(#intp)" stroke="#5aa9ff" stroke-width="2"/>
+      <text x="280" y="175" fill="#9ec8ff" font-size="13" text-anchor="middle" font-family="sans-serif" font-weight="700">矽中介層 Silicon Interposer（超級地基）</text>
+      <!-- microbumps -->
+      <g fill="#f4ad3e"><rect x="110" y="142" width="80" height="6" rx="2"/><rect x="240" y="142" width="80" height="6" rx="2"/><rect x="370" y="142" width="80" height="6" rx="2"/></g>
+      <!-- dies -->
+      <rect x="105" y="104" width="92" height="40" rx="4" fill="url(#hbm)"/><text x="151" y="128" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">HBM</text>
+      <rect x="234" y="98" width="92" height="46" rx="4" fill="url(#die)"/><text x="280" y="126" fill="#fff" font-size="13" text-anchor="middle" font-weight="700">GPU/CPU</text>
+      <rect x="363" y="104" width="92" height="40" rx="4" fill="url(#hbm)"/><text x="409" y="128" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">HBM</text>
+      <!-- labels -->
+      <text x="151" y="92" fill="#b48bff" font-size="11" text-anchor="middle">油箱（記憶體）</text>
+      <text x="280" y="86" fill="#5aa9ff" font-size="11" text-anchor="middle">引擎（算力）</text>
+      <text x="409" y="92" fill="#b48bff" font-size="11" text-anchor="middle">油箱（記憶體）</text>
+    </svg>
+    <div class="figcap"><b>CoWoS 剖面圖：</b>GPU 與 HBM 坐在矽中介層這塊「地基」上，下面再接塑膠封裝載板。地基的好壞，直接決定整台 AI 伺服器的速度。</div>
+  </div>
+
+  <h3>為什麼一定要「矽」中介層？</h3>
+  <p>關鍵在<span class="hlb">「線路有多細」</span>。GPU 和 HBM 之間要拉成千上萬條訊號線（HBM 介面動輒上千條 bit），
+  普通封裝載板的線寬太粗塞不下，但矽可以用晶圓廠的微影製程畫到 <b>次微米（&lt;1µm）</b>級的超細線路，
+  還能直接做 <b>TSV（矽穿孔）</b>讓訊號上下穿透。這就是為什麼要多墊一層矽——它扮演「晶片與載板之間的超高密度轉接板」。</p>
+  <p class="mut" style="font-size:.9rem">補充：CoWoS 還分 <b>CoWoS-S</b>（矽中介層）、<b>CoWoS-R</b>（用 RDL 有機中介層、較便宜）、<b>CoWoS-L</b>（局部矽橋 + RDL，可拼更大）。NVIDIA 的 Blackwell、Rubin 主要走 CoWoS-L 這條拼接路線。</p>
+</div></section>
+
+<!-- 2. 兩大極限 -->
+<section id="s2"><div class="wrap reveal">
+  <div class="eyebrow"><span class="num">02</span> 為什麼非換不可</div>
+  <h2>CoWoS 撞上兩道物理高牆</h2>
+  <p class="lead">AI 晶片只會越做越大，旁邊綁的 HBM 從 4 顆、6 顆變 8 顆甚至 12 層堆疊。
+  傳統 CoWoS 開始遇到兩個跨不過去的物理極限。</p>
+
+  <h3>高牆一：圓形晶圓「土地不夠用」+ 光罩極限</h3>
+  <p>矽中介層是從 <b>12 吋（直徑 300mm）圓形晶圓</b>切出來的，但晶片是方形的。圓切方，邊邊角角全浪費，
+  <span class="hl">面積利用率只有約 65%</span>，而且大尺寸中介層一片晶圓切不出幾塊，單位成本居高不下。</p>
+  <p>更硬的限制是<span class="hlb">光罩極限（reticle limit）</span>：曝光機一次能照的最大面積約 <b>26×33mm（≈858mm²）</b>。
+  要做更大的中介層得用「拼接（stitching）」把多個曝光區接起來——這正是 CoWoS-S → CoWoS-L 演進在做的事，目前約做到 3.3 倍光罩、預計往 5.5 倍、8 倍推。
+  但拼接越多，<b>對位誤差、良率與翹曲</b>就越難搞。圓晶圓本身的天花板，逼著業界去找「方形、可無限放大」的新載體。</p>
+
+  <div class="fig med">
+    <svg viewBox="0 0 560 292" xmlns="http://www.w3.org/2000/svg">
+      <!-- round wafer -->
+      <g transform="translate(20,15)">
+        <circle cx="110" cy="110" r="100" fill="rgba(90,169,255,.08)" stroke="#5aa9ff" stroke-width="2"/>
+        <clipPath id="wclip"><circle cx="110" cy="110" r="100"/></clipPath>
+        <g clip-path="url(#wclip)">
+          <!-- grid of squares, edge ones partial -->
+          <g fill="none" stroke="rgba(255,255,255,.18)">
+          </g>
+          <!-- good (fully inside) -->
+          <g>
+            <rect x="70" y="70" width="36" height="36" fill="rgba(70,224,138,.5)"/>
+            <rect x="110" y="70" width="36" height="36" fill="rgba(70,224,138,.5)"/>
+            <rect x="70" y="110" width="36" height="36" fill="rgba(70,224,138,.5)"/>
+            <rect x="110" y="110" width="36" height="36" fill="rgba(70,224,138,.5)"/>
+            <rect x="70" y="34" width="36" height="36" fill="rgba(70,224,138,.5)"/>
+            <rect x="110" y="34" width="36" height="36" fill="rgba(70,224,138,.5)"/>
+            <rect x="34" y="70" width="36" height="36" fill="rgba(70,224,138,.5)"/>
+            <rect x="146" y="70" width="36" height="36" fill="rgba(70,224,138,.5)"/>
+            <rect x="34" y="110" width="36" height="36" fill="rgba(70,224,138,.5)"/>
+            <rect x="146" y="110" width="36" height="36" fill="rgba(70,224,138,.5)"/>
+            <rect x="70" y="146" width="36" height="36" fill="rgba(70,224,138,.5)"/>
+            <rect x="110" y="146" width="36" height="36" fill="rgba(70,224,138,.5)"/>
+          </g>
+          <!-- waste (edge) -->
+          <g fill="rgba(255,111,111,.45)">
+            <rect x="-2" y="34" width="36" height="36"/><rect x="-2" y="70" width="36" height="36"/><rect x="-2" y="110" width="36" height="36"/><rect x="-2" y="146" width="36" height="36"/>
+            <rect x="182" y="34" width="36" height="36"/><rect x="182" y="70" width="36" height="36"/><rect x="182" y="110" width="36" height="36"/><rect x="182" y="146" width="36" height="36"/>
+            <rect x="34" y="-2" width="36" height="36"/><rect x="70" y="-2" width="36" height="36"/><rect x="110" y="-2" width="36" height="36"/><rect x="146" y="-2" width="36" height="36"/>
+            <rect x="34" y="182" width="36" height="36"/><rect x="70" y="182" width="36" height="36"/><rect x="110" y="182" width="36" height="36"/><rect x="146" y="182" width="36" height="36"/>
+          </g>
+          <g stroke="rgba(255,255,255,.25)" stroke-width="1" fill="none">
+            <path d="M34,0 V220 M70,0 V220 M110,0 V220 M146,0 V220 M182,0 V220 M0,34 H220 M0,70 H220 M0,110 H220 M0,146 H220 M0,182 H220"/>
+          </g>
+        </g>
+        <text x="110" y="238" fill="#9ec8ff" font-size="13" text-anchor="middle" font-weight="700">12吋 圓形晶圓</text>
+      </g>
+      <!-- arrow -->
+      <text x="288" y="120" fill="var(--mut)" font-size="26" text-anchor="middle">→</text>
+      <!-- square panel -->
+      <g transform="translate(320,15)">
+        <rect x="0" y="10" width="220" height="200" fill="rgba(244,173,62,.08)" stroke="#f4ad3e" stroke-width="2" rx="3"/>
+        <g fill="rgba(70,224,138,.5)" stroke="rgba(255,255,255,.22)">
+          <rect x="10" y="20" width="36" height="36"/><rect x="50" y="20" width="36" height="36"/><rect x="90" y="20" width="36" height="36"/><rect x="130" y="20" width="36" height="36"/><rect x="170" y="20" width="36" height="36"/>
+          <rect x="10" y="60" width="36" height="36"/><rect x="50" y="60" width="36" height="36"/><rect x="90" y="60" width="36" height="36"/><rect x="130" y="60" width="36" height="36"/><rect x="170" y="60" width="36" height="36"/>
+          <rect x="10" y="100" width="36" height="36"/><rect x="50" y="100" width="36" height="36"/><rect x="90" y="100" width="36" height="36"/><rect x="130" y="100" width="36" height="36"/><rect x="170" y="100" width="36" height="36"/>
+          <rect x="10" y="140" width="36" height="36"/><rect x="50" y="140" width="36" height="36"/><rect x="90" y="140" width="36" height="36"/><rect x="130" y="140" width="36" height="36"/><rect x="170" y="140" width="36" height="36"/>
+        </g>
+        <text x="110" y="238" fill="#ffd089" font-size="13" text-anchor="middle" font-weight="700">方形面板 Panel</text>
+      </g>
+    </svg>
+    <div class="figcap"><span style="color:var(--green)">綠色=可用</span>　<span style="color:var(--red)">紅色=邊角浪費</span>。圓形面積利用率約 <b>65%</b>，換成方形面板可衝到 <b>95%</b> 以上。</div>
+  </div>
+
+  <h3>高牆二：恐怖的「洋芋片效應」（CTE 失配）</h3>
+  <p>AI 晶片高速運轉時溫度上看百度、發熱可達上千瓦。問題在於疊在一起的三層是<b>不同材料</b>，
+  受熱膨脹的幅度（<span class="hl">熱膨脹係數 CTE</span>，單位 ppm/°C）差很多：</p>
+  <ul class="clean">
+    <li><b>矽晶片 / 矽中介層</b>：約 <b>2.6 ppm/°C</b>（膨脹最少）</li>
+    <li><b>有機封裝載板（ABF）</b>：約 <b>15–17 ppm/°C</b>（膨脹大很多）</li>
+    <li><b>玻璃</b>：可調配到 <b>3–8 ppm/°C</b>，能刻意做到貼近矽 ← 這正是它的殺手鐧</li>
+  </ul>
+  <p>上下層膨脹不同步，整塊板子受熱就像微波爐裡的塑膠片，兩邊翹起來變成洋芋片，這叫 <span class="hl">翹曲（Warpage）</span>。
+  板子一翹，晶片底下那些比頭髮細一百倍、間距僅數十微米的<b>微凸塊（micro-bump）</b>就會被拉扯到<span class="hl">「啪」一聲斷裂或產生冷焊</span>，整顆要價數萬美元的晶片當場報廢。封裝面積越大，翹曲量越誇張——這就是為什麼「面積」和「翹曲」其實是同一個敵人的兩張臉。</p>
+
+  <div class="fig sm">
+    <svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+      <text x="200" y="24" fill="#ff9a9a" font-size="13" text-anchor="middle" font-weight="700">加熱 🔥 → 不同材料膨脹不均 → 翹曲</text>
+      <!-- heat wavy lines -->
+      <g stroke="#ff8a5c" stroke-width="2" fill="none" opacity=".6">
+        <path d="M120,150 q8,-14 0,-28 q-8,-14 0,-28"><animate attributeName="opacity" values=".2;.8;.2" dur="1.4s" repeatCount="indefinite"/></path>
+        <path d="M200,150 q8,-14 0,-28 q-8,-14 0,-28"><animate attributeName="opacity" values=".8;.2;.8" dur="1.4s" repeatCount="indefinite"/></path>
+        <path d="M280,150 q8,-14 0,-28 q-8,-14 0,-28"><animate attributeName="opacity" values=".3;.9;.3" dur="1.6s" repeatCount="indefinite"/></path>
+      </g>
+      <!-- warping board -->
+      <path fill="none" stroke="#5aa9ff" stroke-width="10" stroke-linecap="round">
+        <animate attributeName="d" dur="2.6s" repeatCount="indefinite"
+          values="M40,120 Q200,120 360,120;
+                  M40,98 Q200,142 360,98;
+                  M40,120 Q200,120 360,120"/>
+      </path>
+      <path fill="none" stroke="#f4ad3e" stroke-width="4" stroke-linecap="round" opacity=".9">
+        <animate attributeName="d" dur="2.6s" repeatCount="indefinite"
+          values="M40,128 Q200,128 360,128;
+                  M40,108 Q200,148 360,108;
+                  M40,128 Q200,128 360,128"/>
+      </path>
+    </svg>
+    <div class="figcap">材料 CTE 不匹配 → 受熱後整塊基板像洋芋片一樣彎曲，微接點被扯斷。</div>
+  </div>
+  <div class="callout b"><div class="t">關鍵體會</div>
+  要同時解決「土地不夠」+「翹曲斷裂」，業界需要一種<b>能做超大方形、又能讓膨脹聽話</b>的新材料。答案呼之欲出。</div>
+</div></section>
+
+<!-- 3. CoPoS -->
+<section id="s3"><div class="wrap reveal">
+  <div class="eyebrow"><span class="num">03</span> 接班登場</div>
+  <h2>CoPoS：把「圓晶圓」換成「方面板」</h2>
+  <p class="lead"><b>CoPoS = Chip-on-Panel-on-Substrate</b>。
+  名字的差別只有一個字：CoWoS 的 <b>W</b>afer（晶圓）變成 CoPoS 的 <b>P</b>anel（面板）。
+  但這一個字，背後是整條產線的革命。</p>
+
+  <div class="callout"><div class="t">先講清楚一個常見誤會</div>
+  很多人說「CoPoS 就是把矽中介層直接換成玻璃」。但<b>台積電目前在做的 CoPoS，第一步其實是升級封裝過程中的「臨時載板（施工托盤）」</b>——
+  把圓形 12 吋矽晶圓托盤，換成 <span class="hlb">310×310、未來到 600×600 的方形面板</span>（玻璃或藍寶石路線）。
+  直接整片換成玻璃中介層，是更後面的終極形態（見第 5、6 段）。</div>
+
+  <div class="statrow">
+    <div class="stat"><div class="bignum">65% → 95%</div><div class="lab">面板面積利用率大幅提升</div></div>
+    <div class="stat"><div class="bignum" style="background:linear-gradient(100deg,var(--amber),var(--copper-l));-webkit-background-clip:text;background-clip:text;color:transparent">6.6×</div><div class="lab">620×750 玻璃面板 ≈ 12吋晶圓的 6.6 倍面積</div></div>
+  </div>
+
+  <p>就像烤蛋糕：<b>底下那個烤盤（托盤）</b>烤完蛋糕會拿出來重複用、不會跟蛋糕一起賣給客人。
+  這就是 Panel 在「臨時載板」角色下的意義——換成大方形玻璃，<span class="hl">良率與成本一口氣改善</span>。</p>
+
+  <p class="mut" style="font-size:.95rem">📌 在 Panel 這條路上，目前有「<b>有機</b>」與「<b>玻璃</b>」兩條路線並行。接下來我們聚焦在最有想像空間的——玻璃。</p>
+
+  <h3>為什麼說它是「整條產線的革命」？</h3>
+  <p>半導體設備幾十年來都是繞著<b>圓形晶圓</b>設計的——旋轉塗佈、清洗、研磨、傳送的天車與機械手臂，全部假設工件是圓的、是 300mm。
+  改成大方形面板後，<span class="hl">超過 300 道製程步驟幾乎都要重新設計或簡化</span>：搬運系統、節拍控制、夾持與翹曲補償全部要打掉重練。
+  這也是為什麼這波<b>「設備先反應」</b>——2026 年最先受惠的不是基板廠，而是能把機台從「圓」改成「方」的設備廠。</p>
+  <p>另一個關鍵配套是 <span class="hlb">雷射解膠（Laser Debonding）</span>：當玻璃只是暫時托盤，封裝完得把又大又薄的成品<b>從玻璃上完整剝離而不裂</b>，這道分離技術本身就是門檻。</p>
+</div></section>
+
+<!-- 4. 玻璃為什麼 -->
+<section id="s4"><div class="wrap reveal">
+  <div class="eyebrow"><span class="num">04</span> 主角中的主角</div>
+  <h2>玻璃，被半導體業「上帝親吻過」的材料</h2>
+  <p class="lead">平常喝水、做窗戶這麼脆的東西，憑什麼進到價值數百萬的 AI 伺服器？
+  在業界眼裡，特製玻璃擁有五大優勢——但也背著四個地獄級缺點。</p>
+
+  <h3 style="color:var(--green)">✓ 五大優勢</h3>
+  <div class="advrow">
+    <div class="scard good"><div class="num">優勢 1</div><h4>無限大的建地</h4><p>能像做電視螢幕一樣做成超大方形面板，地基無限延伸。</p></div>
+    <div class="scard good"><div class="num">優勢 2</div><h4>跑車級高速公路</h4><p>介電常數低、訊號損耗極小，電流像在平坦高速公路上跑。</p></div>
+    <div class="scard good"><div class="num">優勢 3</div><h4>平靜如水</h4><p>可調玻璃配方，讓 CTE 幾乎跟上面 AI 晶片一致 → 翹曲超低。</p></div>
+    <div class="scard good"><div class="num">優勢 4</div><h4>高密度整合</h4><p>表面非常平滑，可以畫出更多、更密的微小線路。</p></div>
+    <div class="scard good"><div class="num">優勢 5</div><h4>高可靠 · 穩定</h4><p>不怕水、化學性質穩定，用很久也不易壞。</p></div>
+  </div>
+
+  <h3 style="color:var(--red)">✗ 四大致命傷</h3>
+  <div class="disrow">
+    <div class="scard bad"><div class="num">缺點 1</div><h4>像保溫瓶 · 不散熱</h4><p>導熱僅 1.1–1.7 W/mK，比矽（130–150）差約 80–100 倍，高溫悶在裡面散不掉。</p></div>
+    <div class="scard bad"><div class="num">缺點 2</div><h4>玻璃心 · 太脆</h4><p>搬運、鑽孔稍一用力就「咔」一聲整片碎裂報廢。</p></div>
+    <div class="scard bad"><div class="num">缺點 3</div><h4>線路還不夠細</h4><p>目前約 2µm；傳統矽已能到 0.4µm，極致微縮仍輸矽。</p></div>
+    <div class="scard bad"><div class="num">缺點 4</div><h4>生態系不成熟</h4><p>材料、設備、檢測儀器全要重新開發，初期成本昂貴。</p></div>
+  </div>
+
+  <h3>玻璃 vs 矽：一張表看懂取捨</h3>
+  <table class="cmp">
+    <thead><tr><th>比較項目</th><th>玻璃 Glass</th><th>矽 Silicon</th></tr></thead>
+    <tbody>
+      <tr><td>建地尺寸</td><td class="g">超大方形面板（可 6.6×）</td><td class="s">受 12 吋圓晶圓限制</td></tr>
+      <tr><td>訊號損耗</td><td class="g">極低（介電常數低）</td><td class="s">相對高</td></tr>
+      <tr><td>翹曲 / CTE</td><td class="g">可調到與晶片相近、翹曲低</td><td class="s">易翹曲</td></tr>
+      <tr><td>導熱</td><td class="s">1.1–1.7 W/mK（差）</td><td class="g">130–150 W/mK（好）</td></tr>
+      <tr><td>最細線寬</td><td class="s">~2µm（暫時較差）</td><td class="g">~0.4µm</td></tr>
+      <tr><td>脆性 / 加工</td><td class="s">非常脆、難加工</td><td class="g">成熟、好處理</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:.8rem;color:var(--mut)"><span style="color:var(--green)">綠色＝該項較佳</span>。一眼可見：玻璃在「尺寸 / 訊號 / 翹曲」全面取勝，痛點則集中在「散熱 / 脆性 / 最細線寬」。</p>
+
+  <h3>講深一點：玻璃到底「贏在哪、卡在哪」</h3>
+  <p>玻璃最被看重的兩個物理量是<span class="hlb">介電特性（Dk / Df）</span>與<span class="hlb">CTE 可調</span>。低 Df（介電損耗）代表高頻訊號跑過去時能量耗損小——
+  AI 與光通訊往 100GHz 以上走時，這點比矽中介層還有優勢；而玻璃的 CTE 可以「點菜」般調到貼近矽（前段提過的 3–8 ppm/°C），翹曲自然小。
+  再加上<b>剛性高、表面粗糙度極低</b>，可以把 RDL 線路畫得又細又平。</p>
+  <p>卡關的本質則是<span class="hl">「熱」和「裂」</span>：導熱差，必須靠銅 TGV 當散熱通道 + 背面強化散熱來補；脆性高、斷裂韌性低，
+  從鑽孔、搬運到把大薄板剝離都可能崩裂。所以這條路真正的戰場，不在玻璃本身，而在<b>「怎麼在玻璃上打洞、填銅、又不弄裂它」</b>——也就是下一章的 TGV。</p>
+</div></section>
+
+<!-- 5. 三種玩法 -->
+<section id="s5"><div class="wrap reveal">
+  <div class="eyebrow"><span class="num">05</span> 看懂新聞不眼花</div>
+  <h2>玻璃的三種玩法（戰略地位完全不同）</h2>
+  <p class="lead">同樣是玻璃，用在不同地方就是完全不同的故事。搞懂這三種，看新聞才不會霧裡看花。下面三張剖面圖<b>並排對比</b>，你會一眼看出差別。</p>
+
+  <div class="callout b"><div class="t">先補一個關鍵字：RDL 是什麼？</div>
+  <b>RDL = Redistribution Layer，重分布層（重佈線層）。</b>晶片出廠時，對外的接腳又多又密、間距只有幾微米，沒辦法直接焊到大板子上。
+  RDL 就是在晶片表面<b>「再畫一層超細的金屬走線 + 絕緣層」</b>，把這些密集腳位<span class="hl">重新分配、攤開</span>到比較鬆的間距，或是<b>把晶片與晶片之間連起來</b>。
+  在<b>扇出型封裝（FOPLP / InFO）</b>裡，根本沒有中介層那塊板子，<span class="hlb">高密度互連完全靠 RDL 做出來</span>——可以想成「直接在封裝體裡長出一塊主機板」。
+  <div class="fig sm" style="margin:14px auto 2px;background:rgba(0,0,0,.18)">
+    <svg viewBox="0 0 240 116" xmlns="http://www.w3.org/2000/svg">
+      <rect x="82" y="12" width="76" height="20" rx="3" fill="#5aa9ff"/><text x="120" y="26" fill="#fff" font-size="9" text-anchor="middle" font-weight="700">晶片 Die</text>
+      <g fill="#f4ad3e"><rect x="92" y="32" width="3" height="5"/><rect x="104" y="32" width="3" height="5"/><rect x="116" y="32" width="3" height="5"/><rect x="128" y="32" width="3" height="5"/><rect x="140" y="32" width="3" height="5"/></g>
+      <text x="186" y="40" fill="#ffd089" font-size="8" text-anchor="start">密腳位</text>
+      <g stroke="#f4ad3e" stroke-width="1.4" fill="none" opacity=".9">
+        <path d="M93,37 L40,64"/><path d="M105,37 L78,64"/><path d="M117,37 L120,64"/><path d="M129,37 L162,64"/><path d="M141,37 L200,64"/>
+      </g>
+      <rect x="20" y="46" width="200" height="20" rx="2" fill="rgba(244,173,62,.14)" stroke="#f4ad3e" stroke-dasharray="3 2"/>
+      <text x="120" y="60" fill="#f4ad3e" font-size="8.5" text-anchor="middle">RDL 重佈線層（把腳位攤開 / 連晶片）</text>
+      <g fill="#9aa6bd"><circle cx="40" cy="80" r="7"/><circle cx="80" cy="80" r="7"/><circle cx="120" cy="80" r="7"/><circle cx="160" cy="80" r="7"/><circle cx="200" cy="80" r="7"/></g>
+      <text x="120" y="104" fill="#9aa6bd" font-size="8" text-anchor="middle">攤開後的大接點 → 焊到下方載板</text>
+    </svg>
+  </div>
+  </div>
+
+  <div class="plays3">
+    <!-- ① 玻璃載板 -->
+    <div class="pcol g1">
+      <div class="ph"><div class="pn"><i>1</i> 過河拆橋・工具人</div><div class="ptitle">玻璃載板（暫時 Carrier）</div><div class="psub">先當「暫時載具」，做完就移除</div></div>
+      <div class="pfig">
+        <svg viewBox="0 0 240 152" xmlns="http://www.w3.org/2000/svg">
+          <text x="120" y="12" fill="#9ad8ff" font-size="9" text-anchor="middle">封裝時用玻璃托住晶片+RDL</text>
+          <rect x="26" y="18" width="188" height="13" rx="3" fill="rgba(115,227,255,.22)" stroke="#73e3ff" stroke-width="1.2"/>
+          <text x="120" y="28" fill="#cdeeff" font-size="8" text-anchor="middle">玻璃載板 Carrier</text>
+          <rect x="48" y="35" width="32" height="14" rx="2" fill="#5aa9ff"/><text x="64" y="45" fill="#fff" font-size="7" text-anchor="middle">Die</text>
+          <rect x="96" y="35" width="40" height="14" rx="2" fill="#b48bff"/><text x="116" y="45" fill="#fff" font-size="7" text-anchor="middle">Die</text>
+          <rect x="152" y="35" width="32" height="14" rx="2" fill="#5aa9ff"/><text x="168" y="45" fill="#fff" font-size="7" text-anchor="middle">Die</text>
+          <rect x="36" y="51" width="168" height="9" rx="2" fill="rgba(244,173,62,.18)" stroke="#f4ad3e" stroke-width="1" stroke-dasharray="3 2"/>
+          <text x="120" y="58" fill="#f4ad3e" font-size="7.5" text-anchor="middle">RDL</text>
+          <text x="120" y="76" fill="#46e08a" font-size="9" text-anchor="middle" font-weight="700">↓ 封裝後「移除」玻璃</text>
+          <rect x="26" y="82" width="188" height="20" rx="3" fill="#1c6e46" stroke="#2aa86a" stroke-width="1.2"/>
+          <text x="120" y="95" fill="#bff0d4" font-size="8" text-anchor="middle">封裝載板 Substrate</text>
+          <g fill="#9aa6bd"><circle cx="52" cy="112" r="4.5"/><circle cx="88" cy="112" r="4.5"/><circle cx="120" cy="112" r="4.5"/><circle cx="152" cy="112" r="4.5"/><circle cx="188" cy="112" r="4.5"/></g>
+        </svg>
+      </div>
+      <div class="pbody">玻璃只是「施工托盤」，把晶片與 RDL 先固定好，封裝完就拔掉回收。
+        <ul><li>主要用在 FOPLP</li><li>成本較低、效率高</li><li>玻璃<b>不留在</b>成品裡</li></ul>
+      </div>
+      <div class="pnote">⚠ 這正是台積電現在 CoPoS 在做的——<b>不是最終產品</b>。</div>
+    </div>
+
+    <!-- ② 玻璃中介層 -->
+    <div class="pcol g2">
+      <div class="ph"><div class="pn"><i>2</i> 終極大魔王</div><div class="ptitle">玻璃中介層（Glass Interposer）</div><div class="psub">取代矽中介層 → 變「Glass CoWoS」</div></div>
+      <div class="pfig">
+        <svg viewBox="0 0 240 152" xmlns="http://www.w3.org/2000/svg">
+          <rect x="40" y="16" width="34" height="16" rx="2" fill="#b48bff"/><text x="57" y="27" fill="#fff" font-size="7" text-anchor="middle">HBM</text>
+          <rect x="92" y="14" width="48" height="18" rx="2" fill="#5aa9ff"/><text x="116" y="26" fill="#fff" font-size="7.5" text-anchor="middle">GPU</text>
+          <rect x="158" y="16" width="34" height="16" rx="2" fill="#b48bff"/><text x="175" y="27" fill="#fff" font-size="7" text-anchor="middle">HBM</text>
+          <rect x="30" y="40" width="172" height="42" rx="3" fill="rgba(115,227,255,.16)" stroke="#73e3ff" stroke-width="1.2"/>
+          <g><rect x="54" y="40" width="5" height="42" fill="#e8852b"/><rect x="86" y="40" width="5" height="42" fill="#ffb978"/><rect x="114" y="40" width="5" height="42" fill="#e8852b"/><rect x="142" y="40" width="5" height="42" fill="#ffb978"/><rect x="172" y="40" width="5" height="42" fill="#e8852b"/></g>
+          <text x="116" y="96" fill="#cdeeff" font-size="8" text-anchor="middle">玻璃中介層 + 銅柱 TGV</text>
+          <rect x="30" y="100" width="172" height="16" rx="3" fill="#1c6e46" stroke="#2aa86a" stroke-width="1.2"/>
+          <text x="116" y="111" fill="#bff0d4" font-size="7.5" text-anchor="middle">封裝載板</text>
+          <g fill="#9aa6bd"><circle cx="52" cy="126" r="4.5"/><circle cx="90" cy="126" r="4.5"/><circle cx="128" cy="126" r="4.5"/><circle cx="166" cy="126" r="4.5"/></g>
+        </svg>
+      </div>
+      <div class="pbody">把整塊矽中介層換成玻璃，GPU 與 HBM 靠玻璃裡的銅柱（TGV）上下導通。
+        <ul><li>訊號損耗更低</li><li>可做更大尺寸</li><li>不彎曲破裂</li></ul>
+      </div>
+      <div class="pnote">⌛ 技術還沒成熟，先進 AI 封裝還要幾年；卡關在 TGV。</div>
+    </div>
+
+    <!-- ③ 玻璃核心基板 -->
+    <div class="pcol g3">
+      <div class="ph"><div class="pn"><i>3</i> 取代 ABF 有機核心</div><div class="ptitle">玻璃核心基板（Glass Core）</div><div class="psub">把 ABF 載板的塑膠芯換成玻璃芯</div></div>
+      <div class="pfig">
+        <svg viewBox="0 0 240 152" xmlns="http://www.w3.org/2000/svg">
+          <rect x="48" y="14" width="48" height="16" rx="2" fill="#5aa9ff"/><text x="72" y="25" fill="#fff" font-size="7" text-anchor="middle">GPU/CPU</text>
+          <rect x="120" y="14" width="34" height="16" rx="2" fill="#b48bff"/><text x="137" y="25" fill="#fff" font-size="7" text-anchor="middle">HBM</text>
+          <rect x="168" y="14" width="34" height="16" rx="2" fill="#b48bff"/><text x="185" y="25" fill="#fff" font-size="7" text-anchor="middle">HBM</text>
+          <rect x="30" y="34" width="180" height="7" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.18)" stroke-width=".6"/>
+          <rect x="30" y="46" width="180" height="34" rx="2" fill="#b9651b" stroke="#ffb978" stroke-width="1.2"/>
+          <g stroke="#5a2f0c" stroke-width="3"><line x1="58" y1="46" x2="58" y2="80"/><line x1="100" y1="46" x2="100" y2="80"/><line x1="142" y1="46" x2="142" y2="80"/><line x1="184" y1="46" x2="184" y2="80"/></g>
+          <text x="120" y="67" fill="#fff" font-size="8" text-anchor="middle" font-weight="700">玻璃核心 Glass Core</text>
+          <rect x="30" y="85" width="180" height="7" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.18)" stroke-width=".6"/>
+          <g fill="#9aa6bd"><circle cx="52" cy="104" r="4.5"/><circle cx="90" cy="104" r="4.5"/><circle cx="128" cy="104" r="4.5"/><circle cx="166" cy="104" r="4.5"/><circle cx="198" cy="104" r="4.5"/></g>
+          <text x="120" y="124" fill="#9aa6bd" font-size="7.5" text-anchor="middle">上下還有增層線路（build-up）</text>
+        </svg>
+      </div>
+      <div class="pbody">不丟掉玻璃——把它當成<b>載板的核心層</b>，永久留在成品裡，取代 ABF 的有機塑膠芯。
+        <ul><li>線寬線距更細（可到 2µm）</li><li>bump 密度更高、翹曲更少</li><li>更適合大 AI 晶片、高速傳輸更好</li></ul>
+      </div>
+      <div class="pnote">★ Intel 主推、研究逾十年，喊「延續摩爾定律到 2030」。</div>
+    </div>
+  </div>
+
+  <p class="mut" style="font-size:.9rem">一句話分清楚：<b>①</b> 玻璃是「<b>用完即丟的托盤</b>」；<b>②</b> 玻璃是「<b>夾在晶片正下方的薄中介層</b>」；<b>③</b> 玻璃是「<b>整片載板的核心骨架</b>」。② 和 ③ 都把玻璃永久留下，差別在玻璃放的「位置與厚度」。</p>
+
+  <div class="callout b"><div class="t">那為什麼台積電現在「不敢」直接用玻璃中介層？</div>
+  因為卡在一道魔王級難題——玻璃本身<b>不導電</b>。要讓上下晶片通電溝通，得先解決下一段的關卡：<span class="hlb">TGV</span>。</div>
+</div></section>
+
+<!-- 6. TGV -->
+<section id="s6"><div class="wrap reveal">
+  <div class="eyebrow"><span class="num">06</span> 含金量最高的魔王技術</div>
+  <h2>TGV：在玻璃裡「打洞 + 灌銅」讓它導電</h2>
+  <p class="lead"><b>TGV = Through Glass Via（玻璃通孔）。</b>
+  玻璃是絕緣體不導電，TGV 就是在玻璃裡<b>埋滿銅柱</b>，讓電流訊號可以上下穿透玻璃。</p>
+
+  <div class="fig med">
+    <svg viewBox="0 0 520 250" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="glass2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(115,227,255,.22)"/><stop offset="1" stop-color="rgba(115,227,255,.08)"/></linearGradient></defs>
+      <!-- chips on top -->
+      <rect x="100" y="36" width="60" height="28" rx="3" fill="#b48bff"/><text x="130" y="55" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">HBM</text>
+      <rect x="195" y="32" width="70" height="32" rx="3" fill="#5aa9ff"/><text x="230" y="53" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">GPU</text>
+      <rect x="300" y="36" width="60" height="28" rx="3" fill="#b48bff"/><text x="330" y="55" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">HBM</text>
+      <!-- glass body -->
+      <rect x="70" y="72" width="320" height="92" rx="6" fill="url(#glass2)" stroke="#73e3ff" stroke-width="1.5"/>
+      <!-- copper vias -->
+      <g>
+        <rect x="114" y="72" width="12" height="92" fill="#e8852b"/>
+        <rect x="169" y="72" width="12" height="92" fill="#ffb978"/>
+        <rect x="224" y="72" width="12" height="92" fill="#e8852b"/>
+        <rect x="279" y="72" width="12" height="92" fill="#ffb978"/>
+        <rect x="334" y="72" width="12" height="92" fill="#e8852b"/>
+      </g>
+      <!-- animated signal glow travelling along vias -->
+      <g>
+        <circle r="4.5" fill="#fff3d6">
+          <animateMotion path="M120,158 L120,78" dur="1.4s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;1;1;0" dur="1.4s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="4.5" fill="#fff3d6">
+          <animateMotion path="M230,78 L230,158" dur="1.4s" begin="0.3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;1;1;0" dur="1.4s" begin="0.3s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="4.5" fill="#fff3d6">
+          <animateMotion path="M340,158 L340,78" dur="1.4s" begin="0.6s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;1;1;0" dur="1.4s" begin="0.6s" repeatCount="indefinite"/>
+        </circle>
+      </g>
+      <!-- solder balls -->
+      <g fill="#9aa6bd"><circle cx="120" cy="178" r="6"/><circle cx="175" cy="178" r="6"/><circle cx="230" cy="178" r="6"/><circle cx="285" cy="178" r="6"/><circle cx="340" cy="178" r="6"/></g>
+      <text x="230" y="202" fill="#93a2bd" font-size="12" text-anchor="middle">下面 封裝 / 載板</text>
+      <!-- signal up/down arrow on right -->
+      <g stroke="#ff8a8a" stroke-width="2" fill="#ff8a8a">
+        <line x1="418" y1="86" x2="418" y2="150"/>
+        <polygon points="418,78 413,90 423,90"/>
+        <polygon points="418,158 413,146 423,146"/>
+      </g>
+      <text x="440" y="118" fill="#ff9a9a" font-size="12" text-anchor="middle" transform="rotate(90 440 118)">訊號上下導通</text>
+      <!-- legend -->
+      <rect x="118" y="222" width="14" height="11" rx="2" fill="rgba(115,227,255,.3)" stroke="#73e3ff"/>
+      <text x="138" y="231" fill="#9ad8ff" font-size="11">玻璃（不導電）</text>
+      <rect x="255" y="222" width="14" height="11" rx="2" fill="#e8852b"/>
+      <text x="275" y="231" fill="#ffb978" font-size="11">銅通孔 TGV（導電）</text>
+    </svg>
+    <div class="figcap"><b>發光點 = 訊號</b>，沿著銅柱在玻璃上下穿透。沒有 TGV，玻璃就只是一塊不導電的板子——絕緣的玻璃靠銅柱瞬間變成可導通的<b>超級中介層</b>。</div>
+  </div>
+
+  <p>聽起來「打洞灌銅」很簡單？其實一點都不。要在比名片還薄的玻璃上，用雷射打出<b>幾萬個比頭髮還細的洞</b>，
+  力道稍一不對就產生肉眼看不見的微裂痕；灌銅時若填不均勻、留下氣泡（<span class="hl">空洞 void</span>），這條路就斷了，整顆晶片報廢。
+  <b>TGV 的打洞與填銅良率，就是玻璃基板能不能順利量產的最大生死關卡。</b></p>
+
+  <h3>三個讓工程師失眠的細節</h3>
+  <ul class="clean">
+    <li><b>深寬比（Aspect Ratio）：</b>孔要深（玻璃越厚剛性越好）又要細（密度才高），深÷寬的比值越大越難填銅。<b>又深又窄</b>的孔，電鍍液難進去、銅難填滿，這是良率第一殺手。</li>
+    <li><b>雷射改質 vs 雷射燒蝕：</b>傳統<b>燒蝕（ablation）</b>是硬轟，熱影響區大、邊緣易裂；新主流<b>雷射改質（LIDE）</b>先用雷射悄悄改變玻璃內部分子結構，再用化學藥水把改質區「溶」出孔來，裂痕大幅減少。速度也從每秒數十孔拉到<b>每秒數千孔</b>才有量產經濟性。</li>
+    <li><b>種子層（Seed Layer）：</b>銅不黏玻璃，必須先用濺鍍或無電電鍍鋪一層極薄金屬當「底漆」，銅才電鍍得上去；底漆不連續，後面就空洞。</li>
+  </ul>
+  <p>所以你會看到產業把 TGV 拆成<b>六道關卡</b>，每一關都有專門的設備廠在搶。下面這個動畫會自動播放，也可以點步驟看細節：</p>
+
+  <h3>TGV 六大關卡（會自動播放，可點步驟）</h3>
+  <div class="tgv">
+    <div class="tgvstage">
+      <svg id="tgvsvg" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg" style="width:280px;max-width:100%">
+        <rect x="30" y="55" width="240" height="46" rx="4" fill="rgba(115,227,255,.16)" stroke="#73e3ff" stroke-width="1.5"/>
+        <g id="holes"></g>
+        <g id="tool"></g>
+      </svg>
+    </div>
+    <div class="steps" id="steps"></div>
+    <div class="tgvdesc" id="tgvdesc"></div>
+  </div>
+</div></section>
+
+<!-- 7. Timeline -->
+<section id="s7"><div class="wrap reveal">
+  <div class="eyebrow"><span class="num">07</span> 產業時程</div>
+  <h2>2024 → 2030+ 的<span class="hlb">四個階段</span></h2>
+  <p class="lead">這條路不是一蹴可幾。記住節奏：<b>2026 看設備出貨、2027–28 看基板導入、2029 後等大魔王 Glass Interposer</b>。</p>
+
+  <div class="htl">
+    <div class="phase p1"><span class="pdot"></span><div class="pbox">
+      <div class="pyr">2024–2025</div><div class="pph">概念驗證期</div>
+      <ul><li>技術驗證、樣品開發</li><li>TGV / 濕蝕刻 / 鍍銅驗證</li><li>供應鏈與良率優化</li></ul>
+      <div class="pkey">解決關鍵技術與良率</div>
+    </div></div>
+    <div class="phase p2"><span class="pdot"></span><div class="pbox">
+      <div class="pyr">2026 ★</div><div class="pph">驗證元年</div>
+      <ul><li>小量試產、設備導入</li><li>客戶開始下單、出貨</li><li>良率逐步提升、製程穩定</li></ul>
+      <div class="pkey">看設備出貨動能</div>
+    </div></div>
+    <div class="phase p3"><span class="pdot"></span><div class="pbox">
+      <div class="pyr">2027–2028</div><div class="pph">導入放量期</div>
+      <ul><li>Glass Carrier / Core 導入</li><li>設備 / 材料需求大增</li><li>成本下降、良率改善</li></ul>
+      <div class="pkey">看 GCS 玻璃核心導入</div>
+    </div></div>
+    <div class="phase p4"><span class="pdot"></span><div class="pbox">
+      <div class="pyr">2029–2030+</div><div class="pph">大規模應用期</div>
+      <ul><li>Glass Interposer 正式上場</li><li>= Glass CoWoS 接管高階</li><li>多層 RDL 高密度整合</li></ul>
+      <div class="pkey">高階應用爆發</div>
+    </div></div>
+  </div>
+  <p style="font-size:.8rem;color:var(--mut)">注意：這是逐字稿與媒體整理的「樂觀路線圖」。台積電董事長已表態 CoPoS 量產仍需 <b>2–3 年、沒有捷徑</b>（試產線 2026 進機、量產推估約 2028 年底）。</p>
+</div></section>
+
+<!-- 7.5 產業地圖 -->
+<section id="s8"><div class="wrap reveal">
+  <div class="eyebrow"><span class="num">08</span> 從上到下游的完整地圖</div>
+  <h2>玻璃基板供應鏈：誰做什麼、可不可被取代</h2>
+  <p class="lead">這條鏈大致從「玻璃母材」往下走到「終端 AI 晶片」。我把它分成八層（0–7）：
+  <b>點左邊的層級，右邊就會顯示</b>該環節有哪些公司、實際在做什麼，以及我對<b>護城河／可替代性</b>的判讀。</p>
+
+  <div class="legendbar">
+    <span><span class="moat h">護城河高</span> 技術/認證難複製</span>
+    <span><span class="moat m">中等</span> 有經驗優勢但對手不少</span>
+    <span><span class="moat l">題材/卡位</span> 想像空間大、實質貢獻待放量</span>
+  </div>
+
+  <div class="mapwrap">
+  <aside class="maptabs">
+    <button class="mtab t0 active" data-layer="0"><span class="tn">0</span><span><span class="tt">玻璃母材 · 加工</span><span class="tr">一切的起點</span></span></button>
+    <button class="mtab t1" data-layer="1"><span class="tn">1</span><span><span class="tt">TGV 鑽孔 / 改質</span><span class="tr">最硬的第一關</span></span></button>
+    <button class="mtab t2" data-layer="2"><span class="tn">2</span><span><span class="tt">濕製程 · 填銅</span><span class="tr">修孔/蝕刻/電鍍</span></span></button>
+    <button class="mtab t3" data-layer="3"><span class="tn">3</span><span><span class="tt">填膏 · 材料化學</span><span class="tr">附著層/合金膏</span></span></button>
+    <button class="mtab t4" data-layer="4"><span class="tn">4</span><span><span class="tt">AOI 光學檢測</span><span class="tr">良率守門員</span></span></button>
+    <button class="mtab t5" data-layer="5"><span class="tn">5</span><span><span class="tt">中介層整合</span><span class="tr">利基 / CPO</span></span></button>
+    <button class="mtab t6" data-layer="6"><span class="tn">6</span><span><span class="tt">玻璃核心載板</span><span class="tr">取代 ABF</span></span></button>
+    <button class="mtab t7" data-layer="7"><span class="tn">7</span><span><span class="tt">封裝 + 終端</span><span class="tr">OSAT/代工/客戶</span></span></button>
+  </aside>
+  <div class="mapdetail">
+  <!-- L0 -->
+  <div class="maplayer mappanel L0 active" data-layer="0">
+    <div class="mlhead"><div class="mn">0</div><div><div class="mt">玻璃母材與精密加工</div><div class="mr">熔製特種玻璃、超薄化、切割、拋光、鍍膜 — 一切的起點</div></div></div>
+    <div class="mlbody">
+      <div class="co"><div class="ch"><span class="cname">康寧 Corning</span><span class="ctk">GLW · 美</span></div>
+        <p class="cdo">全球玻璃材料龍頭，掌握<b>特種玻璃配方熔製</b>。同時是 CPO/矽光子光纖供應商，與 NVIDIA、Meta 深度綁定，也是玻璃基板關鍵材料來源。</p>
+        <span class="moat h">護城河高</span><p class="cm">配方+規模+專利，全世界能做高品質大面板特種玻璃的就那幾家，極難取代。</p></div>
+      <div class="co"><div class="ch"><span class="cname">正達</span><span class="ctk">3149 · 鴻海系</span></div>
+        <p class="cdo">玻璃<b>切割／薄化／拋光／鍍膜</b>，奈米級加工。研發「熱成型 TGV」專利（玻璃與孔洞一體成形，避開雷射碎裂）；2026 下半年建 HDD 玻璃基板量產線。</p>
+        <span class="moat h">護城河高</span><p class="cm">「去中化（China+1）」下台灣稀有的奈米級加工廠，獲康寧主動找上合作＝技術被世界第一認證。放量要等 2027。</p></div>
+      <div class="co"><div class="ch"><span class="cname">中釉</span><span class="ctk">1809</span></div>
+        <p class="cdo">陶瓷釉廠跨入高階材料，與工研院開發<b>「類晶玻璃陶瓷」</b>中介層材料，與日本山村硝子簽 MOU 做大面積基板。</p>
+        <span class="moat m">中等</span><p class="cm">材料路線之一，仍在開發驗證期。</p></div>
+      <div class="co"><div class="ch"><span class="cname">悅城 / 台玻 / 日本 AGC</span><span class="ctk">6405 · 1802</span></div>
+        <p class="cdo">悅城承接<b>面板玻璃減薄/薄化</b>；台玻、AGC 為母材供應。</p>
+        <span class="moat l">題材/卡位</span><p class="cm">受惠整體放量，但非核心卡關技術。</p></div>
+    </div>
+  </div>
+
+  <!-- L1 -->
+  <div class="maplayer mappanel L1" data-layer="1">
+    <div class="mlhead"><div class="mn">1</div><div><div class="mt">TGV 鑽孔 / 雷射改質（最硬的第一關）</div><div class="mr">在脆玻璃上精準打出數萬～數百萬個微孔，又不能裂</div></div></div>
+    <div class="mlbody">
+      <div class="co"><div class="ch"><span class="cname">鈦昇</span><span class="ctk">8027</span></div>
+        <p class="cdo">公認「最純 TGV 題材」。用<b>雷射改質(LIDE)</b> 先改變玻璃分子結構、再濕蝕刻，避免裂痕；矩陣孔可達<b>每秒 8000 孔</b>、精度 5µm 內。雷射解膠(debonding)也用於 CoPoS 大面板分離。</p>
+        <span class="moat h">護城河高</span><p class="cm">發起「E-Core System」大聯盟串聯濕製程/壓膜/烘烤，成為台系規格制定者。北美客戶已驗證。</p></div>
+      <div class="co"><div class="ch"><span class="cname">TPK-KY 宸鴻</span><span class="ctk">3673</span></div>
+        <p class="cdo">觸控玻璃加工專家轉型，自建<b>鑽孔+蝕刻+電鍍+檢測一條龍</b>試產線，最快 2026 Q3 試產，瞄準 2027 量產，已與封裝廠共同開發。</p>
+        <span class="moat m">中等</span><p class="cm">玻璃加工經驗+淨現金充裕是優勢，但半導體驗證仍是新戰場。</p></div>
+      <div class="co"><div class="ch"><span class="cname">雷科</span><span class="ctk">6207</span></div>
+        <p class="cdo">主攻<b>雷射 TGV 鑽孔設備</b>，並切 CoWoS 檢測、TSV 鑽孔。</p>
+        <span class="moat l">題材/卡位</span><p class="cm">技術有切入點，但基本面/估值需留意（2025 EPS 僅約 0.9 元）。</p></div>
+      <div class="co"><div class="ch"><span class="cname">東捷</span><span class="ctk">8064</span></div>
+        <p class="cdo"><b>雷射剝離、非感光乾膜開孔、AOI</b>；已切入群創/日月光/力成 FOPLP 供應鏈，屬量產前段必備。</p>
+        <span class="moat m">中等</span><p class="cm">已實質進供應鏈，受惠面板級封裝擴張。</p></div>
+    </div>
+  </div>
+
+  <!-- L2 -->
+  <div class="maplayer mappanel L2" data-layer="2">
+    <div class="mlhead"><div class="mn">2</div><div><div class="mt">濕製程：修孔 / 蝕刻 / 鍍銅填孔（金屬化）</div><div class="mr">把粗糙孔壁洗滑順，再把銅無缺陷填進又深又窄的孔</div></div></div>
+    <div class="mlbody">
+      <div class="co"><div class="ch"><span class="cname">弘塑</span><span class="ctk">3131</span></div>
+        <p class="cdo">台灣<b>濕製程設備龍頭</b>，12吋晶圓級封裝酸槽市佔約 60–80%。既有 InFO/CoWoS 的去光阻、顯影、蝕刻、電鍍經驗可直接延伸到玻璃。</p>
+        <span class="moat h">護城河高</span><p class="cm">設備+藥水長尾收益，台積電濕製程御用廠，黏著度高。</p></div>
+      <div class="co"><div class="ch"><span class="cname">辛耘</span><span class="ctk">3583</span></div>
+        <p class="cdo">先進封裝濕製程設備，與基板廠<b>共同開發 TGV 填銅</b>配方與設備。</p>
+        <span class="moat m">中等</span><p class="cm">放量期的實質受惠者，與鈦昇聯盟協作。</p></div>
+      <div class="co"><div class="ch"><span class="cname">敘豐</span><span class="ctk">3485</span></div>
+        <p class="cdo">專做玻璃基板<b>TGV 複合蝕刻機</b>。</p>
+        <span class="moat m">中等</span><p class="cm">利基設備，題材純度高但規模小。</p></div>
+      <div class="co"><div class="ch"><span class="cname">川寶</span><span class="ctk">1595</span></div>
+        <p class="cdo">由設備廠轉型，投入<b>高深寬比玻璃基板電鍍填孔金屬化</b>技術。</p>
+        <span class="moat l">題材/卡位</span><p class="cm">深寬比是填銅良率關鍵，但仍在開發。</p></div>
+    </div>
+  </div>
+
+  <!-- L3 -->
+  <div class="maplayer mappanel L3" data-layer="3">
+    <div class="mlhead"><div class="mn">3</div><div><div class="mt">填膏與特用化學材料</div><div class="mr">合金膏、附著層、乾膜光阻 — 沒這些銅黏不住、線畫不上</div></div></div>
+    <div class="mlbody">
+      <div class="co"><div class="ch"><span class="cname">勤凱</span><span class="ctk">4760</span></div>
+        <p class="cdo">被動元件廠，跨入<b>TGV 玻璃基板盲孔填膏（合金膏）</b>，已完成驗證與出貨，鎖定 HPC/AI。</p>
+        <span class="moat m">中等</span><p class="cm">材料已驗證出貨是實打實的進展，是較有爆發力的新品之一。</p></div>
+      <div class="co"><div class="ch"><span class="cname">長興 / 崇越</span><span class="ctk">1717 · 5434</span></div>
+        <p class="cdo">特用化學、<b>附著層與乾膜光阻</b>。玻璃太滑，需特殊材料才能佈線。</p>
+        <span class="moat m">中等</span><p class="cm">材料商認證週期長，但一旦打入黏著度極強。</p></div>
+    </div>
+  </div>
+
+  <!-- L4 -->
+  <div class="maplayer mappanel L4" data-layer="4">
+    <div class="mlhead"><div class="mn">4</div><div><div class="mt">AOI 光學檢測（良率守門員）</div><div class="mr">用光學相機+AI 逐一檢查幾萬個洞有沒有裂痕瑕疵</div></div></div>
+    <div class="mlbody">
+      <div class="co"><div class="ch"><span class="cname">由田</span><span class="ctk">3455</span></div>
+        <p class="cdo"><b>AOI 自動光學檢測</b>，抓玻璃裂痕/瑕疵。玻璃透光+易碎使傳統機台必須改機。</p>
+        <span class="moat m">中等</span><p class="cm">檢測是良率必經關卡，但玩家多、需看誰先拿到認證。</p></div>
+      <div class="co"><div class="ch"><span class="cname">群翊</span><span class="ctk">6664</span></div>
+        <p class="cdo">AOI，並切入<b>乾燥/壓膜/烘烤</b>設備（鈦昇聯盟成員）。</p>
+        <span class="moat m">中等</span><p class="cm">跨製程的設備供應，受惠面較廣。</p></div>
+      <div class="co"><div class="ch"><span class="cname">德律 / 蔚華科</span><span class="ctk">3030 · 3055</span></div>
+        <p class="cdo">光學/電性<b>檢測設備</b>，搶攻 TGV 檢測商機。</p>
+        <span class="moat m">中等</span><p class="cm">既有檢測實力延伸，視訂單落地。</p></div>
+      <div class="co"><div class="ch"><span class="cname">晶彩科</span><span class="ctk">3535</span></div>
+        <p class="cdo">TGV <b>檢測</b>設備之一。</p>
+        <span class="moat l">題材/卡位</span><p class="cm">股性波動大，題材成分高。</p></div>
+    </div>
+  </div>
+
+  <!-- L5 -->
+  <div class="maplayer mappanel L5" data-layer="5">
+    <div class="mlhead"><div class="mn">5</div><div><div class="mt">TGV 中介層整合 / 利基技術</div><div class="mr">把整套 TGV 做成可用的中介層，或對接 CPO / 矽光子</div></div></div>
+    <div class="mlbody">
+      <div class="co"><div class="ch"><span class="cname">創新服務 CIS</span><span class="ctk">7828</span></div>
+        <p class="cdo">本業<b>探針卡自動化</b>，隱藏武器是<b>銅柱玻璃通孔 TGV-ICP</b>（高深寬比）；攜手晶呈科開發 TGV 中介層，與三家國際 IC 設計大廠驗證中，最快 2027 起挹注營收（銅柱模組營收佔比上看 25–30%）。</p>
+        <span class="moat m">中等</span><p class="cm">同時踩中「探針卡」與「玻璃中介層」雙題材，但中介層仍在驗證。</p></div>
+      <div class="co"><div class="ch"><span class="cname">晶呈科技</span><span class="ctk">4768</span></div>
+        <p class="cdo">特殊氣體廠，有別於雷射的<b>氣相蝕刻(LADY)+孔洞金屬填充</b>專利；做 TGV glass core、<b>高精度光纖對位玻璃基座</b>，鎖定 CPO/矽光子。</p>
+        <span class="moat m">中等</span><p class="cm">獨特蝕刻路線+光纖對位是利基，貢獻隨 2026–2029 TGV 擴產放大。</p></div>
+      <div class="co"><div class="ch"><span class="cname">科嶠</span><span class="ctk">4542</span></div>
+        <p class="cdo">後段<b>RDL 重分布層</b>製程的曝光、固化、烘烤設備。</p>
+        <span class="moat m">中等</span><p class="cm">RDL 是面板級封裝必備，受惠後段擴張。</p></div>
+    </div>
+  </div>
+
+  <!-- L6 -->
+  <div class="maplayer mappanel L6" data-layer="6">
+    <div class="mlhead"><div class="mn">6</div><div><div class="mt">載板：玻璃核心（取代 ABF 有機核心）</div><div class="mr">把 ABF 載板中間的塑膠芯換成玻璃核心 — 玻璃的第二種玩法</div></div></div>
+    <div class="mlbody">
+      <div class="co"><div class="ch"><span class="cname">欣興</span><span class="ctk">3037</span></div>
+        <p class="cdo">載板龍頭，且是<b>Intel 玻璃基板研發夥伴</b>。玻璃核心載板可沿用既有客戶關係，量產後受惠面最廣。</p>
+        <span class="moat h">護城河高</span><p class="cm">客戶關係+技術領先，但董座明言產線 2026 H2 才趨穩、多數量產延後 2028 後 — 短期屬先卡位。</p></div>
+      <div class="co"><div class="ch"><span class="cname">南電 / 景碩</span><span class="ctk">8046 · 3189</span></div>
+        <p class="cdo">ABF<b>載板三雄</b>另兩家，受惠 AI 載板量價齊揚與玻璃核心轉換。</p>
+        <span class="moat m">中等</span><p class="cm">大者恆大，但玻璃核心仍在追趕欣興進度。</p></div>
+      <div class="co"><div class="ch"><span class="cname">臻鼎-KY</span><span class="ctk">4958</span></div>
+        <p class="cdo">PCB 龍頭，旗下禮鼎半導體積極<b>卡位玻璃基板</b>。</p>
+        <span class="moat l">題材/卡位</span><p class="cm">規模大但玻璃基板貢獻初期占比低。</p></div>
+    </div>
+  </div>
+
+  <!-- L7 -->
+  <div class="maplayer mappanel L7" data-layer="7">
+    <div class="mlhead"><div class="mn">7</div><div><div class="mt">封裝整合 + 終端需求（下游）</div><div class="mr">把所有東西組成 CoPoS / Glass CoWoS，以及點燃需求的客戶</div></div></div>
+    <div class="mlbody">
+      <div class="co"><div class="ch"><span class="cname">台積電 / 采鈺</span><span class="ctk">2330 · 6789</span></div>
+        <p class="cdo"><b>CoPoS 主導者</b>。子公司采鈺負責跑首條 CoPoS 試產線（龍潭廠，2026/6 進機），量產目標約 2028 年底。</p>
+        <span class="moat h">護城河高</span><p class="cm">先進封裝整合能力是台積電的核心優勢，對手（三星/Intel）正以此為追趕切入點。</p></div>
+      <div class="co"><div class="ch"><span class="cname">日月光</span><span class="ctk">3711</span></div>
+        <p class="cdo">OSAT 龍頭，推自有<b>FOCoS 面板級封裝（600×600）</b>。</p>
+        <span class="moat h">護城河高</span><p class="cm">OSAT 規模與面板級量產經驗難以速成複製。</p></div>
+      <div class="co"><div class="ch"><span class="cname">群創</span><span class="ctk">3481</span></div>
+        <p class="cdo">面板廠轉型黑馬，以<b>FOPLP（扇出型面板級封裝）</b>切入，擅長大面板 RDL 與控翹曲。</p>
+        <span class="moat m">中等</span><p class="cm">面板大尺寸製程是先天優勢，但半導體良率仍在爬坡。</p></div>
+      <div class="co"><div class="ch"><span class="cname">力成 / 京元電 / 頎邦</span><span class="ctk">6239 · 2449 · 6147</span></div>
+        <p class="cdo">封裝/測試；頎邦有<b>COG 玻璃基板經驗</b>延伸到 LPO 光通訊封測。</p>
+        <span class="moat m">中等</span><p class="cm">既有封測實力延伸至面板級/玻璃應用。</p></div>
+      <div class="co"><div class="ch"><span class="cname">NVIDIA</span><span class="ctk">需求源頭 · 美</span></div>
+        <p class="cdo">下一代 <b>Rubin (R100)</b> 功耗約 2.3kW、堆 12 層 HBM4，是 CoPoS 的<b>錨定客戶</b>；同時大手筆投資康寧。</p>
+        <span class="moat h">護城河高</span><p class="cm">需求的源頭。它要什麼，整條鏈就往哪走。</p></div>
+      <div class="co"><div class="ch"><span class="cname">Intel</span><span class="ctk">需求/技術源頭 · 美</span></div>
+        <p class="cdo">玻璃<b>核心基板</b>默默研究十年，喊出「延續摩爾定律到 2030」靠的就是它，已對外實物展示。</p>
+        <span class="moat h">護城河高</span><p class="cm">玻璃核心路線的最早推手，定義了整個題材的願景。</p></div>
+    </div>
+  </div>
+
+  </div></div>
+
+  <div class="callout"><div class="t">怎麼用這張地圖判斷「節奏」</div>
+  按時程：<b>2026 先看設備層（L1–L4）誰先出貨</b>（鈦昇、群翊、弘塑、由田等）→ <b>2027–2028 看材料/載板（L0、L6）導入放量</b>（正達、欣興）→ <b>2029 後看 L5/L7 的 Glass Interposer 整合大爆發</b>。越靠近卡關技術（雷射改質、填銅良率、玻璃配方）的，護城河通常越高。</div>
+</div></section>
+
+<!-- 9. 結尾 -->
+<section id="s9"><div class="wrap reveal">
+  <div class="eyebrow"><span class="num">09</span> 三十秒回顧</div>
+  <h2>整條邏輯串起來</h2>
+  <p class="lead">
+  AI 晶片越大越燙 → CoWoS 撞上<b>圓晶圓土地不夠</b> + <b>洋芋片翹曲</b>兩道牆 →
+  業界改用<b>大方形面板</b>（CoPoS，先當臨時載板）→ 最完美的面板材料是<span class="hlb">玻璃</span>（五優勢、四缺點）→
+  玻璃有<b>載板 / 核心 / 中介層</b>三種玩法 → 全部卡在魔王技術 <span class="hl">TGV</span>（打洞灌銅的良率）→
+  時程上 <b>2026 驗證元年</b>，一路演到 2030 的 Glass CoWoS。</p>
+
+  <h3>三大巨頭，路線各不同</h3>
+  <p>同樣是玻璃，三家走的路其實不一樣——看懂這點，就看懂了整個賽局的分岔。</p>
+  <div class="grid3">
+    <div class="scard"><div class="num" style="color:var(--cyan)">台積電 TSMC</div><h4>面板路線（CoPoS）</h4>
+      <p>先把臨時載板從圓晶圓改成方形大面板（310×310 → 600×600），借力顯示器／PCB 既有供應鏈；玻璃中介層是更後期目標。試產線約 2026 進機，量產推估 2028–29，董事長強調「沒有捷徑」。</p></div>
+    <div class="scard"><div class="num" style="color:var(--amber)">英特爾 Intel</div><h4>玻璃核心路線（Glass Core）</h4>
+      <p>研究最久（2023 就宣布業界首個玻璃核心基板），直接把 ABF 有機核心換成玻璃，目標延續摩爾定律到 2030 後；規劃在美國新墨西哥設量產基地。</p></div>
+    <div class="scard"><div class="num" style="color:var(--purple)">三星 / Absolics</div><h4>玻璃核心 + 中介層</h4>
+      <p>三星（透過 SEMCO）布局玻璃核心、規劃 2027 量產；SKC 旗下 Absolics 在美國喬治亞建「全球首條」玻璃基板量產線，已進入客戶認證。</p></div>
+  </div>
+
+  <div class="callout b"><div class="t">為什麼這件事被講成「續命摩爾定律」</div>
+  當電晶體微縮越來越難，<b>先進封裝</b>就成了延續算力成長的主戰場。玻璃基板同時解決面積、訊號、翹曲三個瓶頸，
+  所以連 Intel 都說它是延續摩爾定律到 2030 後的關鍵技術。這是一個 <b>0 → 1</b> 的大趨勢——就像前幾年的矽光子與液冷散熱。</div>
+</div></section>
+
+<footer class="footer"><div class="wrap">
+  <div>CoPoS × 玻璃基板 × TGV｜視覺化技術解說</div>
+  <div class="disc">註：本頁聚焦技術原理、產業時程與供應鏈分工。內文提到的公司、股號、時間點與良率/利用率數字，整理自你提供的素材與公開報導（含台積電 2026/6 股東會、媒體與券商整理），技術與商轉時程仍可能變動。卡片上的「護城河／可替代性」是基於公開資訊的<b>產業分析判讀，不是投資評等</b>，也<b>不構成任何投資建議或買賣推薦</b>。個股財報、訂單與量產進度請自行向公開資訊觀測站等來源查證，並自行評估風險。</div>
+</div></footer>
+
+<script>
+/* scroll reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:0,rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* TGV stepper */
+const STEPS=[
+  {n:'01',t:'鑽孔',s:'雷射/化學',svg:'drill',d:'用<b>雷射或化學</b>方式，在脆硬的玻璃上精準打出成千上萬個微孔。力道稍一不對就會產生肉眼看不見的微裂痕。'},
+  {n:'02',t:'濕蝕刻',s:'修孔',svg:'etch',d:'剛打完的洞孔壁像狗啃的一樣粗糙，用<b>化學藥水</b>洗一洗，把孔壁修得非常滑順。'},
+  {n:'03',t:'AOI 檢測',s:'品質檢查',svg:'aoi',d:'派出超強<b>光學相機 + AI</b>，逐一檢查這幾萬個洞有沒有裂痕或瑕疵。良率管控的第一道防線。'},
+  {n:'04',t:'種子層',s:'Seed Layer',svg:'seed',d:'銅沒辦法直接黏在玻璃上，先鍍一層<b>超薄金屬底漆</b>當作後續電鍍的附著基礎。'},
+  {n:'05',t:'鍍銅填孔',s:'填孔',svg:'fill',d:'用電鍍把<b>銅完美填進又深又窄的孔</b>。填不均勻就會留下氣泡（空洞 void），這條訊號路就斷了。'},
+  {n:'06',t:'完成 TGV',s:'導電通孔',svg:'done',d:'原本絕緣的玻璃，正式變身成<b>可上下導通的超級導電體</b>。最高含金量的良率關卡至此完成。'}
+];
+const stepsEl=document.getElementById('steps');
+const descEl=document.getElementById('tgvdesc');
+const holesEl=document.getElementById('holes');
+const toolEl=document.getElementById('tool');
+const xs=[70,110,150,190,230];
+STEPS.forEach((st,i)=>{
+  const d=document.createElement('div');d.className='step';d.dataset.i=i;
+  d.innerHTML=`<div class="sn">${st.n}</div><div class="st">${st.t}</div><div class="ss">${st.s}</div>`;
+  d.onclick=()=>{set(i);stop()};
+  stepsEl.appendChild(d);
+});
+function draw(stage){
+  let h='',t='';
+  if(stage==='drill'){
+    xs.forEach(x=>h+=`<rect x="${x-3}" y="55" width="6" height="46" fill="#0d1426" stroke="#73e3ff" stroke-width=".5"/>`);
+    t=`<g><path d="M150,12 v32" stroke="#cfd6e2" stroke-width="6"/><polygon points="145,44 155,44 150,56" fill="#e4e9f0"/><line x1="150" y1="56" x2="150" y2="78" stroke="#ff6f6f" stroke-width="1.5" stroke-dasharray="3 3"><animate attributeName="stroke-dashoffset" values="0;-12" dur=".5s" repeatCount="indefinite"/></line></g>`;
+  } else if(stage==='etch'){
+    xs.forEach(x=>h+=`<rect x="${x-4}" y="55" width="8" height="46" rx="3" fill="#0d1426" stroke="#9ad8ff" stroke-width=".8"/>`);
+    t=`<rect x="30" y="44" width="240" height="12" rx="5" fill="rgba(115,227,255,.4)"><animate attributeName="opacity" values=".3;.7;.3" dur="1s" repeatCount="indefinite"/></rect>`;
+  } else if(stage==='aoi'){
+    xs.forEach(x=>h+=`<rect x="${x-4}" y="55" width="8" height="46" rx="3" fill="#0d1426" stroke="#9ad8ff" stroke-width=".8"/>`);
+    t=`<polygon points="142,8 158,8 166,40 134,40" fill="#333a4a"/><circle cx="150" cy="44" r="5" fill="#73e3ff"><animate attributeName="opacity" values=".4;1;.4" dur=".7s" repeatCount="indefinite"/></circle><line x1="150" y1="49" x2="150" y2="78" stroke="#73e3ff" stroke-width="14" opacity=".16"/>`;
+  } else if(stage==='seed'){
+    xs.forEach(x=>h+=`<rect x="${x-4}" y="55" width="8" height="46" rx="3" fill="none" stroke="#ffb978" stroke-width="2"/>`);
+    t='';
+  } else if(stage==='fill'){
+    xs.forEach((x,k)=>h+=`<rect x="${x-4}" y="55" width="8" height="46" rx="3" fill="#e8852b"><animate attributeName="height" from="0" to="46" dur=".9s" begin="${k*.12}s" fill="freeze"/></rect>`);
+    t='';
+  } else if(stage==='done'){
+    xs.forEach(x=>h+=`<rect x="${x-4}" y="50" width="8" height="56" rx="3" fill="#ffb978" stroke="#e8852b"/>`);
+    h+=`<text x="150" y="130" fill="#46e08a" font-size="13" text-anchor="middle" font-weight="700">✓ 導電完成</text>`;
+    t='';
+  }
+  holesEl.innerHTML=h;toolEl.innerHTML=t;
+}
+let cur=-1,timer=null;
+function set(i){
+  cur=i;
+  document.querySelectorAll('.step').forEach((s,k)=>s.classList.toggle('active',k===i));
+  descEl.innerHTML=`<b>${STEPS[i].n} ${STEPS[i].t}</b>　${STEPS[i].d}`;
+  draw(STEPS[i].svg);
+}
+function play(){set((cur+1)%STEPS.length)}
+function start(){timer=setInterval(play,2600)}
+function stop(){if(timer){clearInterval(timer);timer=null}}
+set(0);
+/* autoplay only when section visible */
+const tgvIO=new IntersectionObserver(es=>es.forEach(e=>{e.isIntersecting?(!timer&&start()):stop()}),{threshold:.3});
+tgvIO.observe(document.querySelector('.tgv'));
+
+/* industry map tabs */
+(function(){
+  const tabs=document.querySelectorAll('.mtab');
+  const panels=document.querySelectorAll('.mappanel');
+  tabs.forEach(t=>t.addEventListener('click',()=>{
+    const n=t.dataset.layer;
+    tabs.forEach(x=>x.classList.toggle('active',x===t));
+    panels.forEach(p=>p.classList.toggle('active',p.dataset.layer===n));
+  }));
+})();
+</script>
+</body>
+</html>

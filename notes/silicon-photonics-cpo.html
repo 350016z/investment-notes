@@ -1,0 +1,3751 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>矽光子 × CPO 圖鑑 — AI 時代的傳輸神經</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&family=Noto+Serif+TC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050810;
+    --bg-soft: #0a1020;
+    --bg-card: #0d1424;
+    --bg-elev: #121a2e;
+    --ink: #e8ecf5;
+    --ink-dim: #9aa5bc;
+    --ink-faint: #5a6478;
+    --laser: #ff5577;
+    --photon: #4dd0e1;
+    --silicon: #ffd166;
+    --emerald: #4ade80;
+    --violet: #a78bfa;
+    --grid: rgba(77, 208, 225, 0.05);
+    --line: rgba(232, 236, 245, 0.10);
+    --line-bright: rgba(232, 236, 245, 0.25);
+    --serif: 'Noto Serif TC', 'Cormorant Garamond', serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--serif);
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.75;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(ellipse at 15% 5%, rgba(255, 85, 119, 0.05), transparent 55%),
+      radial-gradient(ellipse at 85% 25%, rgba(77, 208, 225, 0.04), transparent 55%),
+      radial-gradient(ellipse at 50% 90%, rgba(167, 139, 250, 0.03), transparent 55%);
+    background-attachment: fixed;
+  }
+
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+  .container-wide { max-width: 1360px; margin: 0 auto; padding: 0 32px; }
+  .mono { font-family: var(--mono); letter-spacing: 0.02em; }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(5, 8, 16, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+  }
+  .nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 32px;
+    gap: 16px;
+  }
+  .nav-brand {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--photon);
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .nav-links {
+    display: flex;
+    gap: 4px;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+  .nav-links a {
+    color: var(--ink-dim);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: all 0.3s;
+    text-transform: uppercase;
+  }
+  .nav-links a:hover { color: var(--photon); }
+  @media (max-width: 850px) {
+    .nav-inner { flex-direction: column; gap: 10px; }
+    .nav-links { font-size: 10px; }
+    .nav-links a { padding: 4px 8px; }
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    padding: 140px 0 80px;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  @media (max-width: 1000px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--photon);
+    margin-bottom: 28px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 32px; height: 1px;
+    background: var(--photon);
+  }
+
+  .hero h1 {
+    font-size: clamp(52px, 8vw, 110px);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 28px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 500;
+    background: linear-gradient(135deg, var(--laser) 0%, var(--photon) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero h2 {
+    font-size: clamp(20px, 2.4vw, 30px);
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 32px;
+    line-height: 1.4;
+    letter-spacing: -0.005em;
+  }
+  .hero-sub {
+    font-size: 17px;
+    color: var(--ink-dim);
+    margin-bottom: 48px;
+    line-height: 1.85;
+    max-width: 580px;
+  }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    max-width: 480px;
+  }
+  .stat { border-left: 2px solid var(--photon); padding-left: 18px; }
+  .stat-num {
+    font-family: var(--mono);
+    font-size: 28px;
+    color: var(--ink);
+    font-weight: 500;
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+  }
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  .hero-visual {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* ===== SECTION ===== */
+  section { padding: 120px 0; position: relative; }
+  section.alt { background: linear-gradient(180deg, transparent, rgba(77, 208, 225, 0.025), transparent); }
+
+  .chapter-mark {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--photon);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .chapter-mark::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: var(--photon);
+    border-radius: 50%;
+    box-shadow: 0 0 14px var(--photon);
+  }
+  .section-title {
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 300;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    margin-bottom: 28px;
+    max-width: 900px;
+  }
+  .section-title em { font-style: italic; color: var(--photon); font-weight: 400; }
+  .lead {
+    font-size: 18px;
+    color: var(--ink-dim);
+    max-width: 760px;
+    margin-bottom: 64px;
+    line-height: 1.85;
+  }
+
+  /* ===== Prose ===== */
+  .prose { max-width: 760px; margin: 0 auto; }
+  .prose-block { margin-bottom: 48px; }
+  .prose-h {
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .prose-h-small {
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 28px 0 12px;
+    letter-spacing: -0.005em;
+  }
+  .prose p {
+    color: var(--ink-dim);
+    margin-bottom: 16px;
+    font-size: 16px;
+    line-height: 1.85;
+  }
+  .prose strong { color: var(--ink); font-weight: 500; }
+  .prose em { color: var(--photon); font-style: italic; }
+  .prose .term { color: var(--silicon); font-weight: 500; font-style: normal; }
+
+  .callout {
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--photon);
+    padding: 22px 26px;
+    margin: 28px 0;
+    background: rgba(77, 208, 225, 0.04);
+    border-radius: 0 4px 4px 0;
+  }
+  .callout-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--photon);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .callout p { margin-bottom: 8px; color: var(--ink); font-size: 15px; }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout.warn { border-left-color: var(--silicon); background: rgba(255, 209, 102, 0.04); }
+  .callout.warn .callout-label { color: var(--silicon); }
+  .callout.danger { border-left-color: var(--laser); background: rgba(255, 85, 119, 0.04); }
+  .callout.danger .callout-label { color: var(--laser); }
+
+  .analogy {
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.06), rgba(77, 208, 225, 0.04));
+    border: 1px dashed rgba(167, 139, 250, 0.25);
+    padding: 26px 30px;
+    margin: 28px 0;
+    border-radius: 4px;
+  }
+  .analogy-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--violet);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .analogy h4 { font-size: 18px; font-weight: 500; color: var(--ink); margin-bottom: 10px; }
+  .analogy p { color: var(--ink-dim); font-size: 15px; line-height: 1.7; margin-bottom: 0; }
+
+  /* ===== 銅 vs 光 對比區 (從 v1 復刻並縮小) ===== */
+  .compare-wrap {
+    max-width: 900px;
+    margin: 60px auto 0;
+    border: 1px solid var(--line);
+    background: var(--bg-card);
+    padding: 32px;
+    border-radius: 6px;
+  }
+  .compare-toggle {
+    display: inline-flex;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 4px;
+    margin-bottom: 24px;
+  }
+  .compare-toggle button {
+    background: none;
+    border: none;
+    color: var(--ink-dim);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    padding: 9px 18px;
+    cursor: pointer;
+    border-radius: 999px;
+    transition: all 0.3s;
+    text-transform: uppercase;
+  }
+  .compare-toggle button.active { background: var(--ink); color: var(--bg); }
+  .compare-svg-container {
+    width: 100%;
+    height: 240px;
+    position: relative;
+  }
+  .compare-svg-container svg { width: 100%; height: 100%; }
+  .compare-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+  @media (max-width: 600px) { .compare-meta { grid-template-columns: 1fr; gap: 8px; } }
+  .meta-cell {}
+  .meta-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .meta-val { font-size: 20px; font-weight: 500; }
+  .meta-val.copper { color: var(--silicon); }
+  .meta-val.optical { color: var(--photon); }
+
+  /* ===== Chapter 02 上下同框佈局（V1 風格 + V3 互動） ===== */
+  .journey-frame {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 32px 36px;
+  }
+  @media (max-width: 600px) { .journey-frame { padding: 22px 18px; } }
+  .journey-svg-wrap {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  .journey-svg-wrap svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .journey-controls-inline {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 16px 0;
+    margin: 8px 0 24px;
+  }
+  .journey-detail-inline {
+    padding-top: 4px;
+  }
+  .journey-detail-inline h4 {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .journey-detail-inline .en {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--photon);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .journey-detail-inline .qa { margin-bottom: 14px; }
+  .journey-detail-inline .q-content {
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.85;
+  }
+  .journey-detail-inline .q-content strong { color: var(--silicon); font-weight: 500; }
+  .journey-detail-inline .q-content em { color: var(--photon); font-style: italic; }
+  .journey-detail-inline .q-content .key { color: var(--laser); font-weight: 500; }
+
+  /* ===== 左右並排 (anatomy + journey 共用) ===== */
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+  }
+  @media (max-width: 1100px) {
+    .split { grid-template-columns: 1fr; gap: 24px; }
+  }
+  .split-left { position: sticky; top: 90px; }
+  @media (max-width: 1100px) { .split-left { position: static; } }
+  .split-right { min-width: 0; }
+
+  .stage-box {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .stage-box svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* ===== Anatomy Pick Grid (左欄) ===== */
+  .pick-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  @media (max-width: 500px) { .pick-grid { grid-template-columns: repeat(2, 1fr); } }
+  .pick-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 12px 10px;
+    text-align: left;
+    cursor: pointer;
+    color: var(--ink);
+    font-family: var(--serif);
+    transition: all 0.25s;
+  }
+  .pick-btn:hover { border-color: var(--line-bright); background: rgba(255,255,255,0.02); }
+  .pick-btn.active {
+    border-color: var(--photon);
+    background: rgba(77, 208, 225, 0.08);
+    box-shadow: 0 0 0 1px var(--photon);
+  }
+  .pick-num {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--photon);
+    letter-spacing: 0.18em;
+    margin-bottom: 4px;
+  }
+  .pick-name { font-size: 14px; font-weight: 500; line-height: 1.3; }
+
+  /* ===== 右欄詳解 ===== */
+  .detail-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 36px 40px;
+    min-height: 600px;
+  }
+  @media (max-width: 600px) { .detail-card { padding: 24px 22px; min-height: auto; } }
+  .detail-card h4 {
+    font-size: 26px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .detail-card .en {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--photon);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .detail-card .qa {
+    margin-bottom: 22px;
+  }
+  .detail-card .q-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .detail-card .q-label::before {
+    content: '';
+    width: 16px; height: 1px;
+    background: var(--ink-faint);
+  }
+  .detail-card .q-content {
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.8;
+  }
+  .detail-card .q-content strong { color: var(--silicon); font-weight: 500; }
+  .detail-card .q-content em { color: var(--photon); font-style: italic; }
+  .detail-card .q-content .key { color: var(--laser); font-weight: 500; }
+
+  /* ===== 旅程控制按鈕 ===== */
+  .journey-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  .ctrl-btn {
+    border: 1px solid var(--photon);
+    background: transparent;
+    color: var(--photon);
+    padding: 10px 18px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 4px;
+  }
+  .ctrl-btn:hover { background: var(--photon); color: var(--bg); }
+  .ctrl-btn.secondary { border-color: var(--line-bright); color: var(--ink-dim); }
+  .ctrl-btn.secondary:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .step-progress {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.1em;
+  }
+  .step-progress .now { color: var(--photon); }
+
+  /* ===== Chapter 04 並列對比卡片 ===== */
+  .versus-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 60px;
+  }
+  @media (max-width: 1100px) { .versus-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .versus-grid { grid-template-columns: 1fr; } }
+  .versus-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 24px 22px;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+  }
+  .versus-card:hover { transform: translateY(-2px); border-color: var(--line-bright); }
+  .versus-card[data-tier="cpo"] { border-top: 2px solid var(--photon); }
+  .versus-card[data-tier="lpo"] { border-top: 2px solid var(--silicon); }
+  .versus-card[data-tier="npo"] { border-top: 2px solid var(--ink-dim); }
+  .versus-card[data-tier="ocs"] { border-top: 2px solid var(--violet); }
+
+  .versus-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .versus-name {
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .versus-en {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--photon);
+    margin-bottom: 14px;
+    word-break: break-word;
+  }
+  [data-tier="lpo"] .versus-en { color: var(--silicon); }
+  [data-tier="npo"] .versus-en { color: var(--ink-dim); }
+  [data-tier="ocs"] .versus-en { color: var(--violet); }
+
+  .versus-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    border: 1px solid var(--line);
+    padding: 3px 8px;
+    border-radius: 999px;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .versus-tag.deployed { color: var(--emerald); border-color: rgba(74, 222, 128, 0.3); }
+  .versus-tag.coming { color: var(--photon); border-color: rgba(77, 208, 225, 0.3); }
+  .versus-tag.future { color: var(--violet); border-color: rgba(167, 139, 250, 0.3); }
+
+  .versus-svg {
+    height: 110px;
+    margin: 8px 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .versus-svg svg { width: 100%; height: 100%; max-width: 240px; }
+
+  .versus-tagline {
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 14px;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+  .versus-desc {
+    font-size: 13px;
+    color: var(--ink-dim);
+    line-height: 1.65;
+    margin-bottom: 16px;
+    flex-grow: 1;
+  }
+  .versus-desc strong { color: var(--ink); }
+  .versus-desc em { color: var(--photon); font-style: italic; }
+
+  .versus-specs {
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
+  }
+  .versus-spec-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-bottom: 6px;
+    gap: 8px;
+  }
+  .versus-spec-row dt {
+    font-family: var(--mono);
+    color: var(--ink-faint);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .versus-spec-row dd { color: var(--ink); text-align: right; }
+
+  /* ===== Chapter 04 補充表格 ===== */
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 48px;
+    font-size: 13px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .summary-table th, .summary-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .summary-table thead th {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    background: rgba(77, 208, 225, 0.06);
+    font-weight: 500;
+  }
+  .summary-table thead th:nth-child(2) { color: var(--photon); }
+  .summary-table thead th:nth-child(3) { color: var(--silicon); }
+  .summary-table thead th:nth-child(4) { color: var(--ink-dim); }
+  .summary-table thead th:nth-child(5) { color: var(--violet); }
+  .summary-table tbody th {
+    font-weight: 500;
+    color: var(--ink);
+    background: rgba(255,255,255,0.02);
+    font-size: 13px;
+    width: 130px;
+  }
+  .summary-table td { color: var(--ink-dim); line-height: 1.6; font-size: 12.5px; }
+  .summary-table tbody tr:last-child td, .summary-table tbody tr:last-child th { border-bottom: none; }
+  .summary-table .good { color: var(--emerald); }
+  .summary-table .bad { color: var(--laser); }
+  .summary-table .mid { color: var(--silicon); }
+  @media (max-width: 850px) {
+    .summary-table { font-size: 11px; }
+    .summary-table th, .summary-table td { padding: 10px 8px; }
+    .summary-table tbody th { width: 80px; }
+  }
+
+  /* ===== Chapter 05 廠商 ===== */
+  .eco-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 0;
+    flex-wrap: wrap;
+  }
+  .eco-tab {
+    background: transparent;
+    border: none;
+    color: var(--ink-dim);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 14px 20px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+  }
+  .eco-tab:hover { color: var(--ink); }
+  .eco-tab.active { color: var(--photon); border-bottom-color: var(--photon); }
+  .eco-content { padding: 48px 0; display: none; }
+  .eco-content.active { display: block; }
+  .eco-layer { margin-bottom: 56px; }
+  .eco-layer-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .eco-layer-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--photon);
+    letter-spacing: 0.2em;
+  }
+  .eco-layer-name {
+    font-size: 24px;
+    font-weight: 500;
+    flex: 1;
+    letter-spacing: -0.01em;
+  }
+  .eco-layer-en { font-family: var(--mono); font-size: 11px; color: var(--ink-dim); }
+  .eco-layer-explain {
+    color: var(--ink-dim);
+    font-size: 15px;
+    margin-bottom: 14px;
+    line-height: 1.85;
+    max-width: 760px;
+  }
+  .eco-layer-explain strong { color: var(--ink); }
+  .eco-layer-explain em { color: var(--photon); font-style: italic; }
+  .eco-layer-explain .term { color: var(--silicon); font-weight: 500; }
+  .eco-difficulty {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--silicon);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding: 4px 12px;
+    background: rgba(255, 209, 102, 0.06);
+    border: 1px solid rgba(255, 209, 102, 0.2);
+    border-radius: 999px;
+  }
+  .companies {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .company {
+    border: 1px solid var(--line);
+    padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.012), transparent);
+    transition: all 0.3s;
+    border-radius: 4px;
+  }
+  .company:hover {
+    border-color: var(--line-bright);
+    transform: translateY(-2px);
+    background: rgba(77, 208, 225, 0.03);
+  }
+  .company-name {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    line-height: 1.3;
+  }
+  .company-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--ink-faint);
+    border: 1px solid var(--line);
+    padding: 2px 6px;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+  .company-tag.tw { color: var(--silicon); border-color: rgba(255, 209, 102, 0.3); }
+  .company-tag.us { color: var(--photon); border-color: rgba(77, 208, 225, 0.3); }
+  .company-role { font-size: 12.5px; color: var(--ink-dim); line-height: 1.6; margin-top: 4px; }
+  .company-role strong { color: var(--ink); font-weight: 500; }
+
+  /* ===== Chapter 05 新增：產業鏈兩欄佈局 ===== */
+  .eco-split {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.4fr);
+    gap: 36px;
+    align-items: start;
+  }
+  @media (max-width: 1100px) {
+    .eco-split { grid-template-columns: 1fr; gap: 24px; }
+  }
+  .eco-chain-wrap {
+    position: sticky;
+    top: 90px;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 24px 20px;
+  }
+  @media (max-width: 1100px) { .eco-chain-wrap { position: static; } }
+  .eco-chain-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .eco-chain-hint {
+    color: var(--photon);
+    font-style: normal;
+    text-transform: none;
+    letter-spacing: 0.08em;
+  }
+  /* 流向圖：每個方塊 + 中間箭頭 */
+  .eco-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .eco-node {
+    background: transparent;
+    border: 1.5px solid var(--line);
+    border-radius: 4px;
+    padding: 12px 14px;
+    cursor: pointer;
+    text-align: left;
+    color: var(--ink);
+    font-family: var(--serif);
+    transition: all 0.25s;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .eco-node:hover { border-color: var(--line-bright); background: rgba(255,255,255,0.02); }
+  .eco-node.active {
+    border-color: var(--photon);
+    background: rgba(77, 208, 225, 0.10);
+    box-shadow: 0 0 0 1px var(--photon), 0 4px 20px rgba(77,208,225,0.18);
+  }
+  .eco-node-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--photon);
+    letter-spacing: 0.15em;
+    flex-shrink: 0;
+    width: 30px;
+  }
+  .eco-node-text {
+    flex: 1;
+    min-width: 0;
+  }
+  .eco-node-name {
+    font-size: 14.5px;
+    font-weight: 500;
+    line-height: 1.3;
+    margin-bottom: 2px;
+  }
+  .eco-node-sub {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+    line-height: 1.3;
+  }
+  .eco-node-position {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--ink-faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .eco-node.active .eco-node-position { color: var(--photon); }
+  /* 中間流向箭頭 */
+  .eco-arrow {
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-faint);
+    pointer-events: none;
+    font-size: 16px;
+    line-height: 1;
+  }
+  .eco-flow-legend {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--ink-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1.7;
+  }
+  .eco-flow-legend strong { color: var(--photon); font-weight: 400; }
+
+  /* 右欄：選中的層詳解 */
+  .eco-detail-pane {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 32px 36px;
+    min-height: 720px;
+  }
+  @media (max-width: 600px) { .eco-detail-pane { padding: 22px 20px; min-height: auto; } }
+  .eco-detail-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--photon);
+    letter-spacing: 0.2em;
+    margin-bottom: 6px;
+  }
+  .eco-detail-name {
+    font-size: 26px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .eco-detail-en {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+
+  /* 廠商分群（按國家/角色） */
+  .company-group {
+    margin-top: 24px;
+  }
+  .company-group-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .company-group-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+  .company-group-title.tw { color: var(--silicon); }
+  .company-group-title.us { color: var(--photon); }
+  .company-group-title.other { color: var(--violet); }
+
+  /* ===== Timeline ===== */
+  .timeline {
+    position: relative;
+    padding-left: 36px;
+    border-left: 1px dashed var(--line);
+    max-width: 820px;
+    margin: 60px auto 0;
+  }
+  .timeline-item { margin-bottom: 56px; position: relative; }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -43px;
+    top: 6px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--photon);
+    box-shadow: 0 0 14px var(--photon);
+  }
+  .timeline-year {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--photon);
+    letter-spacing: 0.2em;
+    margin-bottom: 8px;
+  }
+  .timeline-h {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .timeline-p {
+    color: var(--ink-dim);
+    font-size: 15px;
+    line-height: 1.85;
+  }
+  .timeline-p strong { color: var(--ink); }
+
+  .outro {
+    border-top: 1px solid var(--line);
+    padding: 80px 0;
+    text-align: center;
+  }
+  .outro p {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* ===== 動畫 ===== */
+  @keyframes pulse-photon { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+  @keyframes flow-photon { 0% { stroke-dashoffset: 200; } 100% { stroke-dashoffset: 0; } }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s, transform 0.8s; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .photon-pulse { animation: pulse-photon 2.4s ease-in-out infinite; }
+  .light-beam { stroke-dasharray: 8 6; animation: flow-photon 2s linear infinite; }
+
+  /* ===== Chapter 03 · 光引擎內部分工 ===== */
+
+  /* 名詞釐清三卡 */
+  .terms-wrap { margin-bottom: 40px; }
+  .terms-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 900px) {
+    .terms-grid { grid-template-columns: 1fr; gap: 14px; }
+  }
+  .term-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s;
+  }
+  .term-card:hover { border-color: var(--line-bright); transform: translateY(-2px); }
+  .term-card-l { border-top: 2px solid var(--violet); }
+  .term-card-m { border-top: 2px solid var(--photon); }
+  .term-card-s { border-top: 2px solid var(--silicon); }
+  .term-card-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .term-card-name {
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .term-card-en {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .term-card-desc {
+    font-size: 14px;
+    color: var(--ink-dim);
+    line-height: 1.7;
+    margin-bottom: 18px;
+    flex: 1;
+  }
+  .term-card-desc em { color: var(--photon); font-style: italic; }
+  .term-card-svg {
+    width: 100%;
+    height: 60px;
+    margin-top: auto;
+  }
+
+  /* PIC 內部架構圖容器 */
+  .pic-anatomy-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 28px 24px;
+    margin-bottom: 0;
+  }
+  .pic-anatomy-wrap svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .pic-elem { transition: all 0.3s; }
+
+  /* PIC vs EIC 對比卡片 */
+  .pic-eic-versus {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    gap: 0;
+    align-items: stretch;
+  }
+  @media (max-width: 900px) {
+    .pic-eic-versus { grid-template-columns: 1fr; gap: 20px; }
+    .pe-bridge { display: none; }
+  }
+  .pe-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 28px 26px;
+    display: flex;
+    flex-direction: column;
+  }
+  .pe-pic { border-top: 3px solid var(--photon); }
+  .pe-eic { border-top: 3px solid var(--violet); }
+
+  .pe-card-head { margin-bottom: 20px; }
+  .pe-card-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 6px;
+  }
+  .pe-pic .pe-card-tag { color: var(--photon); }
+  .pe-eic .pe-card-tag { color: var(--violet); }
+  .pe-card-title {
+    font-size: 38px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 6px;
+    font-family: var(--mono);
+  }
+  .pe-pic .pe-card-title { color: var(--photon); }
+  .pe-eic .pe-card-title { color: var(--violet); }
+  .pe-card-en {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .pe-card-summary {
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.7;
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+  }
+  .pe-card-summary em { color: var(--photon); font-style: italic; }
+
+  .pe-card-roles { flex: 1; }
+  .pe-role {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+  .pe-role-icon {
+    flex-shrink: 0;
+    width: 18px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.4;
+    padding-top: 1px;
+  }
+  .pe-role strong {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 3px;
+  }
+  .pe-role span {
+    font-size: 13px;
+    color: var(--ink-dim);
+    line-height: 1.6;
+  }
+
+  .pe-card-foot {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+  .pe-foot-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .pe-foot-val {
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  .pe-bridge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .pe-bridge svg {
+    width: 100%;
+    height: 280px;
+  }
+
+  /* EML 兩路線對比 */
+  .eml-compare-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 32px 28px;
+  }
+  .eml-compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 1000px) {
+    .eml-compare-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+  .eml-route {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 22px 20px;
+  }
+  .eml-route-head { margin-bottom: 16px; }
+  .eml-route-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .eml-route-title {
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    letter-spacing: -0.005em;
+  }
+  .eml-route-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .eml-route svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 8px;
+  }
+
+  /* 路線總結 */
+  .route-summary {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 8px 0;
+  }
+  .route-item {
+    display: flex;
+    gap: 22px;
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--line);
+    align-items: flex-start;
+  }
+  .route-item:last-child { border-bottom: none; }
+  .route-item-num {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--photon);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    flex-shrink: 0;
+    width: 40px;
+  }
+  .route-item-content strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .route-item-content span {
+    display: block;
+    font-size: 14px;
+    color: var(--ink-dim);
+    line-height: 1.7;
+  }
+
+  /* ===== 雙光引擎互通示意 (Section 3.4) ===== */
+  .dual-engine-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 24px 20px;
+  }
+  .dual-engine-wrap svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* ===== Section 3.6 現在/過渡/未來 三階段卡片 ===== */
+  .era-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 900px) {
+    .era-grid { grid-template-columns: 1fr; gap: 14px; }
+  }
+  .era-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .era-now { border-top: 3px solid var(--silicon); }
+  .era-bridge { border-top: 3px solid var(--photon); }
+  .era-future { border-top: 3px solid var(--emerald); }
+  .era-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .era-now .era-tag { color: var(--silicon); }
+  .era-bridge .era-tag { color: var(--photon); }
+  .era-future .era-tag { color: var(--emerald); }
+  .era-title {
+    font-size: 19px;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .era-body p {
+    font-size: 13.5px;
+    color: var(--ink-dim);
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+  .era-body p:last-child { margin-bottom: 0; }
+  .era-body strong { color: var(--ink); font-weight: 500; }
+  .era-body em { color: var(--photon); font-style: italic; }
+  .era-body .key { color: var(--laser); font-weight: 500; }
+  .era-note {
+    margin-top: 4px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--line);
+    font-size: 12.5px !important;
+  }
+
+</style>
+</head>
+<body>
+<a href="../index.html" style="position:fixed;top:66px;left:14px;z-index:9999;font-family:'JetBrains Mono','Noto Sans TC',monospace;font-size:12px;letter-spacing:.06em;color:rgba(235,235,235,.75);background:rgba(10,12,20,.72);border:1px solid rgba(255,255,255,.18);padding:7px 14px;border-radius:99px;text-decoration:none;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,.45)'" onmouseout="this.style.color='rgba(235,235,235,.75)';this.style.borderColor='rgba(255,255,255,.18)'">← 檔案室首頁</a>
+
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">SiPh × CPO · Field Guide</div>
+    <ul class="nav-links">
+      <li><a href="#ch01">01 簡介</a></li>
+      <li><a href="#ch02">02 訊號旅程</a></li>
+      <li><a href="#ch03">03 光引擎內部</a></li>
+      <li><a href="#ch04">04 CPO 解剖</a></li>
+      <li><a href="#ch05">05 規格對比</a></li>
+      <li><a href="#ch06">06 廠商</a></li>
+      <li><a href="#ch07">07 路線</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">A Visual Field Guide · 2026</div>
+        <h1>光<em>進</em>銅<em>退</em>。</h1>
+        <h2>矽光子 × CPO，AI 時代的傳輸神經。</h2>
+        <p class="hero-sub">
+          當 GPU 邁向百萬卡規模，銅線已逼近物理極限。光，正成為晶片之間新的對話方式 —— 本指南帶你看懂每個零件、每個步驟、每家廠商在做什麼。
+        </p>
+        <div class="hero-stats">
+          <div class="stat"><div class="stat-num">172%</div><div class="stat-label">CPO CAGR</div></div>
+          <div class="stat"><div class="stat-num">$93B</div><div class="stat-label">2030 規模</div></div>
+          <div class="stat"><div class="stat-num">&gt;50%</div><div class="stat-label">I/O 功耗削減</div></div>
+          <div class="stat"><div class="stat-num">2026</div><div class="stat-label">商轉元年</div></div>
+        </div>
+      </div>
+
+      <svg class="hero-visual" viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="240" cy="240" r="220" stroke="rgba(77,208,225,0.06)" stroke-width="1"/>
+        <circle cx="240" cy="240" r="170" stroke="rgba(77,208,225,0.10)" stroke-width="1"/>
+        <circle cx="240" cy="240" r="120" stroke="rgba(77,208,225,0.16)" stroke-width="1"/>
+        <circle cx="240" cy="240" r="70" stroke="rgba(77,208,225,0.22)" stroke-width="1"/>
+        <rect x="210" y="210" width="60" height="60" stroke="#4dd0e1" stroke-width="1.5" fill="rgba(77,208,225,0.08)"/>
+        <text x="240" y="245" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="11">XPU</text>
+        <rect x="125" y="230" width="40" height="20" fill="rgba(255,85,119,0.15)" stroke="#ff5577" stroke-width="1"/>
+        <rect x="315" y="230" width="40" height="20" fill="rgba(255,85,119,0.15)" stroke="#ff5577" stroke-width="1"/>
+        <rect x="230" y="125" width="20" height="40" fill="rgba(255,85,119,0.15)" stroke="#ff5577" stroke-width="1"/>
+        <rect x="230" y="315" width="20" height="40" fill="rgba(255,85,119,0.15)" stroke="#ff5577" stroke-width="1"/>
+        <g stroke="#4dd0e1" stroke-width="1.5" fill="none" class="light-beam">
+          <line x1="165" y1="240" x2="210" y2="240"/>
+          <line x1="270" y1="240" x2="315" y2="240"/>
+          <line x1="240" y1="165" x2="240" y2="210"/>
+          <line x1="240" y1="270" x2="240" y2="315"/>
+        </g>
+        <g stroke="#ff5577" stroke-width="1" stroke-dasharray="3 5" opacity="0.5">
+          <line x1="125" y1="240" x2="20" y2="240"/>
+          <line x1="355" y1="240" x2="460" y2="240"/>
+          <line x1="240" y1="125" x2="240" y2="20"/>
+          <line x1="240" y1="355" x2="240" y2="460"/>
+        </g>
+        <circle cx="20" cy="240" r="5" fill="#ff5577" class="photon-pulse"/>
+        <circle cx="460" cy="240" r="5" fill="#ff5577" class="photon-pulse"/>
+        <circle cx="240" cy="20" r="5" fill="#ff5577" class="photon-pulse"/>
+        <circle cx="240" cy="460" r="5" fill="#ff5577" class="photon-pulse"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CHAPTER 01 · 為什麼非光不可 ============ -->
+<section id="ch01">
+  <div class="container">
+    <div class="reveal">
+      <div class="chapter-mark">Chapter 01 · Why Light?</div>
+      <h2 class="section-title">為什麼，<em>非光不可</em>？</h2>
+      <p class="lead">
+        要理解 CPO 之前，先回答一個更根本的問題：<strong>為什麼資料中心要從銅線換成光纖？</strong>它們在傳什麼？哪裡不一樣？銅線到底撞到什麼牆？
+      </p>
+    </div>
+
+    <div class="prose reveal">
+
+      <div class="prose-block">
+        <h3 class="prose-h">電 vs. 光 —— 它們在傳什麼？</h3>
+        <p>
+          資料的本質是 <strong>0 和 1</strong>。要把 0 和 1 從晶片 A 送到晶片 B，必須有「載體」搬運。過去 70 年這個載體一直是<strong>電子</strong>：在銅線裡推動電子流動，用電壓的高低代表 0 和 1。
+        </p>
+        <p>
+          光也可以做同樣的事 —— 用<strong>光子</strong>當載體，用光的「亮/暗」或「強/弱」代表 0 和 1。光子有兩個電子永遠比不上的優點：<em>它沒有質量、不會互相干擾</em>。電子在銅線裡跑會發熱、會被旁邊的電子干擾（串音）；光子在光纖裡跑幾乎沒有阻力，不同光纖之間也完全不會互相影響。
+        </p>
+
+        <div class="analogy">
+          <div class="analogy-label">用一個比喻</div>
+          <h4>電子像在塞車的高速公路上跑的小貨車</h4>
+          <p>距離越長越塞，車禍越多，要不停加油（耗電）。光子則像高鐵 —— 軌道專屬、互不干擾、速度極快。當資料量達到 800 Gbps 以上，銅線高速公路已經塞到動不了，這就是為什麼必須換成光纖高鐵。</p>
+        </div>
+      </div>
+
+      <div class="prose-block">
+        <h3 class="prose-h">「矽光子」這個詞，到底是什麼意思？</h3>
+        <p>
+          光纖通訊本身已經發展 50 年，海底電纜、長途網路早就在用光了。但傳統光通訊有個老問題：光的元件（雷射、調製器、光偵測器）都是<strong>一個一個獨立的零件</strong>，要靠人手把它們組裝起來，像在組樂高積木。每一個接點都會漏光、增加成本、降低可靠度。
+        </p>
+        <p>
+          <span class="term">矽光子（Silicon Photonics, SiPh）</span> 的革命是：<em>把光的所有元件，用做半導體晶片的方式做在矽晶圓上</em>。一片矽晶圓裡同時有「光路」和「電路」，幾百個光元件一次「印」出來，不用一個一個焊接。這跟 50 年前 IC 取代分離式電晶體一樣 —— 是世代級變革。
+        </p>
+
+        <div class="callout">
+          <span class="callout-label">關鍵領悟</span>
+          <p>「矽光子」不是一種產品，是一種<strong>製造方式</strong>。它讓光元件可以像 CPU 一樣大量、便宜、高密度地生產。<strong>矽光子是底層工具，CPO 是它的應用之一</strong>。</p>
+        </div>
+      </div>
+
+      <div class="prose-block">
+        <h3 class="prose-h">那為什麼是「矽」？矽不是不會發光嗎？</h3>
+        <p>
+          這正是矽光子最弔詭的地方。矽是<strong>間接能隙</strong>半導體，物理上幾乎不會發光。但矽有一個無敵優勢：<em>全世界最成熟的半導體製造產業就是為它建的</em>。台積電、聯電、Intel、GlobalFoundries 的所有設備、製程、人員都圍繞著矽。
+        </p>
+        <p>
+          所以矽光子採取一個聰明的折衷：<strong>波導、調製器、光偵測器這些「不需要發光」的元件用矽做</strong>（用既有半導體廠線生產），<strong>真正會發光的雷射用磷化銦（InP）做</strong>（從外面接過來）。這個分工正是整個產業鏈的雛形 —— 也是為什麼台灣聯亞做 InP 磊晶、台積電做矽光子代工，兩者互相需要。
+        </p>
+      </div>
+
+    </div>
+
+    <!-- 互動：銅 vs 光 對比動畫 -->
+    <div class="reveal" style="max-width: 900px; margin: 80px auto 0;">
+      <h3 style="font-size: 22px; font-weight: 500; margin-bottom: 8px;">看圖比較：銅線 vs. 光纖</h3>
+      <p style="font-family: var(--mono); font-size: 11px; color: var(--ink-faint); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0;">點擊上方按鈕切換</p>
+    </div>
+
+    <div class="compare-wrap reveal">
+      <div class="compare-toggle" id="compareToggle">
+        <button class="active" data-mode="copper">銅線方案 / Copper</button>
+        <button data-mode="optical">光學方案 / Optical</button>
+      </div>
+      <div class="compare-svg-container" id="compareSvg"></div>
+      <div class="compare-meta" id="compareMeta">
+        <div class="meta-cell">
+          <div class="meta-label">每位元功耗</div>
+          <div class="meta-val copper" id="metaPower">~12 pJ/bit</div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-label">最大距離</div>
+          <div class="meta-val copper" id="metaDist">~3 公尺</div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-label">頻寬密度</div>
+          <div class="meta-val copper" id="metaBw">低</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ CHAPTER 02 · 訊號旅程（先講原理） ============ -->
+<section id="ch02" class="alt">
+  <div class="container">
+    <div class="reveal">
+      <div class="chapter-mark">Chapter 02 · The Journey</div>
+      <h2 class="section-title">先理解原理：<em>一個 0/1 位元的旅程</em></h2>
+      <p class="lead">
+        在拆 CPO 之前，先把<strong>光通訊的基本流程</strong>看一遍。我們追蹤一個位元從 GPU A 到 GPU B 的 9 個階段，按下方「下一步」逐站前進，看每一站發生了什麼物理現象。
+      </p>
+    </div>
+
+    <!-- 上下同框佈局：流程圖 + 控制按鈕 + 詳解全部在同一個方框 -->
+    <div class="journey-frame reveal">
+      <!-- 流程圖 -->
+      <div class="journey-svg-wrap">
+        <svg id="journeySvg" viewBox="0 0 1100 260" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <!-- 主流水平虛線 -->
+          <line x1="20" y1="130" x2="1080" y2="130" stroke="rgba(232,236,245,0.10)" stroke-width="1" stroke-dasharray="4 4"/>
+
+          <!-- ====== Tx Optical Engine 範圍框 (Driver + Modulator) ====== -->
+          <g id="txEngineOverlay" pointer-events="none">
+            <rect x="205" y="82" width="180" height="96"
+                  fill="rgba(77,208,225,0.035)"
+                  stroke="#4dd0e1"
+                  stroke-width="1"
+                  stroke-dasharray="6 4"
+                  rx="6"/>
+            <text x="295" y="78"
+                  text-anchor="middle"
+                  fill="#4dd0e1"
+                  font-family="JetBrains Mono"
+                  font-size="9"
+                  letter-spacing="1.5">
+              Tx OPTICAL ENGINE
+            </text>
+            <!-- EIC | PIC 分界虛線 -->
+            <line x1="295" y1="86" x2="295" y2="174" stroke="#4dd0e1" stroke-width="0.8" stroke-dasharray="3 2" opacity="0.6"/>
+            <text x="247" y="170" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="8" letter-spacing="1">EIC</text>
+            <text x="342" y="170" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="8" letter-spacing="1">PIC</text>
+          </g>
+
+          <!-- ====== Rx Optical Engine 範圍框 (PD + TIA) ====== -->
+          <g id="rxEngineOverlay" pointer-events="none">
+            <rect x="695" y="82" width="170" height="96"
+                  fill="rgba(77,208,225,0.035)"
+                  stroke="#4dd0e1"
+                  stroke-width="1"
+                  stroke-dasharray="6 4"
+                  rx="6"/>
+            <text x="780" y="78"
+                  text-anchor="middle"
+                  fill="#4dd0e1"
+                  font-family="JetBrains Mono"
+                  font-size="9"
+                  letter-spacing="1.5">
+              Rx OPTICAL ENGINE
+            </text>
+            <!-- PIC | EIC 分界虛線 -->
+            <line x1="780" y1="86" x2="780" y2="174" stroke="#4dd0e1" stroke-width="0.8" stroke-dasharray="3 2" opacity="0.6"/>
+            <text x="735" y="170" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="8" letter-spacing="1">PIC</text>
+            <text x="825" y="170" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="8" letter-spacing="1">EIC</text>
+          </g>
+
+          <!-- ====== 步驟 01: GPU A ====== -->
+          <g id="jstg-0">
+            <rect x="20" y="100" width="80" height="60" fill="rgba(167,139,250,0.10)" stroke="#a78bfa" stroke-width="1.5" rx="2"/>
+            <text x="60" y="135" text-anchor="middle" fill="#a78bfa" font-family="Noto Serif TC" font-size="13" font-weight="500">GPU A</text>
+            <text x="60" y="195" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="9" letter-spacing="1.5">01 · GPU</text>
+          </g>
+
+          <!-- ====== 步驟 02: Tx DSP ====== -->
+          <g id="jstg-1">
+            <rect x="115" y="110" width="70" height="40" fill="rgba(74,222,128,0.10)" stroke="#4ade80" stroke-width="1" rx="2"/>
+            <text x="150" y="128" text-anchor="middle" fill="#4ade80" font-family="JetBrains Mono" font-size="10">Tx DSP</text>
+            <text x="150" y="142" text-anchor="middle" fill="#4ade80" font-family="JetBrains Mono" font-size="8">數位處理</text>
+            <text x="150" y="195" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="9" letter-spacing="1.5">02 · DSP</text>
+          </g>
+
+          <!-- ====== 步驟 03: Driver (EIC) ====== -->
+          <g id="jstg-2">
+            <rect x="210" y="110" width="75" height="40" fill="rgba(77,208,225,0.12)" stroke="#4dd0e1" stroke-width="1.2" rx="2"/>
+            <text x="247" y="128" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="10">Driver</text>
+            <text x="247" y="142" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="8">驅動器</text>
+            <text x="247" y="195" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="9" letter-spacing="1.5">03 · Driver</text>
+          </g>
+
+          <!-- ====== 步驟 04: Modulator (PIC) ====== -->
+          <g id="jstg-3">
+            <rect x="305" y="110" width="75" height="40" fill="rgba(255,209,102,0.10)" stroke="#ffd166" stroke-width="1.2" rx="2"/>
+            <text x="342" y="128" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="10">Modulator</text>
+            <text x="342" y="142" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="8">調製器</text>
+            <!-- Laser 從上方注入 -->
+            <rect x="312" y="32" width="60" height="40" fill="rgba(255,85,119,0.15)" stroke="#ff5577" stroke-width="1.2" rx="2"/>
+            <text x="342" y="48" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="10">Laser</text>
+            <text x="342" y="62" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="8">CW · 外部 InP</text>
+            <line x1="342" y1="72" x2="342" y2="110" stroke="#ff5577" stroke-width="1.5" stroke-dasharray="3 2" class="light-beam"/>
+            <text x="342" y="195" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="9" letter-spacing="1.5">04 · E→O</text>
+          </g>
+
+          <!-- ====== 步驟 05: Fiber ====== -->
+          <g id="jstg-4">
+            <rect x="400" y="110" width="285" height="40" fill="rgba(255,209,102,0.05)" stroke="#ffd166" stroke-width="1" stroke-dasharray="4 2" rx="2"/>
+            <text x="542" y="128" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="11">FIBER · 光纖</text>
+            <text x="542" y="142" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="8">透過 FAU 對外</text>
+            <text x="542" y="195" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="9" letter-spacing="1.5">05 · Fiber</text>
+          </g>
+
+          <!-- ====== 步驟 06: PD (光偵測器, PIC) ====== -->
+          <g id="jstg-5">
+            <rect x="700" y="110" width="70" height="40" fill="rgba(255,209,102,0.10)" stroke="#ffd166" stroke-width="1.2" rx="2"/>
+            <text x="735" y="128" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="10">PD</text>
+            <text x="735" y="142" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="8">光偵測器</text>
+            <text x="735" y="195" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="9" letter-spacing="1.5">06 · O→E</text>
+          </g>
+
+          <!-- ====== 步驟 07: TIA (跨阻放大器, EIC) ====== -->
+          <g id="jstg-6">
+            <rect x="790" y="110" width="70" height="40" fill="rgba(77,208,225,0.12)" stroke="#4dd0e1" stroke-width="1.2" rx="2"/>
+            <text x="825" y="128" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="10">TIA</text>
+            <text x="825" y="142" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="8">跨阻放大</text>
+            <text x="825" y="195" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="9" letter-spacing="1.5">07 · TIA</text>
+          </g>
+
+          <!-- ====== 步驟 08: Rx DSP ====== -->
+          <g id="jstg-7">
+            <rect x="880" y="110" width="70" height="40" fill="rgba(74,222,128,0.10)" stroke="#4ade80" stroke-width="1" rx="2"/>
+            <text x="915" y="128" text-anchor="middle" fill="#4ade80" font-family="JetBrains Mono" font-size="10">Rx DSP</text>
+            <text x="915" y="142" text-anchor="middle" fill="#4ade80" font-family="JetBrains Mono" font-size="8">訊號修復</text>
+            <text x="915" y="195" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="9" letter-spacing="1.5">08 · DSP</text>
+          </g>
+
+          <!-- ====== 步驟 09: GPU B ====== -->
+          <g id="jstg-8">
+            <rect x="970" y="100" width="100" height="60" fill="rgba(167,139,250,0.10)" stroke="#a78bfa" stroke-width="1.5" rx="2"/>
+            <text x="1020" y="135" text-anchor="middle" fill="#a78bfa" font-family="Noto Serif TC" font-size="13" font-weight="500">GPU B</text>
+            <text x="1020" y="195" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="9" letter-spacing="1.5">09 · GPU</text>
+          </g>
+
+          <!-- ====== 移動的位元 ====== -->
+          <circle id="travelBit" cx="20" cy="130" r="6" fill="#ff5577" opacity="0"/>
+          <circle id="travelGlow" cx="20" cy="130" r="14" fill="none" stroke="#ff5577" stroke-width="1.5" opacity="0"/>
+        </svg>
+      </div>
+
+      <!-- 控制按鈕（圖與詳解之間） -->
+      <div class="journey-controls journey-controls-inline">
+        <button class="ctrl-btn" id="jPrev">◀ 上一步</button>
+        <button class="ctrl-btn" id="jNext">下一步 ▶</button>
+        <button class="ctrl-btn secondary" id="jPlay">▶ 自動播放</button>
+        <button class="ctrl-btn secondary" id="jReset">⟲ 重置</button>
+        <span class="step-progress"><span class="now" id="jStepNow">01</span> / 09</span>
+      </div>
+
+      <!-- 詳解（在按鈕下方、在同一個 frame 內） -->
+      <div class="journey-detail-inline" id="journeyDetail"></div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ============ CHAPTER 03 · 光引擎內部：PIC 與 EIC 的分工 ============ -->
+<section id="ch03">
+  <div class="container-wide">
+    <div class="reveal">
+      <div class="chapter-mark">Chapter 03 · Inside the Engine</div>
+      <h2 class="section-title">把<em>光引擎</em>再拆開：<br>裡面其實是兩顆小晶片在合作</h2>
+      <p class="lead">
+        上一章看到的「Modulator」「PD + TIA」其實都住在一個叫做<strong>光引擎（Optical Engine）</strong>的次系統裡。光引擎不是單一晶片，而是<strong>兩顆功能完全不同的小晶片</strong>緊貼在一起 ——「<em>光的世界</em>」由 PIC 負責、「<em>電的世界</em>」由 EIC 負責。本章用一連串視覺化幫你看懂這兩顆晶片裡面有什麼、怎麼分工、為什麼缺一不可。
+      </p>
+    </div>
+
+    <!-- ============ Section 3.1 名詞釐清 ============ -->
+    <div class="terms-wrap reveal">
+      <h3 class="prose-h-small" style="margin-bottom:20px;">先釐清三個常被混用的名詞</h3>
+      <div class="terms-grid">
+        <div class="term-card term-card-l">
+          <div class="term-card-num">範圍最大</div>
+          <div class="term-card-name">光模組</div>
+          <div class="term-card-en">Optical Module / Transceiver</div>
+          <div class="term-card-desc">
+            完整可插拔的「盒子」，含光引擎 + 外殼 + 控制電路 + 連接器。<em>你插在交換器前面板的 QSFP-DD</em> 就是光模組。
+          </div>
+          <svg class="term-card-svg" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="180" height="40" fill="rgba(167,139,250,0.12)" stroke="#a78bfa" stroke-width="1.5" rx="3"/>
+            <rect x="20" y="20" width="60" height="20" fill="rgba(77,208,225,0.18)" stroke="#4dd0e1" stroke-width="1" rx="2"/>
+            <text x="50" y="33" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="8">光引擎</text>
+            <rect x="90" y="20" width="40" height="20" fill="rgba(255,255,255,0.04)" stroke="rgba(232,236,245,0.18)" stroke-width="1" rx="2"/>
+            <text x="110" y="33" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="7">控制電路</text>
+            <line x1="140" y1="30" x2="175" y2="30" stroke="#ffd166" stroke-width="1.5" stroke-dasharray="3 2"/>
+            <text x="180" y="33" fill="#ffd166" font-family="JetBrains Mono" font-size="7">光纖</text>
+          </svg>
+        </div>
+
+        <div class="term-card term-card-m">
+          <div class="term-card-num">範圍中等</div>
+          <div class="term-card-name">光引擎</div>
+          <div class="term-card-en">Optical Engine</div>
+          <div class="term-card-desc">
+            執行光電轉換的核心次系統，就是「<em>PIC + EIC 兩顆晶片合體</em>」。在 CPO 架構中被搬出模組、直接貼在 ASIC 旁邊。
+          </div>
+          <svg class="term-card-svg" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+            <rect x="50" y="10" width="100" height="40" fill="rgba(77,208,225,0.12)" stroke="#4dd0e1" stroke-width="1.5" rx="3"/>
+            <rect x="60" y="18" width="80" height="14" fill="rgba(77,208,225,0.20)" stroke="#4dd0e1" stroke-width="0.8" rx="2"/>
+            <text x="100" y="29" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="9" font-weight="500">EIC</text>
+            <rect x="60" y="34" width="80" height="14" fill="rgba(77,208,225,0.06)" stroke="#4dd0e1" stroke-width="0.8" rx="2"/>
+            <text x="100" y="44" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="9" font-weight="500">PIC</text>
+          </svg>
+        </div>
+
+        <div class="term-card term-card-s">
+          <div class="term-card-num">範圍最小</div>
+          <div class="term-card-name">PIC / EIC</div>
+          <div class="term-card-en">Photonic / Electronic IC</div>
+          <div class="term-card-desc">
+            光引擎內部的兩顆獨立晶片。<em>PIC 負責光</em>、<em>EIC 負責電</em>，用 die-to-die 堆疊在一起，這一章就是要拆開講它們。
+          </div>
+          <svg class="term-card-svg" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="20" width="70" height="25" fill="rgba(77,208,225,0.22)" stroke="#4dd0e1" stroke-width="1.5" rx="3"/>
+            <text x="55" y="36" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="10" font-weight="500">EIC</text>
+            <text x="55" y="14" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="7">電子晶片</text>
+            <rect x="110" y="20" width="70" height="25" fill="rgba(77,208,225,0.08)" stroke="#4dd0e1" stroke-width="1.5" rx="3"/>
+            <text x="145" y="36" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="10" font-weight="500">PIC</text>
+            <text x="145" y="14" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="7">光子晶片</text>
+            <line x1="90" y1="32" x2="110" y2="32" stroke="#a78bfa" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ Section 3.2 PIC 內部四大元件視覺圖 ============ -->
+    <div class="reveal" style="margin-top:90px;">
+      <h3 class="prose-h" style="margin-bottom:14px;">PIC 內部：<em>四大元件</em> 共同完成光的故事</h3>
+      <p style="color:var(--ink-dim); font-size:16px; line-height:1.85; margin-bottom:32px; max-width:760px;">
+        PIC（Photonic Integrated Circuit，光子積體電路）是矽晶片，但裡面跑的不是電子、而是<strong>光子</strong>。它有四大元件，每個元件對應光的一個生命階段：<em>產生、寫資料、傳輸、讀出</em>。下圖把它們的位置、功能、流向標示清楚。
+      </p>
+    </div>
+
+    <!-- PIC 內部架構 SVG -->
+    <div class="pic-anatomy-wrap reveal">
+      <svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="picBoardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="rgba(120,140,180,0.18)"/>
+            <stop offset="100%" stop-color="rgba(60,80,120,0.08)"/>
+          </linearGradient>
+          <radialGradient id="laserGlow" cx="50%" cy="50%">
+            <stop offset="0%" stop-color="rgba(255,85,119,0.7)"/>
+            <stop offset="100%" stop-color="rgba(255,85,119,0)"/>
+          </radialGradient>
+          <radialGradient id="pdGlow" cx="50%" cy="50%">
+            <stop offset="0%" stop-color="rgba(77,208,225,0.7)"/>
+            <stop offset="100%" stop-color="rgba(77,208,225,0)"/>
+          </radialGradient>
+        </defs>
+
+        <!-- PIC 矽基板 -->
+        <rect x="40" y="80" width="820" height="320" fill="url(#picBoardGrad)" stroke="rgba(232,236,245,0.20)" stroke-width="1.5" rx="8"/>
+        <text x="60" y="105" fill="#9aa5bc" font-family="JetBrains Mono" font-size="10" letter-spacing="3">PIC · PHOTONIC INTEGRATED CIRCUIT · 矽光子晶片</text>
+
+        <!-- ===== [1] 光源 Laser ===== -->
+        <g class="pic-elem">
+          <rect x="80" y="150" width="120" height="80" fill="rgba(255,85,119,0.18)" stroke="#ff5577" stroke-width="2" rx="4"/>
+          <circle cx="140" cy="190" r="22" fill="url(#laserGlow)"/>
+          <circle cx="140" cy="190" r="8" fill="#ff5577" class="photon-pulse"/>
+          <text x="140" y="172" text-anchor="middle" fill="#ff5577" font-family="Noto Serif TC" font-size="13" font-weight="500">光源</text>
+          <text x="140" y="218" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="9">Laser Source</text>
+          <!-- 標示 [1] -->
+          <circle cx="80" cy="150" r="14" fill="#ff5577"/>
+          <text x="80" y="155" text-anchor="middle" fill="#fff" font-family="JetBrains Mono" font-size="11" font-weight="700">1</text>
+        </g>
+        <!-- 光源說明標籤 -->
+        <text x="140" y="252" text-anchor="middle" fill="#9aa5bc" font-family="Noto Serif TC" font-size="11">穩定發光（CW 連續波）</text>
+        <text x="140" y="268" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="9">如同一支永不停的手電筒</text>
+
+        <!-- 光波流：光源 → 調製器 -->
+        <line x1="200" y1="190" x2="320" y2="190" stroke="#ff5577" stroke-width="2.5" class="light-beam"/>
+        <text x="260" y="180" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="9" letter-spacing="1">CW 光</text>
+
+        <!-- ===== [2] 調製器 Modulator ===== -->
+        <g class="pic-elem">
+          <rect x="320" y="150" width="120" height="80" fill="rgba(255,209,102,0.15)" stroke="#ffd166" stroke-width="2" rx="4"/>
+          <!-- 內部微環示意 -->
+          <circle cx="365" cy="190" r="14" fill="none" stroke="#ffd166" stroke-width="1.5"/>
+          <circle cx="365" cy="190" r="9" fill="none" stroke="#ffd166" stroke-width="1" opacity="0.5"/>
+          <circle cx="395" cy="190" r="14" fill="none" stroke="#ffd166" stroke-width="1.5"/>
+          <circle cx="395" cy="190" r="9" fill="none" stroke="#ffd166" stroke-width="1" opacity="0.5"/>
+          <text x="380" y="172" text-anchor="middle" fill="#ffd166" font-family="Noto Serif TC" font-size="13" font-weight="500">調製器</text>
+          <text x="380" y="218" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="9">Modulator</text>
+          <!-- 電訊號輸入線 -->
+          <line x1="380" y1="150" x2="380" y2="120" stroke="#a78bfa" stroke-width="2"/>
+          <text x="395" y="135" fill="#a78bfa" font-family="JetBrains Mono" font-size="9">電 0/1</text>
+          <!-- 標示 [2] -->
+          <circle cx="320" cy="150" r="14" fill="#ffd166"/>
+          <text x="320" y="155" text-anchor="middle" fill="#0a1020" font-family="JetBrains Mono" font-size="11" font-weight="700">2</text>
+        </g>
+        <text x="380" y="252" text-anchor="middle" fill="#9aa5bc" font-family="Noto Serif TC" font-size="11">把 0/1 寫到光波上</text>
+        <text x="380" y="268" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="9">電壓控制光的明暗</text>
+
+        <!-- 光波流：調製器 → 波導（含 0/1 訊號的光） -->
+        <g>
+          <line x1="440" y1="190" x2="560" y2="190" stroke="#ffd166" stroke-width="2.5"/>
+          <!-- 0/1 表示：明暗點 -->
+          <circle cx="470" cy="190" r="3.5" fill="#ffd166"/>
+          <circle cx="490" cy="190" r="3.5" fill="#0a1020" stroke="#ffd166" stroke-width="1"/>
+          <circle cx="510" cy="190" r="3.5" fill="#ffd166"/>
+          <circle cx="530" cy="190" r="3.5" fill="#ffd166"/>
+          <circle cx="550" cy="190" r="3.5" fill="#0a1020" stroke="#ffd166" stroke-width="1"/>
+          <text x="500" y="178" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="9">已調製光</text>
+        </g>
+
+        <!-- ===== [3] 波導 Waveguide ===== -->
+        <g class="pic-elem">
+          <!-- 蜿蜒波導路徑 -->
+          <path d="M 560 190 Q 600 190, 620 170 T 660 190 Q 700 210, 720 190 T 760 190"
+                fill="none" stroke="#4dd0e1" stroke-width="3" opacity="0.6"/>
+          <path d="M 560 190 Q 600 190, 620 170 T 660 190 Q 700 210, 720 190 T 760 190"
+                fill="none" stroke="#4dd0e1" stroke-width="1.5" stroke-dasharray="4 3" class="light-beam"/>
+          <text x="660" y="155" text-anchor="middle" fill="#4dd0e1" font-family="Noto Serif TC" font-size="13" font-weight="500">波導</text>
+          <text x="660" y="240" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="9">Waveguide · 500 nm 寬</text>
+          <!-- 標示 [3] -->
+          <circle cx="600" cy="145" r="14" fill="#4dd0e1"/>
+          <text x="600" y="150" text-anchor="middle" fill="#0a1020" font-family="JetBrains Mono" font-size="11" font-weight="700">3</text>
+        </g>
+        <text x="660" y="262" text-anchor="middle" fill="#9aa5bc" font-family="Noto Serif TC" font-size="11">晶片上的「光纖電線」</text>
+        <text x="660" y="278" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="9">用全反射導光、可彎曲分叉</text>
+
+        <!-- ===== [4] 光偵測器 PD ===== -->
+        <g class="pic-elem">
+          <rect x="760" y="150" width="80" height="80" fill="rgba(77,208,225,0.20)" stroke="#4dd0e1" stroke-width="2" rx="4"/>
+          <circle cx="800" cy="190" r="20" fill="url(#pdGlow)"/>
+          <!-- 鍺方塊 -->
+          <rect x="790" y="180" width="20" height="20" fill="#4dd0e1" opacity="0.7"/>
+          <text x="800" y="194" text-anchor="middle" fill="#0a1020" font-family="JetBrains Mono" font-size="8" font-weight="700">Ge</text>
+          <text x="800" y="172" text-anchor="middle" fill="#4dd0e1" font-family="Noto Serif TC" font-size="12" font-weight="500">光偵測器</text>
+          <!-- 電訊號輸出線 -->
+          <line x1="800" y1="230" x2="800" y2="270" stroke="#a78bfa" stroke-width="2"/>
+          <text x="815" y="255" fill="#a78bfa" font-family="JetBrains Mono" font-size="9">電 0/1</text>
+          <!-- 標示 [4] -->
+          <circle cx="840" cy="150" r="14" fill="#4dd0e1"/>
+          <text x="840" y="155" text-anchor="middle" fill="#0a1020" font-family="JetBrains Mono" font-size="11" font-weight="700">4</text>
+        </g>
+        <text x="800" y="305" text-anchor="middle" fill="#9aa5bc" font-family="Noto Serif TC" font-size="11">把光讀回電訊號</text>
+        <text x="800" y="320" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="9">鍺 (Ge) 吸光產生電流</text>
+
+        <!-- 底部流程說明 -->
+        <text x="450" y="370" text-anchor="middle" fill="#e8ecf5" font-family="Noto Serif TC" font-size="13" font-weight="500">
+          光的生命週期：發光（1） → 寫資料（2） → 傳輸（3） → 讀回（4）
+        </text>
+        <text x="450" y="392" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="10" letter-spacing="2">
+          GENERATE · MODULATE · GUIDE · DETECT
+        </text>
+
+        <!-- 整體標題：PIC -->
+        <text x="450" y="445" text-anchor="middle" fill="#4dd0e1" font-family="Noto Serif TC" font-size="14" font-weight="500">
+          這就是 PIC ── 一塊「印滿光路」的矽晶片
+        </text>
+      </svg>
+    </div>
+
+    <!-- ============ Section 3.3 PIC vs EIC 分工 ============ -->
+    <div class="reveal" style="margin-top:90px;">
+      <h3 class="prose-h" style="margin-bottom:14px;">PIC 與 EIC：<em>光的世界</em> 對上 <em>電的世界</em></h3>
+      <p style="color:var(--ink-dim); font-size:16px; line-height:1.85; margin-bottom:36px; max-width:760px;">
+        前面介紹的四大元件都住在 PIC 裡，但 PIC 自己無法跟 ASIC 直接溝通 —— 因為 ASIC 講「電」、PIC 講「光」。中間需要一個「<strong>翻譯員</strong>」幫忙放大訊號、整形、控制，這就是 <span class="term">EIC（Electronic IC，電子晶片）</span>的工作。
+      </p>
+    </div>
+
+    <div class="pic-eic-versus reveal">
+      <!-- PIC 卡 -->
+      <div class="pe-card pe-pic">
+        <div class="pe-card-head">
+          <div class="pe-card-tag">光的世界</div>
+          <div class="pe-card-title">PIC</div>
+          <div class="pe-card-en">Photonic Integrated Circuit</div>
+        </div>
+        <div class="pe-card-body">
+          <div class="pe-card-summary">
+            「<em>印滿光路的矽晶片</em>」<br>
+            負責所有跟「光」有關的物理動作。
+          </div>
+          <div class="pe-card-roles">
+            <div class="pe-role">
+              <div class="pe-role-icon" style="color:#ff5577">●</div>
+              <div>
+                <strong>光源（Laser Source）</strong><br>
+                <span>發出穩定光波（CW）。矽不會發光，所以用 InP 接上來</span>
+              </div>
+            </div>
+            <div class="pe-role">
+              <div class="pe-role-icon" style="color:#ffd166">●</div>
+              <div>
+                <strong>調製器（Modulator）</strong><br>
+                <span>把 0/1 寫到光波上，控制光的明暗或相位</span>
+              </div>
+            </div>
+            <div class="pe-role">
+              <div class="pe-role-icon" style="color:#4dd0e1">●</div>
+              <div>
+                <strong>波導（Waveguide）</strong><br>
+                <span>晶片上 500 nm 寬的「光電線」，靠全反射導光</span>
+              </div>
+            </div>
+            <div class="pe-role">
+              <div class="pe-role-icon" style="color:#4dd0e1">●</div>
+              <div>
+                <strong>光偵測器（PD）</strong><br>
+                <span>把抵達的光讀回成電流，用鍺（Ge）做</span>
+              </div>
+            </div>
+          </div>
+          <div class="pe-card-foot">
+            <div class="pe-foot-label">製程</div>
+            <div class="pe-foot-val">矽光子製程（65 nm 級）<br>表面粗糙度 &lt; 1 nm</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 中央連接視覺 -->
+      <div class="pe-bridge">
+        <svg viewBox="0 0 60 280" xmlns="http://www.w3.org/2000/svg">
+          <!-- 上半：類比電訊號 -->
+          <line x1="30" y1="20" x2="30" y2="130" stroke="#a78bfa" stroke-width="2" stroke-dasharray="4 3"/>
+          <text x="30" y="80" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="9" transform="rotate(-90 30 80)">類比電訊號</text>
+          <polygon points="26,128 34,128 30,140" fill="#a78bfa"/>
+          <polygon points="26,22 34,22 30,10" fill="#a78bfa"/>
+          <!-- 中間文字 -->
+          <text x="30" y="155" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="9" letter-spacing="2">DIE-TO-DIE</text>
+          <text x="30" y="170" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="8">緊貼堆疊</text>
+          <!-- 下半：類比電訊號 -->
+          <line x1="30" y1="190" x2="30" y2="260" stroke="#a78bfa" stroke-width="2" stroke-dasharray="4 3"/>
+        </svg>
+      </div>
+
+      <!-- EIC 卡 -->
+      <div class="pe-card pe-eic">
+        <div class="pe-card-head">
+          <div class="pe-card-tag">電的世界</div>
+          <div class="pe-card-title">EIC</div>
+          <div class="pe-card-en">Electronic Integrated Circuit</div>
+        </div>
+        <div class="pe-card-body">
+          <div class="pe-card-summary">
+            「<em>專屬 PIC 的小型助理晶片</em>」<br>
+            負責所有跟「電」有關的訊號處理。
+          </div>
+          <div class="pe-card-roles">
+            <div class="pe-role">
+              <div class="pe-role-icon" style="color:#a78bfa">▲</div>
+              <div>
+                <strong>Driver（驅動器）</strong><br>
+                <span>發送方向：把 ASIC 的 ~0.4 V 訊號放大到調製器需要的 1-2 V</span>
+              </div>
+            </div>
+            <div class="pe-role">
+              <div class="pe-role-icon" style="color:#a78bfa">▼</div>
+              <div>
+                <strong>TIA（跨阻放大器）</strong><br>
+                <span>接收方向：把 PD 的微弱電流（μA 等級）放大到 ASIC 能讀的電壓</span>
+              </div>
+            </div>
+            <div class="pe-role">
+              <div class="pe-role-icon" style="color:#a78bfa">◆</div>
+              <div>
+                <strong>CTLE（連續時間等化器）</strong><br>
+                <span>整形受損的類比波形，補償高頻衰減</span>
+              </div>
+            </div>
+            <div class="pe-role">
+              <div class="pe-role-icon" style="color:#a78bfa">◇</div>
+              <div>
+                <strong>控制邏輯</strong><br>
+                <span>調製器偏壓、雷射溫控、波長校準等周邊控制</span>
+              </div>
+            </div>
+          </div>
+          <div class="pe-card-foot">
+            <div class="pe-foot-label">製程</div>
+            <div class="pe-foot-val">標準 CMOS 製程（6 nm 級）<br>跟一般 IC 邏輯晶片相同</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 簡明結論 -->
+    <div class="callout reveal" style="margin-top:36px; max-width:none;">
+      <span class="callout-label">一句話總結</span>
+      <p>
+        <strong>PIC 做光、EIC 做電。</strong>兩者必須緊緊堆疊在一起（die-to-die bonding 或 flip-chip），因為它們之間傳的是高頻類比訊號，距離一長就會衰減失真。<em>整顆光引擎 ≈ PIC + EIC 的合體</em>。
+      </p>
+    </div>
+
+    <!-- ============ Section 3.4 EML：另一條路 ============ -->
+    <div class="reveal" style="margin-top:100px;">
+      <h3 class="prose-h" style="margin-bottom:14px;">那 <em>EML</em> 是什麼？另一條完全不同的路</h3>
+      <p style="color:var(--ink-dim); font-size:16px; line-height:1.85; margin-bottom:36px; max-width:760px;">
+        前面說的是<strong>矽光子路線</strong> —— 雷射從外部接進來、波導和調製器做在矽 PIC 上。但業界還有另一條路：<span class="term">EML（Electro-absorption Modulated Laser，電吸收調製雷射）</span>—— 把雷射和調製器<strong>整合在同一塊 InP 晶片上</strong>，光不用經過任何介面。
+      </p>
+    </div>
+
+    <!-- EML vs SiPh 對比 SVG -->
+    <div class="eml-compare-wrap reveal">
+      <h4 style="font-size:17px; font-weight:500; margin-bottom:24px; text-align:center;">兩條技術路線的內部光路對比</h4>
+
+      <div class="eml-compare-grid">
+        <!-- 路線 A：矽光子 + 外部雷射 -->
+        <div class="eml-route">
+          <div class="eml-route-head">
+            <div class="eml-route-tag" style="color:#4dd0e1">路線 A</div>
+            <div class="eml-route-title">矽光子 + 外部雷射（ELS）</div>
+            <div class="eml-route-sub">SiPh PIC + External Laser Source</div>
+          </div>
+          <svg viewBox="0 0 480 240" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            <!-- InP 雷射 (外部) -->
+            <rect x="20" y="80" width="100" height="80" fill="rgba(255,85,119,0.18)" stroke="#ff5577" stroke-width="2" rx="3"/>
+            <text x="70" y="105" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="10" font-weight="500">InP 雷射</text>
+            <text x="70" y="120" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="8">ELS Module</text>
+            <circle cx="70" cy="140" r="6" fill="#ff5577" class="photon-pulse"/>
+            <text x="70" y="178" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="8">獨立晶片 (InP)</text>
+
+            <!-- 介面 A：耦合損耗點 -->
+            <g class="loss-point">
+              <line x1="120" y1="120" x2="200" y2="120" stroke="#ff5577" stroke-width="2.5" class="light-beam"/>
+              <!-- 損耗標誌 -->
+              <circle cx="160" cy="120" r="16" fill="rgba(255,85,119,0.15)" stroke="#ff5577" stroke-width="1.5" stroke-dasharray="2 2"/>
+              <text x="160" y="100" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="9" font-weight="700">⚠ 介面 A</text>
+              <text x="160" y="148" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="8">光要耦合</text>
+              <text x="160" y="160" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="8">~1 dB 損耗</text>
+            </g>
+
+            <!-- 矽光子 PIC -->
+            <rect x="200" y="80" width="200" height="80" fill="rgba(77,208,225,0.10)" stroke="#4dd0e1" stroke-width="2" rx="3"/>
+            <text x="300" y="100" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="10" font-weight="500">矽光子 PIC</text>
+            <!-- 內部：調製器 -->
+            <rect x="215" y="115" width="60" height="30" fill="rgba(255,209,102,0.15)" stroke="#ffd166" stroke-width="1" rx="2"/>
+            <text x="245" y="134" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="8">Modulator</text>
+            <!-- 內部：波導 -->
+            <line x1="275" y1="130" x2="325" y2="130" stroke="#4dd0e1" stroke-width="1.5" stroke-dasharray="3 2"/>
+            <!-- 內部：PD -->
+            <rect x="325" y="115" width="60" height="30" fill="rgba(77,208,225,0.20)" stroke="#4dd0e1" stroke-width="1" rx="2"/>
+            <text x="355" y="134" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="8">PD</text>
+            <text x="300" y="178" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="8">矽晶片 (含 Ge)</text>
+
+            <!-- 介面 B：對外光纖 -->
+            <g>
+              <line x1="400" y1="120" x2="460" y2="120" stroke="#ffd166" stroke-width="2.5" stroke-dasharray="4 3"/>
+              <text x="430" y="108" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="9" font-weight="700">介面 B</text>
+              <text x="430" y="138" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="8">FAU 對外</text>
+            </g>
+
+            <text x="240" y="215" text-anchor="middle" fill="#e8ecf5" font-family="JetBrains Mono" font-size="10" letter-spacing="1.5">特色：調製器 + PD 都整合在一片矽 PIC 內</text>
+          </svg>
+        </div>
+
+        <!-- 路線 B：EML -->
+        <div class="eml-route">
+          <div class="eml-route-head">
+            <div class="eml-route-tag" style="color:#a78bfa">路線 B</div>
+            <div class="eml-route-title">EML（雷射 + 調製器整合於 InP）</div>
+            <div class="eml-route-sub">Electro-absorption Modulated Laser</div>
+          </div>
+          <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            <!-- ===== 上層：發送端 EML（一塊獨立 InP 晶片）===== -->
+            <text x="30" y="28" fill="#9aa5bc" font-family="JetBrains Mono" font-size="9" letter-spacing="1">發送端 Tx</text>
+            <rect x="70" y="40" width="220" height="62" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-width="2" rx="3"/>
+            <text x="180" y="57" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="9" font-weight="500">EML · 獨立 InP 晶片 ①</text>
+            <!-- 雷射段 -->
+            <rect x="82" y="66" width="86" height="26" fill="rgba(255,85,119,0.20)" stroke="#ff5577" stroke-width="1" rx="2"/>
+            <text x="125" y="83" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="8">Laser 段</text>
+            <line x1="168" y1="79" x2="192" y2="79" stroke="#ff5577" stroke-width="2"/>
+            <!-- EA 調製段 -->
+            <rect x="192" y="66" width="86" height="26" fill="rgba(255,209,102,0.15)" stroke="#ffd166" stroke-width="1" rx="2"/>
+            <text x="235" y="83" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="8">EA 調製段</text>
+            <!-- 介面 B (發送) -->
+            <line x1="290" y1="71" x2="360" y2="71" stroke="#ffd166" stroke-width="2.5" stroke-dasharray="4 3"/>
+            <text x="325" y="62" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="8" font-weight="700">介面 B · FAU</text>
+            <text x="400" y="75" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="8">→ 光纖</text>
+
+            <!-- ===== 下層：接收端 PD（另一塊獨立 InP 晶片）===== -->
+            <text x="30" y="160" fill="#9aa5bc" font-family="JetBrains Mono" font-size="9" letter-spacing="1">接收端 Rx</text>
+            <!-- 光纖進來 -->
+            <text x="55" y="205" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="8">光纖 →</text>
+            <line x1="80" y1="201" x2="150" y2="201" stroke="#ffd166" stroke-width="2.5" stroke-dasharray="4 3"/>
+            <text x="115" y="192" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="8" font-weight="700">介面 B · FAU</text>
+            <!-- InP PD 晶片 -->
+            <rect x="150" y="172" width="140" height="58" fill="rgba(255,85,119,0.12)" stroke="#ff5577" stroke-width="2" rx="3"/>
+            <text x="220" y="190" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="9" font-weight="500">PD · 獨立 InP 晶片 ②</text>
+            <rect x="180" y="198" width="80" height="24" fill="rgba(255,85,119,0.22)" stroke="#ff5577" stroke-width="1" rx="2"/>
+            <text x="220" y="214" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="8">InP PD</text>
+            <text x="220" y="248" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="8">同樣是 III-V / InP 製程</text>
+
+            <!-- ===== 中央強調：兩塊分開、無 PIC ===== -->
+            <g>
+              <text x="180" y="125" text-anchor="middle" fill="#4ade80" font-family="JetBrains Mono" font-size="10" font-weight="700">✓ 沒有介面 A（雷射+調製同晶片）</text>
+            </g>
+            <!-- 分隔線強調兩塊獨立 -->
+            <line x1="320" y1="40" x2="320" y2="230" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="3 4"/>
+            <g>
+              <text x="395" y="150" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="8" font-weight="700">⚠ 沒有 PIC</text>
+              <text x="395" y="166" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="7">① 與 ② 是</text>
+              <text x="395" y="178" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="7">兩塊分開的</text>
+              <text x="395" y="190" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="7">離散 InP 晶片</text>
+            </g>
+
+            <text x="240" y="285" text-anchor="middle" fill="#e8ecf5" font-family="JetBrains Mono" font-size="9.5" letter-spacing="1">EML(①) 與 PD(②) 各自獨立，模組封裝才湊一起</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- 共同點：介面 B 一定有 -->
+      <div class="callout warn reveal" style="margin-top:36px;">
+        <span class="callout-label">關鍵釐清 · 兩個不同的「耦合介面」</span>
+        <p style="margin-bottom:10px;">
+          很多人會混淆耦合損耗的位置，這裡一次釐清：
+        </p>
+        <p style="margin-bottom:8px;">
+          <strong>介面 A · 雷射 → 調製器（晶片內部）：</strong>矽光子路線有、EML 路線沒有。EML 把兩者整合在同一塊 InP 上，省掉這個介面、損耗近零。
+        </p>
+        <p>
+          <strong>介面 B · 光引擎 → 對外光纖：</strong><em>不管哪條路線都需要</em>。因為光最終要走進光纖才能送到遠端 GPU，這個對外的耦合就是 FAU 的工作。<span class="key">所以 EML 不取代 FAU，它取代的是內部那段「雷射 → 矽光子調製器」的介面</span>。
+        </p>
+      </div>
+
+      <!-- 新增：EML 與 PD 不在同一片 PIC -->
+      <div class="callout danger reveal" style="margin-top:24px;">
+        <span class="callout-label">再釐清一個常被搞混的點 · EML 跟 PD 不在同一片晶片</span>
+        <p style="margin-bottom:8px;">
+          看上面路線 B 的圖：<strong>EML（①）和 PD（②）是兩塊「分開的離散 InP 晶片」</strong>。走 EML 這條路時，<span class="key">根本沒有「PIC」這個東西</span> —— PIC（光子積體電路）專指「把多個光元件整合在同一片晶片上」的積體化做法，那是矽光子路線（路線 A）的特色。
+        </p>
+        <p style="margin-bottom:8px;">
+          EML 路線走的是<em>離散元件</em>：EML 是一塊獨立晶片、PD 是另一塊獨立晶片，各自製造、各自封裝，最後用打線或貼裝放進<strong>同一個模組機殼</strong>。它們從來不在同一片晶圓上。
+        </p>
+        <p>
+          這也是為什麼「<strong>做 EML 的廠商不一定做 PD</strong>」 —— 在這種架構裡發送端和接收端本來就是可拆開、可來自不同供應商的兩個零件。對照之下，路線 A 的矽光子 PIC 則是把調製器、波導、PD 全部「印」在同一片矽晶片上。
+        </p>
+      </div>
+
+      <!-- 新增：同一片 PIC 上的 Modulator 與 PD 不直接通訊 -->
+      <div class="reveal" style="margin-top:60px;">
+        <h4 style="font-size:17px; font-weight:500; margin-bottom:10px;">那同一顆光引擎裡的 Modulator 和 PD，是互相對接嗎？</h4>
+        <p style="color:var(--ink-dim); font-size:15px; line-height:1.8; margin-bottom:24px; max-width:760px;">
+          <strong>不是。</strong>這是一個非常容易誤會的點。一顆光引擎通常同時具備<em>發送（Tx）</em>和<em>接收（Rx）</em>功能，所以圖上常把 Modulator 和 PD 畫在一起。但它們<span class="key">彼此不直接通訊</span> —— 各自連到<strong>遠端的另一顆光引擎</strong>。Modulator 發出的光會走光纖傳到對方的 PD；自己的 PD 收到的光，則來自對方的 Modulator。
+        </p>
+
+        <div class="dual-engine-wrap">
+          <svg viewBox="0 0 820 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <marker id="arrowCyan" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#4dd0e1"/>
+              </marker>
+              <marker id="arrowAmber" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#ffd166"/>
+              </marker>
+            </defs>
+
+            <!-- 左側 GPU A 光引擎 -->
+            <rect x="30" y="80" width="200" height="140" fill="rgba(77,208,225,0.05)" stroke="#4dd0e1" stroke-width="1.5" rx="6"/>
+            <text x="130" y="68" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="11" font-weight="500" letter-spacing="1">GPU A 光引擎</text>
+            <!-- A 的 Modulator -->
+            <rect x="50" y="100" width="160" height="40" fill="rgba(255,209,102,0.12)" stroke="#ffd166" stroke-width="1.2" rx="3"/>
+            <text x="130" y="118" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="10">Modulator (Tx)</text>
+            <text x="130" y="132" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="8">發送</text>
+            <!-- A 的 PD -->
+            <rect x="50" y="160" width="160" height="40" fill="rgba(77,208,225,0.18)" stroke="#4dd0e1" stroke-width="1.2" rx="3"/>
+            <text x="130" y="178" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="10">PD (Rx)</text>
+            <text x="130" y="192" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="8">接收</text>
+
+            <!-- 右側 GPU B 光引擎 -->
+            <rect x="590" y="80" width="200" height="140" fill="rgba(77,208,225,0.05)" stroke="#4dd0e1" stroke-width="1.5" rx="6"/>
+            <text x="690" y="68" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="11" font-weight="500" letter-spacing="1">GPU B 光引擎</text>
+            <!-- B 的 PD -->
+            <rect x="610" y="100" width="160" height="40" fill="rgba(77,208,225,0.18)" stroke="#4dd0e1" stroke-width="1.2" rx="3"/>
+            <text x="690" y="118" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="10">PD (Rx)</text>
+            <text x="690" y="132" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="8">接收</text>
+            <!-- B 的 Modulator -->
+            <rect x="610" y="160" width="160" height="40" fill="rgba(255,209,102,0.12)" stroke="#ffd166" stroke-width="1.2" rx="3"/>
+            <text x="690" y="178" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="10">Modulator (Tx)</text>
+            <text x="690" y="192" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="8">發送</text>
+
+            <!-- FAU 標示 (兩側) -->
+            <text x="245" y="124" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="7">FAU</text>
+            <text x="575" y="124" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="7">FAU</text>
+            <text x="245" y="184" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="7">FAU</text>
+            <text x="575" y="184" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="7">FAU</text>
+
+            <!-- 光路 1: A 的 Modulator → B 的 PD (上方，黃色) -->
+            <path d="M 210 120 L 610 120" fill="none" stroke="#ffd166" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrowAmber)" class="light-beam"/>
+            <text x="410" y="110" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="9">A 發送 → B 接收</text>
+
+            <!-- 光路 2: B 的 Modulator → A 的 PD (下方，青色) -->
+            <path d="M 610 180 L 210 180" fill="none" stroke="#4dd0e1" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrowCyan)" class="light-beam"/>
+            <text x="410" y="200" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="9">B 發送 → A 接收</text>
+
+            <!-- 中央光纖標示 -->
+            <text x="410" y="150" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="8" letter-spacing="2">光纖（可能數十公尺）</text>
+
+            <!-- 底部強調：同一顆內不互通 -->
+            <line x1="130" y1="230" x2="130" y2="250" stroke="rgba(255,85,119,0.4)" stroke-width="1" stroke-dasharray="2 2"/>
+            <text x="130" y="268" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="8">✗ A 的 Modulator 與</text>
+            <text x="130" y="280" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="8">A 的 PD 不互通</text>
+
+            <text x="410" y="295" text-anchor="middle" fill="#e8ecf5" font-family="JetBrains Mono" font-size="9" letter-spacing="1">每個 Modulator 都連到「對方」的 PD，不是自己的 PD</text>
+          </svg>
+        </div>
+
+        <div class="analogy" style="margin-top:24px;">
+          <div class="analogy-label">用打電話比喻</div>
+          <h4>你的麥克風，不會傳進你自己的聽筒</h4>
+          <p>一支電話同時有麥克風（≈Modulator，發送）和聽筒（≈PD，接收）。但你對著麥克風講的話，<em>不會直接傳進你自己的聽筒</em> —— 它透過電話線傳到「對方的聽筒」。你的聽筒聽到的，是「對方的麥克風」傳來的聲音。同一片 PIC 上的 Modulator 和 PD 就是這樣：是一對收發元件，但各自連到線路另一端，不是自己跟自己對話。</p>
+        </div>
+
+        <div class="callout reveal" style="margin-top:24px; max-width:none;">
+          <span class="callout-label">所以回到「FAU 對外」這件事</span>
+          <p style="margin-bottom:8px;">
+            Modulator 調製好的光，<strong>一定會透過 FAU（介面 B）耦合進光纖</strong>，傳到<em>對端 GPU 的 PD</em> —— 這個對外步驟，ELS 路線、EML 路線<span class="key">所有方案都省不掉</span>。
+          </p>
+          <p>
+            唯一能被省掉的，是晶片<em>內部</em>那段「雷射 → 調製器」的耦合（介面 A）。EML 因為雷射和調製器做在同一片 InP 上而省掉它；ELS 路線則因雷射從外部來、需先耦合進 PIC，所以有介面 A。但這跟「Modulator → PD」是兩回事 —— 後者隔著整條對外光纖、跨越兩顆光引擎，<strong>永遠要走 FAU</strong>。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ Section 3.5 兩條路線在產業中的角色 ============ -->
+    <div class="reveal" style="margin-top:90px;">
+      <h3 class="prose-h" style="margin-bottom:14px;">那業界<em>誰用 EML、誰用矽光子</em>？</h3>
+      <p style="color:var(--ink-dim); font-size:16px; line-height:1.85; margin-bottom:14px; max-width:760px;">
+        關鍵觀念先講清楚：<strong>EML 路線和矽光子路線是兩條獨立、設計哲學互斥的路</strong>，<em>不是搭在一起的混血</em>。原因很簡單 —— EML 本身已經內含調製器（雷射 + 電吸收調製一體），若再接矽光子 PIC 的調製器就重複了。所以實務上，要嘛走 EML（InP 全包），要嘛走矽光子（CW 雷射 + 矽調製），兩者不會在「調製」這一段混用。
+      </p>
+      <p style="color:var(--ink-dim); font-size:16px; line-height:1.85; margin-bottom:32px; max-width:760px;">
+        下面是目前實際並存的兩大路線，以及一個常見的誤解澄清。
+      </p>
+
+      <div class="route-summary">
+        <div class="route-item">
+          <div class="route-item-num">01</div>
+          <div class="route-item-content">
+            <strong>傳統可插拔模組 · InP 全包（目前 800G / 1.6T 出貨主力）</strong>
+            <span><strong>發送端</strong>用 InP 的 EML（雷射 + 電吸收調製一體），<strong>接收端</strong>用 InP 的 PD。兩者是<em>各自獨立的 III-V 晶片</em>，在模組封裝階段才放到同一個 QSFP-DD / OSFP 機殼裡，再加上 Driver、TIA、DSP。這條路<em>完全沒有矽光子 PIC</em>。EML 與 PD 可以來自不同供應商 —— 這正是「做 EML 的不一定做 PD」的由來。</span>
+          </div>
+        </div>
+        <div class="route-item">
+          <div class="route-item-num">02</div>
+          <div class="route-item-content">
+            <strong>矽光子路線 · CW 雷射 + 矽光子 PIC（CPO 與部分可插拔）</strong>
+            <span>外部 <em>CW 雷射</em>（InP，但<strong>只是純雷射、沒有調製器</strong>）把穩定光餵進矽光子 PIC，由 PIC 內部的<em>矽調製器、波導、Ge-on-Si PD</em> 完成其餘工作。<span class="key">注意這裡用的是 CW 雷射、不是 EML</span> —— 因為調製已交給矽光子的調製器。NVIDIA Quantum-X、台積電 COUPE 走這條路。</span>
+          </div>
+        </div>
+        <div class="route-item">
+          <div class="route-item-num">03</div>
+          <div class="route-item-content">
+            <strong>常見誤解澄清 · 「EML + 矽光子 PD」幾乎不存在</strong>
+            <span>很多人（包含早期的本指南）會以為主流是「InP EML + 矽光子 PD」的混血，<em>但這個組合在邏輯上重複、實務上罕見</em>。用了 EML 就代表走 InP 全包路線，接收端自然配 InP PD；想用矽光子 PD，通常會把整個收發都做進矽光子 PIC、光源改用 CW 雷射。<span class="key">兩個分屬不同陣營的東西不會硬湊在一起。</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 三路線對照表 -->
+      <div style="margin-top:36px; overflow-x:auto;">
+        <table class="summary-table" style="min-width:640px;">
+          <thead>
+            <tr>
+              <th>發送端方案</th>
+              <th>雷射</th>
+              <th>調製器</th>
+              <th>接收端 PD</th>
+              <th>是不是 EML</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>傳統可插拔（InP 全包）</th>
+              <td>InP DFB</td>
+              <td class="mid">InP 電吸收（同一片 InP）</td>
+              <td>InP PD（獨立晶片）</td>
+              <td class="good">✓ 是 EML</td>
+            </tr>
+            <tr>
+              <th>矽光子 / CPO</th>
+              <td>InP CW（外接 ELS）</td>
+              <td>矽光子 MRM / MZM</td>
+              <td>Ge-on-Si PD（在 PIC 內）</td>
+              <td class="bad">✗ 不是，用 CW 雷射</td>
+            </tr>
+            <tr>
+              <th>InP MZM 方案</th>
+              <td>InP CW</td>
+              <td>InP 馬赫-曾德爾</td>
+              <td>InP PD</td>
+              <td class="bad">✗ 不是 EML</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ============ Section 3.6 現在的主流 vs 未來的主流 ============ -->
+    <div class="reveal" style="margin-top:90px;">
+      <h3 class="prose-h" style="margin-bottom:14px;">那麼 —— <em>現在的主流</em> 和 <em>未來的主流</em> 是什麼？</h3>
+      <p style="color:var(--ink-dim); font-size:16px; line-height:1.85; margin-bottom:32px; max-width:760px;">
+        這是最多人關心、卻也最容易講混的問題。重點是<strong>分清楚「現在」和「未來」是不同答案</strong>，而且它們不是「誰取代誰」，更像是<em>逐步交棒、長期共存</em>。
+      </p>
+
+      <!-- 時間軸三階段 -->
+      <div class="era-grid">
+        <!-- 現在 -->
+        <div class="era-card era-now">
+          <div class="era-tag">現在 · 2024–2026</div>
+          <div class="era-title">傳統可插拔模組<br>（InP EML 全包）</div>
+          <div class="era-body">
+            <p><strong>主流是「可插拔光模組」</strong> —— 把光引擎做成一個可以插在交換器前面板的盒子。絕大多數 800G、以及正在放量的 1.6T，核心都是 <em>InP EML</em>。</p>
+            <p>2026 年 <strong>800G coherent 可插拔模組</strong>預期成為 AI 網路的標準連接方案。</p>
+            <p class="era-note">瓶頸：<span class="key">EML 嚴重缺貨</span>，主要供應商明年產能已被預訂一空，這個缺口正在<em>逼著市場找替代路線</em>。</p>
+          </div>
+        </div>
+
+        <!-- 過渡 -->
+        <div class="era-card era-bridge">
+          <div class="era-tag">過渡 · 2025–2027</div>
+          <div class="era-title">矽光子崛起<br>＋ LPO / NPO 橋接</div>
+          <div class="era-body">
+            <p><strong>矽光子（CW 雷射 + 矽 PIC）快速接棒。</strong>產業分析機構 LightCounting 預估：<em>矽光子基礎的收發模組市佔將從 2024 年的約 33% 升到 2026 年突破 50%</em>。</p>
+            <p>EML 缺貨<strong>正在加速「CW 雷射 + 矽光子」這條路的轉換</strong> —— 因為 CW 雷射比 EML 好做、供應商更多。</p>
+            <p class="era-note">同時 <span class="key">LPO（拔掉 DSP 的線性可插拔）</span>作為務實橋接，幫可插拔模組撐過 800G–1.6T 世代。</p>
+          </div>
+        </div>
+
+        <!-- 未來 -->
+        <div class="era-card era-future">
+          <div class="era-tag">未來 · 2026–2030+</div>
+          <div class="era-title">CPO 共封裝光學<br>（終局：光學 I/O）</div>
+          <div class="era-body">
+            <p><strong>CPO 是公認的終局方向。</strong>把矽光子光引擎直接整合進交換器 ASIC 封裝，NVIDIA 自家數據宣稱 CPO 交換器比傳統可插拔<em>省電 3.5 倍</em>。</p>
+            <p>更後期（2027+ Rubin 世代）走向 <strong>Scale-up CPO</strong> —— 把光學 I/O 放進 GPU 封裝、取代 NVLink 銅線，終極目標是<em>光學 I/O、速度突破 12.8T</em>。</p>
+            <p class="era-note">但 CPO <span class="key">不是把可插拔完全淘汰</span>：可插拔在企業、電信、低頻寬雲端仍有結構性地位，是<em>「共存」而非「取代」</em>。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 一句話總結 -->
+      <div class="callout reveal" style="margin-top:36px; max-width:none;">
+        <span class="callout-label">一句話總結趨勢</span>
+        <p style="margin-bottom:8px;">
+          <strong>現在</strong>：InP EML 可插拔當家，但卡在 EML 缺貨。<br>
+          <strong>過渡</strong>：矽光子（CW + 矽 PIC）2026 市佔破 50% 接棒，LPO 當橋接。<br>
+          <strong>未來</strong>：CPO 成為高階 AI 叢集終局、最終走向光學 I/O，但與可插拔長期共存。
+        </p>
+        <p>
+          <span class="key">注意材料路線的轉移</span>：從「InP 全包（EML）」逐步走向「InP 只做雷射光源（CW）＋ 矽光子做其餘」。InP 不會消失，但它的角色從「全包」縮小到「專做最難、矽做不到的發光部分」。
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ CHAPTER 04 · CPO 解剖（後講進階） ============ -->
+<section id="ch04">
+  <div class="container-wide">
+    <div class="reveal">
+      <div class="chapter-mark">Chapter 04 · CPO Anatomy</div>
+      <h2 class="section-title">把一顆 CPO 拆開，<em>裡面有什麼？</em></h2>
+      <p class="lead">
+        前兩章你已經理解光通訊原理（Chapter 02）、認識了光引擎內部的 PIC 與 EIC 分工（Chapter 03）。本章把視角拉到<strong>整顆 CPO 封裝</strong>的等級 —— 看光引擎、ASIC、雷射、FAU、光纖、基板這些大零件如何在同一個封裝裡組成完整系統。下方左欄是剖視圖（粘性顯示）+ 元件選單，右欄是該元件的深入講解。
+      </p>
+    </div>
+
+    <div class="split reveal">
+      <!-- 左欄：剖視圖 + 元件選單（粘性） -->
+      <div class="split-left">
+        <div class="stage-box">
+          <svg id="anatomyMain" viewBox="0 0 600 580" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <linearGradient id="asicGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="rgba(167,139,250,0.22)"/>
+                <stop offset="100%" stop-color="rgba(167,139,250,0.06)"/>
+              </linearGradient>
+              <linearGradient id="engineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="rgba(77,208,225,0.20)"/>
+                <stop offset="100%" stop-color="rgba(77,208,225,0.04)"/>
+              </linearGradient>
+            </defs>
+
+            <!--
+              =============== 嚴格分層佈局 (避免重疊) ===============
+              Y  20- 30 : 04 編號標籤 (頂部)
+              Y  40- 90 : ELS 雷射框 (左、右)
+              Y  90-220 : 雷射光路虛線 (純垂直、中央區域空白)
+              Y 220-340 : 光引擎框 (左、右) + EIC + PIC
+              Y 240-410 : 中央 ASIC 框
+              Y 350-372 : FAU 條 (左、右)
+              Y 372-450 : 光纖虛線出口
+              Y 450-510 : 基板
+              Y 530     : 基板文字標籤 (最底)
+
+              編號文字所在區域：
+              - 04 雷射編號：x=40, y=22 (左上角，無任何元件)
+              - 03 光引擎編號：x=555, y=212 (右側、光引擎框之上、ELS 虛線之外)
+              - 01 ASIC 編號：x=300, y=395 (ASIC 框最底部之內)
+              - 02 連接編號：放在連接線正上方、ASIC 框外
+              - 05 FAU 編號：x=300, y=435 (FAU 條下方、ASIC 框外)
+              - 06 光纖編號：x=555, y=460 (右下角)
+            =========================================================== -->
+
+            <!-- 04 編號（最頂、無重疊） -->
+            <text pointer-events="none" x="40" y="22" fill="#ff5577" font-family="JetBrains Mono" font-size="10" letter-spacing="2">04 · 光源 LASER</text>
+
+            <!-- ELS 雷射 - 左 -->
+            <g class="part" data-part="laser" style="cursor:pointer">
+              <rect x="60" y="40" width="120" height="50" fill="rgba(255,85,119,0.18)" stroke="#ff5577" stroke-width="1.6" rx="3"/>
+              <text x="120" y="62" text-anchor="middle" fill="#ff5577" font-family="Noto Serif TC" font-size="12" font-weight="500">外部雷射</text>
+              <text x="120" y="78" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="9">ELS · CW Laser</text>
+              <line x1="120" y1="90" x2="120" y2="222" stroke="#ff5577" stroke-width="1.4" stroke-dasharray="4 3" class="light-beam"/>
+            </g>
+            <!-- ELS 雷射 - 右 -->
+            <g class="part" data-part="laser" style="cursor:pointer">
+              <rect x="420" y="40" width="120" height="50" fill="rgba(255,85,119,0.18)" stroke="#ff5577" stroke-width="1.6" rx="3"/>
+              <text x="480" y="62" text-anchor="middle" fill="#ff5577" font-family="Noto Serif TC" font-size="12" font-weight="500">外部雷射</text>
+              <text x="480" y="78" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="9">ELS · CW Laser</text>
+              <line x1="480" y1="90" x2="480" y2="222" stroke="#ff5577" stroke-width="1.4" stroke-dasharray="4 3" class="light-beam"/>
+            </g>
+
+            <!-- 03 光引擎編號（放在 ELS 雷射框右側、與雷射編號 04 對稱、避開所有元件） -->
+            <text pointer-events="none" x="555" y="22" text-anchor="end" fill="#4dd0e1" font-family="JetBrains Mono" font-size="10" letter-spacing="2">03 · 光引擎 ENGINE</text>
+
+            <!-- 中央 ASIC -->
+            <g class="part" data-part="asic" style="cursor:pointer">
+              <rect x="220" y="240" width="160" height="170" fill="url(#asicGrad)" stroke="#a78bfa" stroke-width="1.8" rx="4"/>
+              <text x="300" y="305" text-anchor="middle" fill="#a78bfa" font-family="Noto Serif TC" font-size="26" font-weight="500">ASIC</text>
+              <text x="300" y="328" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="11">GPU · Switch</text>
+              <text x="300" y="395" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="9" letter-spacing="2.5">01 · 運算晶片</text>
+            </g>
+
+            <!-- 左光引擎 EIC + PIC -->
+            <g class="part" data-part="engine" style="cursor:pointer">
+              <rect x="60" y="220" width="140" height="120" fill="url(#engineGrad)" stroke="#4dd0e1" stroke-width="1.6" rx="3"/>
+              <rect x="68" y="228" width="124" height="48" fill="rgba(77,208,225,0.20)" stroke="#4dd0e1" stroke-width="0.8" rx="2"/>
+              <text x="130" y="252" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="13" font-weight="500">EIC</text>
+              <text x="130" y="266" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="9">電子晶片</text>
+              <rect x="68" y="284" width="124" height="48" fill="rgba(77,208,225,0.06)" stroke="#4dd0e1" stroke-width="0.8" rx="2"/>
+              <text x="130" y="308" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="13" font-weight="500">PIC</text>
+              <text x="130" y="322" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="9">光子晶片</text>
+            </g>
+            <!-- 右光引擎 EIC + PIC -->
+            <g class="part" data-part="engine" style="cursor:pointer">
+              <rect x="400" y="220" width="140" height="120" fill="url(#engineGrad)" stroke="#4dd0e1" stroke-width="1.6" rx="3"/>
+              <rect x="408" y="228" width="124" height="48" fill="rgba(77,208,225,0.20)" stroke="#4dd0e1" stroke-width="0.8" rx="2"/>
+              <text x="470" y="252" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="13" font-weight="500">EIC</text>
+              <text x="470" y="266" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="9">電子晶片</text>
+              <rect x="408" y="284" width="124" height="48" fill="rgba(77,208,225,0.06)" stroke="#4dd0e1" stroke-width="0.8" rx="2"/>
+              <text x="470" y="308" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="13" font-weight="500">PIC</text>
+              <text x="470" y="322" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="9">光子晶片</text>
+            </g>
+
+            <!-- ASIC ↔ EIC 電氣連接 + 02 編號 -->
+            <g class="part" data-part="conn" style="cursor:pointer">
+              <line x1="200" y1="252" x2="220" y2="252" stroke="#a78bfa" stroke-width="3"/>
+              <line x1="380" y1="252" x2="400" y2="252" stroke="#a78bfa" stroke-width="3"/>
+              <text x="210" y="245" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="9">02</text>
+              <text x="390" y="245" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="9">02</text>
+            </g>
+
+            <!-- FAU 光纖陣列 -->
+            <g class="part" data-part="fau" style="cursor:pointer">
+              <rect x="80" y="350" width="100" height="22" fill="rgba(255,209,102,0.20)" stroke="#ffd166" stroke-width="1.4" rx="2"/>
+              <text x="130" y="365" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="10" font-weight="500">FAU</text>
+              <rect x="420" y="350" width="100" height="22" fill="rgba(255,209,102,0.20)" stroke="#ffd166" stroke-width="1.4" rx="2"/>
+              <text x="470" y="365" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="10" font-weight="500">FAU</text>
+            </g>
+            <!-- 05 FAU 編號（位於 ASIC 框下方、不重疊） -->
+            <text pointer-events="none" x="300" y="435" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="9" letter-spacing="2.5">05 · 光纖耦合</text>
+
+            <!-- 光纖出口 -->
+            <g class="part" data-part="fiber" style="cursor:pointer">
+              <line x1="130" y1="372" x2="130" y2="450" stroke="#ffd166" stroke-width="1.4" stroke-dasharray="4 3"/>
+              <line x1="470" y1="372" x2="470" y2="450" stroke="#ffd166" stroke-width="1.4" stroke-dasharray="4 3"/>
+              <line x1="130" y1="510" x2="130" y2="544" stroke="#ffd166" stroke-width="1.4" stroke-dasharray="4 3"/>
+              <line x1="470" y1="510" x2="470" y2="544" stroke="#ffd166" stroke-width="1.4" stroke-dasharray="4 3"/>
+              <text x="130" y="478" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="8" letter-spacing="1">FIBER ↓</text>
+              <text x="470" y="478" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="8" letter-spacing="1">FIBER ↓</text>
+            </g>
+            <!-- 06 光纖編號（放在最右側 x=485 之後完全乾淨的區域、y=525 在基板與基板標籤之間） -->
+            <text pointer-events="none" x="498" y="525" fill="#ffd166" font-family="JetBrains Mono" font-size="10" letter-spacing="1">06 · 光纖</text>
+
+            <!-- 基板（最底） -->
+            <rect x="40" y="450" width="520" height="60" fill="rgba(255,255,255,0.03)" stroke="rgba(232,236,245,0.20)" stroke-width="1" rx="3"/>
+            <text x="300" y="565" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#9aa5bc" letter-spacing="3">SUBSTRATE · 基板 / 矽中介層</text>
+          </svg>
+        </div>
+
+        <!-- 元件選單 -->
+        <div class="pick-grid">
+          <button class="pick-btn active" data-anatomy="asic">
+            <div class="pick-num">01</div>
+            <div class="pick-name">運算晶片</div>
+          </button>
+          <button class="pick-btn" data-anatomy="conn">
+            <div class="pick-num">02</div>
+            <div class="pick-name">電氣互連</div>
+          </button>
+          <button class="pick-btn" data-anatomy="engine">
+            <div class="pick-num">03</div>
+            <div class="pick-name">光引擎</div>
+          </button>
+          <button class="pick-btn" data-anatomy="laser">
+            <div class="pick-num">04</div>
+            <div class="pick-name">外部雷射</div>
+          </button>
+          <button class="pick-btn" data-anatomy="fau">
+            <div class="pick-num">05</div>
+            <div class="pick-name">光纖陣列</div>
+          </button>
+          <button class="pick-btn" data-anatomy="fiber">
+            <div class="pick-num">06</div>
+            <div class="pick-name">光纖出口</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- 右欄：詳解 -->
+      <div class="split-right">
+        <div class="detail-card" id="anatomyDetail"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CHAPTER 05 · 規格大對決（並列對比）============ -->
+<section id="ch05" class="alt">
+  <div class="container-wide">
+    <div class="reveal">
+      <div class="chapter-mark">Chapter 05 · The Family</div>
+      <h2 class="section-title">CPO、LPO、NPO、OCS ——<br><em>它們不是同一種東西</em></h2>
+      <p class="lead">
+        市場上有太多「光通訊」名詞常被混為一談。其實它們解決的是不同問題、處於不同位置、針對不同對手。
+      </p>
+    </div>
+
+    <!-- 心智模型導引 -->
+    <div class="prose reveal">
+      <div class="callout">
+        <span class="callout-label">先建立心智模型</span>
+        <p>傳統可插拔光模組（QSFP-DD、OSFP）有兩個耗電大戶：(1) <strong>DSP 數位訊號處理器</strong> —— 一個 400G DSP 就吃 4W，佔模組總功耗 50%；(2) <strong>從 ASIC 到模組之間的銅線</strong> —— 訊號要走 5–15 公分 PCB 銅線，越長越要 DSP 修補。</p>
+        <p style="margin-top: 8px;">下方四種規格，分別從不同角度攻擊這兩個大戶。</p>
+      </div>
+    </div>
+
+    <!-- 並列對比卡片 -->
+    <div class="versus-grid">
+
+      <!-- CPO -->
+      <div class="versus-card reveal" data-tier="cpo">
+        <div class="versus-head">
+          <div>
+            <div class="versus-name">CPO</div>
+          </div>
+          <span class="versus-tag coming">2026 商轉</span>
+        </div>
+        <div class="versus-en">Co-Packaged Optics</div>
+
+        <!-- 迷你結構圖：光引擎和 ASIC 共封裝（極短銅線） -->
+        <div class="versus-svg">
+          <svg viewBox="0 0 240 110" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="80" width="200" height="22" fill="rgba(255,255,255,0.04)" stroke="rgba(232,236,245,0.18)" stroke-width="1" rx="2"/>
+            <text x="120" y="96" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#9aa5bc" letter-spacing="2">SUBSTRATE</text>
+            <!-- ASIC 中央 -->
+            <rect x="90" y="30" width="60" height="44" fill="rgba(167,139,250,0.18)" stroke="#a78bfa" stroke-width="1.2" rx="2"/>
+            <text x="120" y="58" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="10" font-weight="500">ASIC</text>
+            <!-- 光引擎左右緊貼 -->
+            <rect x="30" y="40" width="50" height="30" fill="rgba(77,208,225,0.20)" stroke="#4dd0e1" stroke-width="1.2" rx="2"/>
+            <text x="55" y="58" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="9">光引擎</text>
+            <rect x="160" y="40" width="50" height="30" fill="rgba(77,208,225,0.20)" stroke="#4dd0e1" stroke-width="1.2" rx="2"/>
+            <text x="185" y="58" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="9">光引擎</text>
+            <!-- 極短電線 -->
+            <line x1="80" y1="55" x2="90" y2="55" stroke="#a78bfa" stroke-width="2"/>
+            <line x1="150" y1="55" x2="160" y2="55" stroke="#a78bfa" stroke-width="2"/>
+            <!-- 光纖出口 -->
+            <line x1="55" y1="70" x2="55" y2="105" stroke="#ffd166" stroke-width="1" stroke-dasharray="2 2"/>
+            <line x1="185" y1="70" x2="185" y2="105" stroke="#ffd166" stroke-width="1" stroke-dasharray="2 2"/>
+            <text x="120" y="22" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5">SAME PACKAGE · 共封裝</text>
+          </svg>
+        </div>
+
+        <p class="versus-tagline">攻擊「銅線距離」 ——<br>把光引擎搬進 ASIC 旁邊。</p>
+        <p class="versus-desc">
+          銅線從 15 公分縮到<strong>幾毫米</strong>。距離一短，<em>連 DSP 都不那麼必要</em>，連帶把 DSP 的功耗也砍掉。<br><br>
+          代價：光引擎與 ASIC 焊死，<em>無法熱插拔</em>。任一個壞了整顆換。製造、散熱、可靠度挑戰巨大，但能耗效益最高，<strong>長期終極解</strong>。
+        </p>
+        <dl class="versus-specs">
+          <div class="versus-spec-row"><dt>典型應用</dt><dd>NVIDIA Quantum-X<br>Broadcom TH6</dd></div>
+          <div class="versus-spec-row"><dt>功耗削減</dt><dd>↓ 50% 以上</dd></div>
+          <div class="versus-spec-row"><dt>熱插拔</dt><dd>不支援</dd></div>
+          <div class="versus-spec-row"><dt>距離</dt><dd>機櫃內 < 2km</dd></div>
+        </dl>
+      </div>
+
+      <!-- LPO -->
+      <div class="versus-card reveal" data-tier="lpo">
+        <div class="versus-head">
+          <div>
+            <div class="versus-name">LPO</div>
+          </div>
+          <span class="versus-tag coming">已小量出貨</span>
+        </div>
+        <div class="versus-en">Linear-drive Pluggable Optics</div>
+
+        <!-- 迷你結構圖：保留可插拔，但模組內無 DSP -->
+        <div class="versus-svg">
+          <svg viewBox="0 0 240 110" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="80" width="200" height="22" fill="rgba(255,255,255,0.04)" stroke="rgba(232,236,245,0.18)" stroke-width="1" rx="2"/>
+            <text x="120" y="96" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#9aa5bc" letter-spacing="2">SUBSTRATE</text>
+            <rect x="60" y="40" width="50" height="32" fill="rgba(167,139,250,0.18)" stroke="#a78bfa" stroke-width="1.2" rx="2"/>
+            <text x="85" y="60" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="9">ASIC</text>
+            <!-- 長銅線 -->
+            <line x1="110" y1="56" x2="160" y2="56" stroke="#ff5577" stroke-width="2" stroke-dasharray="3 2"/>
+            <text x="135" y="50" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="7">~15cm</text>
+            <!-- 可插拔模組（無 DSP，只剩 TIA） -->
+            <rect x="160" y="40" width="60" height="32" fill="rgba(255,209,102,0.15)" stroke="#ffd166" stroke-width="1.2" rx="2" stroke-dasharray="3 2"/>
+            <text x="190" y="55" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="8">PLUG</text>
+            <text x="190" y="65" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="6">no DSP</text>
+            <text x="120" y="22" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5">REMOVE DSP · 拔 DSP</text>
+          </svg>
+        </div>
+
+        <p class="versus-tagline">攻擊「DSP 功耗」——<br>保留可插拔、拔掉 DSP。</p>
+        <p class="versus-desc">
+          維持傳統可插拔模組外型，但<em>把 DSP 拔掉</em>，靠交換器 ASIC 端更強的訊號處理能力直接驅動光元件。模組剩下類比放大器（TIA）和均衡器。<br><br>
+          代價：傳輸距離縮短、容錯能力降低。但<em>保留熱插拔優勢</em> —— 壞了直接換新，是 <strong>CPO 之前的過渡選擇</strong>。
+        </p>
+        <dl class="versus-specs">
+          <div class="versus-spec-row"><dt>主要推手</dt><dd>Arista, Broadcom<br>Innolight, MACOM</dd></div>
+          <div class="versus-spec-row"><dt>功耗削減</dt><dd>↓ 50% (vs. DSP)</dd></div>
+          <div class="versus-spec-row"><dt>熱插拔</dt><dd>支援（最大優勢）</dd></div>
+          <div class="versus-spec-row"><dt>距離</dt><dd>< 500m</dd></div>
+        </dl>
+      </div>
+
+      <!-- NPO -->
+      <div class="versus-card reveal" data-tier="npo">
+        <div class="versus-head">
+          <div>
+            <div class="versus-name">NPO</div>
+          </div>
+          <span class="versus-tag">過渡方案</span>
+        </div>
+        <div class="versus-en">Near-Packaged Optics</div>
+
+        <!-- 迷你結構圖：光引擎在同一塊 PCB，距離 ASIC 幾公分 -->
+        <div class="versus-svg">
+          <svg viewBox="0 0 240 110" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="80" width="200" height="22" fill="rgba(255,255,255,0.04)" stroke="rgba(232,236,245,0.18)" stroke-width="1" rx="2"/>
+            <text x="120" y="96" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#9aa5bc" letter-spacing="2">SAME BOARD · 同主機板</text>
+            <!-- ASIC 中央 -->
+            <rect x="95" y="40" width="50" height="32" fill="rgba(167,139,250,0.18)" stroke="#a78bfa" stroke-width="1.2" rx="2"/>
+            <text x="120" y="60" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="9">ASIC</text>
+            <!-- 中等距離銅線 + 光引擎 -->
+            <line x1="50" y1="56" x2="95" y2="56" stroke="#a78bfa" stroke-width="1.5"/>
+            <line x1="145" y1="56" x2="190" y2="56" stroke="#a78bfa" stroke-width="1.5"/>
+            <rect x="20" y="44" width="32" height="24" fill="rgba(77,208,225,0.18)" stroke="#4dd0e1" stroke-width="1" rx="2"/>
+            <text x="36" y="59" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="8">光</text>
+            <rect x="188" y="44" width="32" height="24" fill="rgba(77,208,225,0.18)" stroke="#4dd0e1" stroke-width="1" rx="2"/>
+            <text x="204" y="59" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="8">光</text>
+            <text x="120" y="22" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5">CPO 減配版</text>
+          </svg>
+        </div>
+
+        <p class="versus-tagline">CPO 的「<em>減配版</em>」——<br>光引擎在 ASIC 旁邊，但不在同一封裝。</p>
+        <p class="versus-desc">
+          光引擎不在 ASIC 同一封裝裡，但放在「<strong>同一塊主機板上</strong>」距離 ASIC 幾公分。整合度比可插拔高、比 CPO 低。<br><br>
+          定位：CPO 全面成熟之前的中間方案。<em>正被 CPO 直接跨越</em>，市場聲量逐漸消失。Intel、Cisco 在 OFC 展示過 NPO 產品。
+        </p>
+        <dl class="versus-specs">
+          <div class="versus-spec-row"><dt>位置</dt><dd>同主機板<br>距離幾公分</dd></div>
+          <div class="versus-spec-row"><dt>解耦程度</dt><dd>可分別替換</dd></div>
+          <div class="versus-spec-row"><dt>距離</dt><dd>機櫃內</dd></div>
+          <div class="versus-spec-row"><dt>市場</dt><dd>正被 CPO 跨越</dd></div>
+        </dl>
+      </div>
+
+      <!-- OCS -->
+      <div class="versus-card reveal" data-tier="ocs">
+        <div class="versus-head">
+          <div>
+            <div class="versus-name">OCS</div>
+          </div>
+          <span class="versus-tag deployed">Google 已部署</span>
+        </div>
+        <div class="versus-en">Optical Circuit Switch</div>
+
+        <!-- 迷你結構圖：MEMS 鏡片直接導光（無電路） -->
+        <div class="versus-svg">
+          <svg viewBox="0 0 240 110" xmlns="http://www.w3.org/2000/svg">
+            <!-- 入光纖 -->
+            <line x1="10" y1="40" x2="100" y2="40" stroke="#ffd166" stroke-width="1.5" stroke-dasharray="3 2"/>
+            <line x1="10" y1="65" x2="100" y2="65" stroke="#ffd166" stroke-width="1.5" stroke-dasharray="3 2"/>
+            <text x="20" y="32" fill="#ffd166" font-family="JetBrains Mono" font-size="7">IN</text>
+            <!-- MEMS 鏡片陣列 -->
+            <rect x="100" y="25" width="40" height="60" fill="rgba(167,139,250,0.18)" stroke="#a78bfa" stroke-width="1.5" rx="2"/>
+            <text x="120" y="50" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="8">MEMS</text>
+            <text x="120" y="62" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="8">鏡片</text>
+            <text x="120" y="74" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="6">無電子</text>
+            <!-- 出光纖 -->
+            <line x1="140" y1="40" x2="230" y2="65" stroke="#ffd166" stroke-width="1.5" stroke-dasharray="3 2"/>
+            <line x1="140" y1="65" x2="230" y2="40" stroke="#ffd166" stroke-width="1.5" stroke-dasharray="3 2"/>
+            <text x="220" y="32" fill="#ffd166" font-family="JetBrains Mono" font-size="7">OUT</text>
+            <text x="120" y="105" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5">PURE PHOTONIC · 純光路由</text>
+          </svg>
+        </div>
+
+        <p class="versus-tagline">完全不同的物種 ——<br>不做中間光電轉換，<em>在光的層級路由</em>。</p>
+        <p class="versus-desc">
+          用<strong>微鏡（MEMS）或液晶</strong>把光纖訊號從一條光纖直接導到另一條光纖，<em>中間完全沒有電</em>。<br><br>
+          用途：資料中心做<em>長期穩定的連接</em>。傳統電交換器每個封包都要看一眼（耗電）；OCS 一旦建立連線，光直接通過，<strong>幾乎零耗電、零延遲</strong>。Google Apollo 已大規模部署。
+        </p>
+        <dl class="versus-specs">
+          <div class="versus-spec-row"><dt>核心技術</dt><dd>MEMS / LCoS</dd></div>
+          <div class="versus-spec-row"><dt>功耗</dt><dd>幾乎為零</dd></div>
+          <div class="versus-spec-row"><dt>延遲</dt><dd>光速 · 無處理</dd></div>
+          <div class="versus-spec-row"><dt>缺點</dt><dd>切換慢 (毫秒)</dd></div>
+        </dl>
+      </div>
+
+    </div>
+
+    <!-- 補充對照表 -->
+    <div class="reveal" style="margin-top: 64px;">
+      <h3 style="font-size: 22px; font-weight: 500; margin-bottom: 16px;">關鍵指標一覽表</h3>
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>面向</th>
+            <th>CPO</th>
+            <th>LPO</th>
+            <th>NPO</th>
+            <th>OCS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>光引擎位置</th>
+            <td>同 ASIC 封裝內</td>
+            <td>機箱前面板（可插拔）</td>
+            <td>同主機板、ASIC 旁</td>
+            <td>—（不轉光電）</td>
+          </tr>
+          <tr>
+            <th>有 DSP？</th>
+            <td>多數沒有</td>
+            <td class="good">完全沒有</td>
+            <td>視設計而定</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <th>熱插拔</th>
+            <td class="bad">不支援</td>
+            <td class="good">支援</td>
+            <td class="mid">部分支援</td>
+            <td class="good">支援</td>
+          </tr>
+          <tr>
+            <th>能效（pJ/bit）</th>
+            <td class="good">~3</td>
+            <td class="mid">~5</td>
+            <td class="mid">~6</td>
+            <td class="good">~0（無轉換）</td>
+          </tr>
+          <tr>
+            <th>適用距離</th>
+            <td>< 2 km</td>
+            <td>< 500 m</td>
+            <td>< 2 m</td>
+            <td>數十公里</td>
+          </tr>
+          <tr>
+            <th>商用時程</th>
+            <td>2026 H1</td>
+            <td>2024 已小量</td>
+            <td>已被 CPO 跨越</td>
+            <td>Google 2022 已用</td>
+          </tr>
+          <tr>
+            <th>主要競爭者</th>
+            <td>NVIDIA, Broadcom</td>
+            <td>Innolight, MACOM</td>
+            <td>Intel, Cisco</td>
+            <td>Lumentum, Calient</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 矽光子定位澄清 -->
+    <div class="reveal prose" style="margin-top: 48px;">
+      <div class="callout">
+        <span class="callout-label">那「矽光子」呢？</span>
+        <p>
+          矽光子 <strong>不在</strong> 上表中 —— 因為它是<em>底層製造技術</em>，不是一種競爭規格。CPO 的光引擎用矽光子做、LPO 模組裡的光元件也用矽光子做、OCS 的部分元件也可以用矽光子。<strong>矽光子是工具箱，CPO/LPO/NPO/OCS 是用這個工具箱做出來的不同產品。</strong>
+        </p>
+      </div>
+
+      <div class="prose-block" style="margin-top: 32px;">
+        <h3 class="prose-h-small">那 CPC、XPO、LRO 又是什麼？</h3>
+        <p>
+          市面上還有零星名詞 ——<span class="term">LRO（Linear Receive Optics）</span>是 LPO 的小弟，只把接收端的 DSP 拿掉、發送端保留，作為 LPO 之前更保守的版本；<span class="term">CPC（Co-Packaged Copper）</span>是用銅線取代光纖的「逆向 CPO」，用於極短距、高密度連接；<span class="term">XPO</span>則是業界對「未來各種共封裝光學變種」的泛稱，目前還沒有具體標準。<strong>理解上方 CPO/LPO/NPO/OCS 這四個就夠用了。</strong>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ CHAPTER 06 · 廠商生態（兩欄產業鏈互動版） ============ -->
+<section id="ch06">
+  <div class="container-wide">
+    <div class="reveal">
+      <div class="chapter-mark">Chapter 06 · The Players</div>
+      <h2 class="section-title">產業鏈每一環，<em>誰在做什麼？</em></h2>
+      <p class="lead">
+        左邊是矽光子 × CPO 的<strong>完整產業鏈流向圖</strong>，從最上游的化合物半導體基板，一路到下游的系統整合 —— 點任何一層看右邊詳解、技術門檻、以及該層的代表廠商。每層之間用箭頭標示<em>物料 / 訊號的流向</em>，幫你建立「環環相扣」的全貌。
+      </p>
+    </div>
+
+    <div class="eco-tabs reveal">
+      <button class="eco-tab active" data-eco="all">完整供應鏈互動圖</button>
+      <button class="eco-tab" data-eco="tw">台灣聚焦</button>
+      <button class="eco-tab" data-eco="us">美國聚焦</button>
+    </div>
+
+    <!-- 完整供應鏈：兩欄佈局 -->
+    <div class="eco-content active" id="eco-all">
+      <div class="eco-split reveal">
+
+        <!-- 左欄：流向圖（粘性） -->
+        <div class="eco-chain-wrap">
+          <div class="eco-chain-title">
+            <span>SUPPLY CHAIN FLOW</span>
+            <span class="eco-chain-hint">點擊任一層 ▶</span>
+          </div>
+
+          <div class="eco-flow" id="ecoFlow">
+            <button class="eco-node active" data-layer="0">
+              <div class="eco-node-num">L01</div>
+              <div class="eco-node-text">
+                <div class="eco-node-name">化合物半導體基板</div>
+                <div class="eco-node-sub">InP / GaAs Substrate</div>
+              </div>
+              <div class="eco-node-position">↑ 最上游</div>
+            </button>
+            <div class="eco-arrow">▼</div>
+
+            <button class="eco-node" data-layer="1">
+              <div class="eco-node-num">L02</div>
+              <div class="eco-node-text">
+                <div class="eco-node-name">磊晶（Epitaxy）</div>
+                <div class="eco-node-sub">MOCVD · 原子級長膜</div>
+              </div>
+              <div class="eco-node-position">材料</div>
+            </button>
+            <div class="eco-arrow">▼</div>
+
+            <button class="eco-node" data-layer="2">
+              <div class="eco-node-num">L03</div>
+              <div class="eco-node-text">
+                <div class="eco-node-name">雷射 / PD 晶片加工</div>
+                <div class="eco-node-sub">Laser Diode · Photodetector</div>
+              </div>
+              <div class="eco-node-position">元件</div>
+            </button>
+            <div class="eco-arrow">▼</div>
+
+            <button class="eco-node" data-layer="3">
+              <div class="eco-node-num">L04</div>
+              <div class="eco-node-text">
+                <div class="eco-node-name">矽光子晶圓代工</div>
+                <div class="eco-node-sub">SiPh Foundry · PIC + EIC</div>
+              </div>
+              <div class="eco-node-position">晶圓</div>
+            </button>
+            <div class="eco-arrow">▼</div>
+
+            <button class="eco-node" data-layer="4">
+              <div class="eco-node-num">L05</div>
+              <div class="eco-node-text">
+                <div class="eco-node-name">光纖耦合 FAU + 光纖</div>
+                <div class="eco-node-sub">Fiber Array · Optical Fiber</div>
+              </div>
+              <div class="eco-node-position">耦合</div>
+            </button>
+            <div class="eco-arrow">▼</div>
+
+            <button class="eco-node" data-layer="5">
+              <div class="eco-node-num">L06</div>
+              <div class="eco-node-text">
+                <div class="eco-node-name">先進封裝 + 測試</div>
+                <div class="eco-node-sub">CPO Co-packaging · OSAT</div>
+              </div>
+              <div class="eco-node-position">封裝</div>
+            </button>
+            <div class="eco-arrow">▼</div>
+
+            <button class="eco-node" data-layer="6">
+              <div class="eco-node-num">L07</div>
+              <div class="eco-node-text">
+                <div class="eco-node-name">交換器晶片 + CPO 系統設計</div>
+                <div class="eco-node-sub">Switch ASIC · System Design</div>
+              </div>
+              <div class="eco-node-position">系統</div>
+            </button>
+            <div class="eco-arrow">▼</div>
+
+            <button class="eco-node" data-layer="7">
+              <div class="eco-node-num">L08</div>
+              <div class="eco-node-text">
+                <div class="eco-node-name">系統整合 / ODM / 新創</div>
+                <div class="eco-node-sub">Integrator · Optical I/O Startups</div>
+              </div>
+              <div class="eco-node-position">↓ 最下游</div>
+            </button>
+
+            <!-- 旁支：橫向支援服務 -->
+            <div class="eco-arrow" style="height:30px;">⋯</div>
+            <button class="eco-node" data-layer="8">
+              <div class="eco-node-num">L*</div>
+              <div class="eco-node-text">
+                <div class="eco-node-name">檢測 / 分析 / 驗證</div>
+                <div class="eco-node-sub">FA · MA · RA · 橫向服務</div>
+              </div>
+              <div class="eco-node-position">支援</div>
+            </button>
+          </div>
+
+          <div class="eco-flow-legend">
+            <strong>L01–L02</strong> 化合物半導體（不在矽製程內）<br>
+            <strong>L03–L05</strong> 光元件製造（PIC + 配套）<br>
+            <strong>L06–L08</strong> 整合到資料中心<br>
+            <strong>L*</strong> 橫跨各層的失效分析
+          </div>
+        </div>
+
+        <!-- 右欄：當前選擇層的詳解 -->
+        <div class="eco-detail-pane" id="ecoDetailPane">
+          <!-- 由 JS 填入 -->
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 台灣聚焦（沿用、輕度更新含新增廠商） -->
+    <div class="eco-content" id="eco-tw">
+      <div class="prose">
+        <div class="prose-block reveal">
+          <h3 class="prose-h">台灣的優勢分布在<em>哪幾層</em>？</h3>
+          <p>
+            台灣 CPO 供應鏈的特色是「<strong>啞鈴型</strong>」—— 上游磊晶（聯亞、IET-KY、全新）和中游光元件製造（台積電、上詮、光聖、波若威、日月光）特別強，下游系統設計（NVIDIA 那一類）幾乎沒有台廠，但 ODM（鴻海、廣達、智邦）和檢測分析（宜特、汎銓、閎康）又能補回來。
+          </p>
+          <p>
+            <strong>結構性護城河四個地方：</strong><br>
+            ① <span class="term">聯亞 + IET-KY</span> 的 InP 磊晶 —— 全球除 IDM 外最大產能，IET-KY 與光聖換股結盟做垂直整合<br>
+            ② <span class="term">台積電 COUPE</span> 平台 —— 6nm EIC + 65nm PIC + SoIC-X，是 NVIDIA 的選擇<br>
+            ③ <span class="term">上詮 + 光聖 + 波若威</span> 的光纖耦合 —— 上詮 22 項 FAU 專利、光聖股價破千、波若威光纖套件<br>
+            ④ <span class="term">宜特 + 汎銓 + 閎康</span> 檢測三雄 —— CPO 量產良率關鍵
+          </p>
+          <p>
+            這幾家任何一家出問題，整個 NVIDIA Quantum-X 系列都會延後。這就是 2026 年「<strong>矽光子七劍客</strong>」（聯亞、全新、IET-KY、波若威、上詮、光聖、華星光）股價爆發的根本原因。
+          </p>
+        </div>
+        <div class="callout warn reveal">
+          <span class="callout-label">風險所在</span>
+          <p><strong>台廠最弱的兩塊：</strong>(1) 沒有自主交換器 ASIC（智邦做交換器但 ASIC 是 Broadcom 的）；(2) 沒有矽光子 chiplet 新創（Ayar Labs 那一類），這意味著當「規格演進」時話語權有限。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 美國聚焦 -->
+    <div class="eco-content" id="eco-us">
+      <div class="prose">
+        <div class="prose-block reveal">
+          <h3 class="prose-h">美國的優勢分布在<em>哪幾層</em>？</h3>
+          <p>
+            美國的特色是「<strong>頭尾通吃</strong>」—— 上游基板（AXTI）、InP 雷射成品（Lumentum、Coherent、Fabrinet 雙寡占+組裝）、光纖龍頭（Corning）、頂端系統設計（NVIDIA、Broadcom、Marvell 三巨頭）、長距傳輸（Ciena、Nokia）、新創創新（Ayar Labs、Lightmatter、Celestial AI、Lightwave Logic）。中間製造則交給台廠。
+          </p>
+          <p>
+            <strong>四個關鍵動態：</strong><br>
+            ① <span class="term">Lumentum × Coherent</span>：NVIDIA $4B 訂單雙供應商。Lumentum 唯一量產 200G/lane EML、是 CPO 雷射絕對龍頭<br>
+            ② <span class="term">Marvell 收購 Celestial AI</span>（$5.5B）：宣告光互連是下一個半導體必爭之地<br>
+            ③ <span class="term">Corning Bailly 合格供應商</span>：Broadcom CPO 全光纖配套，GlassBridge 解決方案<br>
+            ④ <span class="term">Ciena WaveLogic 6 / Nokia 收購 Infinera</span>：DCI 長距 1.6T 相干市場雙頭壟斷
+          </p>
+        </div>
+        <div class="callout warn reveal">
+          <span class="callout-label">風險所在</span>
+          <p>美國最弱的兩塊：(1) <strong>沒有 InP 磊晶獨立代工廠</strong>（都靠 IDM 自製或從台灣買）；(2) <strong>FAU 與精密光學耦合</strong>幾乎沒有美廠 —— 這正是台廠的結構優勢。AAOI 已往垂直整合方向追趕。</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ============ CHAPTER 07 · 路線圖 ============ -->
+<section id="ch07" class="alt">
+  <div class="container">
+    <div class="reveal">
+      <div class="chapter-mark">Chapter 07 · The Roadmap</div>
+      <h2 class="section-title">商轉節奏 <em>2024 → 2030</em></h2>
+      <p class="lead">
+        矽光子不是 2026 才出現，但 2026 是它從題材變成業績的轉折點。把每年的關鍵事件依序排列。
+      </p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-year">2024 — 2025 · 卡位期</div>
+        <div class="timeline-h">800G/1.6T 可插拔模組全面放量</div>
+        <p class="timeline-p">傳統可插拔（pluggable）仍是市場主力。CPO 進入驗證、樣品、小量試產。台積電 COUPE 平台與 SiPhIA 聯盟成立。<strong>Broadcom Bailly Gen 1 在超大規模客戶部署</strong>（已完成 50,000 小時、32 組系統的長時間運轉測試）。LPO 在 OFC 出現多家展示但市場份額仍小。</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-year">2026 H1 · 商轉元年</div>
+        <div class="timeline-h">NVIDIA Quantum-X Photonics（InfiniBand）量產出貨</div>
+        <p class="timeline-p">第一波 CPO 大規模出貨從<em>交換器（Scale-Out）</em>開始 —— 風險低於 GPU 共封裝。Lumentum、Coherent 為主要雷射供應商；台積電做 PIC（OE on Substrate 方案）；上詮做 FAU；日月光做封裝。Lumentum 拿到史上最大單筆 CPO 雷射訂單。</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-year">2026 H2 · 乙太網跟進</div>
+        <div class="timeline-h">Spectrum-X Photonics（Ethernet）+ Broadcom Tomahawk 6-Davisson</div>
+        <p class="timeline-p">200G/lane 第三代 CPO 進入超大規模資料中心。3.2T 光引擎成新標竿。Marvell 結合 Celestial AI 推出客製化 XPU CPO。Oracle、Meta 跟進部署。</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-year">2027 — 2028 · Scale-Up 革命</div>
+        <div class="timeline-h">NVIDIA Rubin Ultra：「銅退光進」的轉折點</div>
+        <p class="timeline-p">CPO 從交換器（Scale-Out）走進 GPU 之間（Scale-Up）。NVLink 開始考慮共封裝光纖選項。台積電 COUPE Gen3 將光引擎、XPU 與 HBM 整合在矽中介層上。聯電新加坡廠量產矽光子。6.4T 光引擎成主流。</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-year">2028+ · Feynman 世代</div>
+        <div class="timeline-h">共封裝 NVLink 光纖互連</div>
+        <p class="timeline-p">NVIDIA Feynman 架構提供共封裝光纖 NVLink 選項。CPO 市場估達 $93B（CAGR 172%）。Micro LED、Micro VCSEL 等新光源技術可能挑戰矽光子既有設計。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="outro">
+  <div class="container">
+    <p>END · Field Guide · From Atom to Datacenter</p>
+  </div>
+</div>
+
+<script>
+/* ===== Reveal on scroll ===== */
+const io = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ===== 銅 vs 光對比 (從 v1 復刻、縮小尺寸) ===== */
+const compareData = {
+  copper: {
+    power: '~12 pJ/bit',
+    dist: '~3 公尺',
+    bw: '低',
+    svg: `
+      <svg viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <rect x="40" y="80" width="120" height="80" fill="rgba(167,139,250,0.10)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="100" y="125" text-anchor="middle" fill="#a78bfa" font-family="Noto Serif TC" font-size="16" font-weight="500">GPU A</text>
+        <rect x="640" y="80" width="120" height="80" fill="rgba(167,139,250,0.10)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="700" y="125" text-anchor="middle" fill="#a78bfa" font-family="Noto Serif TC" font-size="16" font-weight="500">GPU B</text>
+
+        ${[0,1,2,3,4,5].map(i => {
+          const y = 90 + i * 12;
+          return `<path d="M 160 ${y} Q 400 ${y - 30 + i*6}, 640 ${y}" stroke="#ffd166" stroke-width="2" fill="none" opacity="${0.4 + i*0.1}"/>`;
+        }).join('')}
+
+        <g transform="translate(400, 200)">
+          <path d="M -120 0 L -100 -10 L -80 5 L -60 -8 L -40 4 L -20 -3 L 0 1 L 20 -1 L 40 0 L 60 0 L 80 0 L 120 0" stroke="#ff5577" stroke-width="1.5" fill="none"/>
+          <text x="0" y="22" text-anchor="middle" fill="#ff5577" font-family="JetBrains Mono" font-size="11">訊號衰減 + 串音 + 反射</text>
+        </g>
+        <text x="400" y="50" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="12" letter-spacing="2">12+ COPPER LANES · POWER HUNGRY</text>
+      </svg>`
+  },
+  optical: {
+    power: '~3 pJ/bit',
+    dist: '~100 公尺+',
+    bw: '高（WDM ×8）',
+    svg: `
+      <svg viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <rect x="40" y="80" width="100" height="80" fill="rgba(167,139,250,0.10)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="90" y="115" text-anchor="middle" fill="#a78bfa" font-family="Noto Serif TC" font-size="14" font-weight="500">GPU A</text>
+        <text x="90" y="135" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="9">+ CPO</text>
+
+        <rect x="660" y="80" width="100" height="80" fill="rgba(167,139,250,0.10)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="710" y="115" text-anchor="middle" fill="#a78bfa" font-family="Noto Serif TC" font-size="14" font-weight="500">GPU B</text>
+        <text x="710" y="135" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono" font-size="9">+ CPO</text>
+
+        <line x1="140" y1="120" x2="660" y2="120" stroke="#4dd0e1" stroke-width="3" opacity="0.3"/>
+        <line x1="140" y1="120" x2="660" y2="120" stroke="#ff5577" stroke-width="1.2" stroke-dasharray="6 4" class="light-beam" opacity="0.8"/>
+        <line x1="140" y1="120" x2="660" y2="120" stroke="#ffd166" stroke-width="1.2" stroke-dasharray="6 4" stroke-dashoffset="3" class="light-beam" opacity="0.8"/>
+        <line x1="140" y1="120" x2="660" y2="120" stroke="#4ade80" stroke-width="1.2" stroke-dasharray="6 4" stroke-dashoffset="6" class="light-beam" opacity="0.8"/>
+        <line x1="140" y1="120" x2="660" y2="120" stroke="#a78bfa" stroke-width="1.2" stroke-dasharray="6 4" stroke-dashoffset="9" class="light-beam" opacity="0.8"/>
+
+        <text x="400" y="50" text-anchor="middle" fill="#4dd0e1" font-family="JetBrains Mono" font-size="12" letter-spacing="2">1 FIBER · MANY WAVELENGTHS · LOW POWER</text>
+        <text x="400" y="180" text-anchor="middle" fill="#9aa5bc" font-family="JetBrains Mono" font-size="10">λ₁  λ₂  λ₃  λ₄  ⋯  WDM 多工</text>
+        <text x="400" y="210" text-anchor="middle" fill="#4ade80" font-family="JetBrains Mono" font-size="11">純光傳輸 · 近乎零衰減</text>
+      </svg>`
+  }
+};
+
+function setCompare(mode) {
+  const d = compareData[mode];
+  document.getElementById('compareSvg').innerHTML = d.svg;
+  document.getElementById('metaPower').textContent = d.power;
+  document.getElementById('metaDist').textContent = d.dist;
+  document.getElementById('metaBw').textContent = d.bw;
+  const cls = mode === 'copper' ? 'copper' : 'optical';
+  ['metaPower','metaDist','metaBw'].forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove('copper', 'optical');
+    el.classList.add(cls);
+  });
+}
+document.querySelectorAll('#compareToggle button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#compareToggle button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    setCompare(btn.dataset.mode);
+  });
+});
+setCompare('copper');
+
+/* ===== Chapter 02 · 訊號旅程 ===== */
+const journeyData = [
+  {
+    name: '位元起點 · GPU A',
+    en: 'STEP 01 · ELECTRICAL · ASIC',
+    pos: 60,
+    color: '#a78bfa',
+    desc: `
+      <p><strong>正在發生什麼：</strong>GPU A 處理完一個運算結果，產生一串 0 和 1。它把這串資料送到自己的 SerDes（高速介面），轉成 <span class="key">PAM4 電訊號</span> —— 一種能用 4 個電壓階位代表 2 個位元的編碼，比傳統 NRZ 翻倍頻寬。</p>
+      <p><strong>所在位置：</strong><em>ASIC 主晶片本身</em>，跟光引擎還沒有關係。</p>
+      <p><strong>形式：</strong>純粹的<em>電壓變化</em>，在矽中介層的金屬走線上以光速的 0.5 倍傳遞。</p>
+    `
+  },
+  {
+    name: '數位處理 · Tx DSP',
+    en: 'STEP 02 · TX-SIDE DSP',
+    pos: 150,
+    color: '#4ade80',
+    desc: `
+      <p><strong>正在發生什麼：</strong>傳統可插拔光模組的「<strong>大腦級</strong>」元件登場。<span class="key">DSP（數位訊號處理器）</span>對 SerDes 出來的高速訊號做三件事：(1) <strong>等化（Equalization）</strong>：抵銷銅線傳輸造成的高頻衰減；(2) <strong>編碼與糾錯（FEC）</strong>：加入冗餘位元方便接收端發現錯誤；(3) <strong>線性化預失真</strong>：補償後段調製器的非線性。</p>
+      <p><strong>所在位置：</strong>嚴格說屬於 <em>EIC 體系</em>（也是 CMOS 電子晶片），但通常做成<strong>獨立的大顆 DSP 晶片</strong>，跟 EIC 是分開的兩顆。</p>
+      <p><strong>為什麼存在：</strong>從 ASIC 經 SerDes 走到光模組，銅線距離 5–15 公分，<em>訊號損失嚴重</em>，沒有 DSP 修補根本到不了光模組。一顆 400G DSP 大約 4 W、800G DSP 約 8 W，<strong>佔整顆模組功耗 50%</strong>。</p>
+      <p><strong>關鍵伏筆：</strong>這就是 LPO 和 CPO 攻擊的目標。<span class="key">LPO 直接拔掉 DSP 靠 ASIC SerDes 補償；CPO 把光引擎拉到 ASIC 旁邊、距離極短，連 DSP 都不那麼必要</span>。</p>
+    `
+  },
+  {
+    name: '電訊號放大 · Driver',
+    en: 'STEP 03 · DRIVER · EIC',
+    pos: 247,
+    color: '#4dd0e1',
+    desc: `
+      <p><strong>正在發生什麼：</strong>EIC（電子晶片）裡的 <strong>modulator driver</strong> 接到 DSP 出來的訊號後，把電壓拉到 1–2 V —— 因為調製器需要這麼高才能改變光波。</p>
+      <p><strong>所在位置：</strong><span class="key">這是 EIC（電子晶片）的核心元件之一</span>，用 CMOS 製程做。它跟下一步的 Modulator 是<em>緊貼但分屬不同晶片</em> —— EIC 和 PIC 用 die-to-die bonding 堆疊在一起，共同組成「Tx 光引擎」。</p>
+      <p><strong>為什麼需要：</strong>從 DSP 出來的訊號電壓很小（約 0.4 V，省電考量），但 PIC 上的調製器（不論 MRM、MZM、EAM）物理上需要更高電壓才能改變光波。Driver 的角色就像音響的擴大機。</p>
+    `
+  },
+  {
+    name: '電→光調製 · Modulator',
+    en: 'STEP 04 · MODULATOR · PIC (Laser 注入)',
+    pos: 342,
+    color: '#ffd166',
+    desc: `
+      <p><strong>正在發生什麼：</strong><em>整個光引擎最關鍵的一步</em>。外部雷射（ELS）從上方注入穩定 CW 光波進 PIC，Modulator 同時收到 Driver 來的電訊號，<strong>用電壓改變光的強弱</strong> —— 電壓高時讓光通過、電壓低時擋住光。位元就被「寫」在光波上了。</p>
+      <p><strong>所在位置：</strong><span class="key">Modulator 是 PIC（光子晶片）的核心元件</span>，跟前一步的 Driver 在同一個「Tx 光引擎」內、但分屬不同晶片。<em>雷射本身是另一塊獨立的 InP 晶片</em>，從外部接過來。</p>
+      <p><strong>為什麼雷射要外部？</strong>① <strong>矽不會發光</strong>（間接能隙），雷射必須用磷化銦（InP）。② <strong>InP 怕熱</strong>，ASIC 滿載 100°C 會把雷射煮壞，所以分開放在「冷靜區」獨立散熱。</p>
+      <p><strong>實際機制（以 MRM 為例）：</strong>微環調製器是一個直徑 10μm 的環形波導，加電壓會改變矽材料的折射率，改變折射率就改變環的共振波長，共振波長一變，原本的光就被吸進環裡（變暗）或通過（變亮）。<span class="key">把 0 寫成「暗」、把 1 寫成「亮」</span>。</p>
+      <p><strong>三種調製器：</strong>MRM（微環，小但溫度敏感）、MZM（馬赫-曾德爾，大但穩定）、EAM（電吸收，InP 上、高速性能最佳）。NVIDIA Quantum-X 採用 MRM。</p>
+    `
+  },
+  {
+    name: '光纖傳輸 · Fiber',
+    en: 'STEP 05 · OPTICAL TRANSPORT',
+    pos: 542,
+    color: '#ffd166',
+    desc: `
+      <p><strong>正在發生什麼：</strong>調製好的光透過 FAU（光纖陣列）進入光纖，沿著直徑 9 微米的單模光纖核心傳輸。光在光纖內<strong>以光速的 2/3 速度</strong>前進（玻璃折射率 1.5），近乎零阻力。</p>
+      <p><strong>所在位置：</strong>離開晶片進入<em>光纖介質</em>。<strong>FAU</strong> 負責把 PIC 對外的光精準耦合到光纖（誤差 ±0.5 微米內）—— 這是上詮、Corning 的關鍵戰場。</p>
+      <p><strong>對比銅線：</strong>同樣 100 公尺距離，銅線需要每幾公尺一個放大器修補訊號；光纖<em>幾乎不衰減</em>（每公里損失 0.2 dB），可以一路直達。</p>
+      <p><strong>WDM 多工：</strong>更先進的系統會在同一條光纖中同時跑 8 個不同波長（顏色），<span class="key">一條光纖同時傳 8 路資料</span>。</p>
+    `
+  },
+  {
+    name: '光→電還原 · PD',
+    en: 'STEP 06 · PHOTODETECTOR · PIC',
+    pos: 735,
+    color: '#ffd166',
+    desc: `
+      <p><strong>正在發生什麼：</strong>光抵達 GPU B 的光引擎，透過 FAU 進入 PIC。<strong>光偵測器（PD）</strong>把光波轉回電流：光打進來時產生微弱電流（幾微安），等於把光讀出 0/1。</p>
+      <p><strong>所在位置：</strong><span class="key">這是 PIC（光子晶片）的元件</span>，跟發送端的 Modulator 一樣住在矽光子晶片裡。具體做法是<em>把鍺（Ge）長在矽上</em>（Ge-on-Si）—— 鍺會吸光產生電流、矽不會，這就形成了一個工作型光二極體。</p>
+      <p><strong>物理原理：</strong>光子打進鍺後激發電子-電洞對，在外加偏壓下被分離形成光電流。<em>光越強、電流越大</em>，所以是個直接的「強度→電流」轉換。</p>
+      <p><strong>關鍵指標：</strong>響應度（A/W）、頻寬（GHz）、暗電流（noise floor）。台積電 COUPE 的 Ge-on-Si PD 響應度約 0.8 A/W、頻寬超過 50 GHz。</p>
+    `
+  },
+  {
+    name: '電流放大 · TIA',
+    en: 'STEP 07 · TRANSIMPEDANCE AMPLIFIER · EIC',
+    pos: 825,
+    color: '#4dd0e1',
+    desc: `
+      <p><strong>正在發生什麼：</strong>PD 出來的電流只有幾<em>微安（μA）</em>，數量級微小、根本無法直接使用。<strong>TIA（跨阻放大器）</strong>登場：把微弱電流轉成毫伏級電壓，放大到後端能讀的程度。</p>
+      <p><strong>所在位置：</strong><span class="key">這是 EIC（電子晶片）的核心元件之一</span>，跟發送端的 Driver 同屬 EIC 體系、用 CMOS 製程做。它跟前段的 PD 用 die-to-die bonding 緊貼在一起、共同組成「Rx 光引擎」—— <em>距離一長雜訊就會吃掉訊號</em>。</p>
+      <p><strong>為什麼叫「跨阻」？</strong>它的功能是把「電流輸入」變成「電壓輸出」，這種轉換在電路術語就叫做<em>跨阻（Transimpedance）</em>。Gain（增益）的單位是 Ω。</p>
+      <p><strong>關鍵指標：</strong><span class="key">TIA 的雜訊水準直接決定整顆光模組的接收靈敏度</span>。雜訊低 → 能讀更微弱的光 → 雷射可以開小一點 → 整體更省電。MACOM、Semtech、Maxlinear 是領先供應商。</p>
+    `
+  },
+  {
+    name: '訊號修復 · Rx DSP',
+    en: 'STEP 08 · RX-SIDE DSP',
+    pos: 915,
+    color: '#4ade80',
+    desc: `
+      <p><strong>正在發生什麼：</strong>接收端的 <span class="key">DSP</span> 接到 TIA 出來的失真訊號，做四件事：(1) <strong>時鐘恢復（CDR）</strong>：從訊號中還原出原始時脈；(2) <strong>等化補償</strong>：抵銷光纖傳輸 + 後段銅線造成的失真；(3) <strong>FEC 糾錯</strong>：用冗餘位元判斷哪些位元被傳錯了並修正；(4) <strong>還原成乾淨的 PAM4</strong> 交給 GPU B 的 SerDes。</p>
+      <p><strong>所在位置：</strong>跟 Tx DSP 對稱 —— 屬於 EIC 體系但通常獨立成大顆晶片。<em>是傳統光模組的兩個耗電怪獸之一</em>。一顆 1.6T 模組 Tx + Rx 兩個 DSP 加起來可以吃掉 16 W。</p>
+      <p><strong>各規格的取捨：</strong>傳統可插拔（FRO）兩端都有 DSP；<strong>LRO</strong> 拿掉 Rx DSP 但保留 Tx；<strong>LPO</strong> 兩端都拿掉、靠 ASIC SerDes 補償；<strong>CPO</strong> 因為距離極短、訊號損失極小，<em>多數設計也省略 DSP</em>。<span class="key">DSP 在不在，是區分四種光通訊架構最關鍵的指標</span>。</p>
+    `
+  },
+  {
+    name: '抵達 · GPU B',
+    en: 'STEP 09 · ARRIVAL · ASIC',
+    pos: 1020,
+    color: '#a78bfa',
+    desc: `
+      <p><strong>完成。</strong>這個 0/1 位元成功從 GPU A 傳到 GPU B，整個過程在<strong>毫秒之內</strong>完成（資料中心內部）。GPU B 的 SerDes 接到 Rx DSP 整理好的乾淨 PAM4 訊號，還原成數位 0/1 後交給 GPU 核心。</p>
+      <p><strong>能耗賬：</strong>傳統可插拔（含兩個 DSP）做這一趟約 ~12 pJ/bit；CPO（無 DSP）做同樣的事 ~3 pJ/bit。<em>當資料中心每秒搬運 PB 級資料時，這 75% 的省電對應到上百萬瓦的電力</em>。</p>
+      <p><strong>整段流程的元件歸屬整理：</strong><br>
+      • <strong>ASIC</strong>：GPU A、GPU B（兩端的主晶片）<br>
+      • <strong>EIC（電子晶片）</strong>：Driver、TIA（含 DSP 也可選擇性放在這裡）<br>
+      • <strong>PIC（光子晶片）</strong>：Modulator、PD、波導<br>
+      • <strong>獨立 InP 晶片</strong>：外部雷射（ELS）<br>
+      • <strong>傳輸介質</strong>：光纖 + FAU<br>
+      <span class="key">EIC 和 PIC 緊貼堆疊 = 光引擎；ASIC + 光引擎共封裝 = CPO</span>。</p>
+    `
+  }
+];
+
+let jStep = 0;
+let jPlaying = false;
+
+function renderJourney() {
+  const d = journeyData[jStep];
+  document.getElementById('journeyDetail').innerHTML = `
+    <h4>${d.name}</h4>
+    <div class="en">${d.en}</div>
+    <div class="qa"><div class="q-content">${d.desc}</div></div>
+  `;
+  // 移動圓點
+  const bit = document.getElementById('travelBit');
+  const glow = document.getElementById('travelGlow');
+  bit.setAttribute('opacity', '1');
+  glow.setAttribute('opacity', '0.5');
+  bit.setAttribute('cx', d.pos);
+  glow.setAttribute('cx', d.pos);
+  bit.setAttribute('fill', d.color);
+  glow.setAttribute('stroke', d.color);
+  // 高亮對應 stage
+  for (let i = 0; i < 9; i++) {
+    const g = document.getElementById('jstg-' + i);
+    if (g) g.style.opacity = i === jStep ? '1' : '0.5';
+  }
+  // 進度
+  document.getElementById('jStepNow').textContent = String(jStep + 1).padStart(2, '0');
+}
+
+document.getElementById('jPrev').addEventListener('click', () => {
+  jPlaying = false;
+  document.getElementById('jPlay').textContent = '▶ 自動播放';
+  jStep = (jStep - 1 + journeyData.length) % journeyData.length;
+  renderJourney();
+});
+document.getElementById('jNext').addEventListener('click', () => {
+  jPlaying = false;
+  document.getElementById('jPlay').textContent = '▶ 自動播放';
+  jStep = (jStep + 1) % journeyData.length;
+  renderJourney();
+});
+document.getElementById('jReset').addEventListener('click', () => {
+  jPlaying = false;
+  document.getElementById('jPlay').textContent = '▶ 自動播放';
+  jStep = 0;
+  renderJourney();
+});
+document.getElementById('jPlay').addEventListener('click', function() {
+  jPlaying = !jPlaying;
+  this.textContent = jPlaying ? '⏸ 暫停' : '▶ 自動播放';
+  if (jPlaying) autoPlay();
+});
+function autoPlay() {
+  if (!jPlaying) return;
+  jStep = (jStep + 1) % journeyData.length;
+  renderJourney();
+  setTimeout(autoPlay, 3500);
+}
+renderJourney();
+
+/* ===== Chapter 03 · CPO 解剖 ===== */
+const anatomyData = {
+  asic: {
+    name: '運算晶片 ASIC',
+    en: 'XPU · GPU · Switch ASIC · 01',
+    qa: [
+      ['是什麼', '整顆系統的「大腦」。可能是 NVIDIA GPU、Broadcom 的交換器晶片（Tomahawk 系列）、或自研 AI 加速器。它<strong>處理資料、決定資料的去向</strong>，但它本身只懂「電」，不會發光、不懂光。'],
+      ['長什麼樣', '一塊矽晶片，邊長通常 25–50 mm，內含上百億顆電晶體。表面有上千個微小焊球（C4 bumps）連接到底下基板。'],
+      ['做什麼', '<strong>傳統做法：</strong>把處理好的位元推到晶片邊緣，再走 5–15 公分的銅線到主機板邊緣的可插拔模組。<br><strong>CPO 做法：</strong>直接把位元推到旁邊幾毫米的光引擎。<em>距離 = 功耗</em>，這就是 CPO 省電的根本原理。'],
+      ['為什麼非有不可', '所有資料的起點與終點。但因為它只懂電，所以必須有「翻譯員」（光引擎）幫它把電變成光、再把回來的光變回電。']
+    ]
+  },
+  conn: {
+    name: '電氣互連（die-to-die）',
+    en: 'Substrate · Die-to-die SerDes · 02',
+    qa: [
+      ['是什麼', 'ASIC 與光引擎之間那一小段「<strong>電路橋樑</strong>」。它走在<span class="key">矽中介層（silicon interposer）</span>或基板（substrate）上，距離只有幾毫米。'],
+      ['長什麼樣', '看不見 —— 它是埋在基板裡的微小金屬走線。但它的<em>密度極高</em>：UCIe 標準下每平方毫米可以塞超過 10 條高速通道。'],
+      ['做什麼', '把 ASIC 內部處理好的電訊號，<strong>用最低功耗送到 EIC</strong>。因為距離超短，不需要強力驅動電路，能耗從傳統 SerDes 的 ~10 pJ/bit 降到 ~1 pJ/bit。'],
+      ['為什麼非有不可', '這就是 CPO 的<em>核心優勢來源</em>。整個 CPO 哲學就是「縮短電的距離」，這幾毫米的精心設計，是省一整顆 DSP 的關鍵。Broadcom、NVIDIA 在這個介面上花了無數心血。']
+    ]
+  },
+  engine: {
+    name: '光引擎（EIC + PIC）',
+    en: 'Optical Engine · 03',
+    qa: [
+      ['是什麼', '真正執行「電 ↔ 光」翻譯的核心。由<strong>兩個晶片堆在一起</strong>：<br>• <span class="key">EIC</span>（電子積體電路）：光引擎裡負責處理電訊號的晶片；CMOS 製程，含驅動器、訊號放大器、控制邏輯<br>• <span class="key">PIC</span>（光子積體電路）：光引擎裡負責處理光訊號的晶片；矽光子製程，含波導、調製器、光偵測器'],
+      ['長什麼樣', '一塊大約 5×5 mm 的矽晶片，肉眼看到表面是平的，但顯微鏡下有蜿蜒的「光路」（波導，寬約 500nm，可以彎曲導光），還有像同心圓的「光柵耦合器」（讓光從晶片表面進出）。'],
+      ['關鍵零件 1 · 調製器（Modulator）', '把電訊號「寫」到光波上的核心元件。最常見三種：<br>• <strong>馬赫-曾德爾調製器（MZM）</strong>：把光波分兩路、加電壓改變一路相位、再合併產生強弱變化。元老級設計、面積大、耗電也大。<br>• <strong>微環調製器（MRM）</strong>：一個直徑 10μm 的環形波導，加電壓改變環的「共振波長」就能調製光。NVIDIA 二代 CPO 採用，<em>面積小 100 倍、功耗低 5 倍</em>。<br>• <strong>電吸收調製器（EAM）</strong>：靠 InP 材料的吸收特性直接調光，用於高速 200G/lane 場景。'],
+      ['關鍵零件 2 · 光偵測器（PD）', '把光變回電的元件。通常用<strong>鍺（Ge）長在矽上</strong>（鍺會吸光、矽不會），形成 Ge-on-Si 光二極體。一個 PD 配一個 TIA（跨阻放大器，把微弱光電流放大成可用電壓）。'],
+      ['為什麼非有不可', '<em>這就是 CPO 的「心臟」</em>。沒有光引擎，電訊號永遠變不了光，CPO 就只是一個概念。台積電 COUPE 平台主要就是在做這顆。']
+    ]
+  },
+  laser: {
+    name: '外部雷射 ELS',
+    en: 'External Laser Source · CW Laser · 04',
+    qa: [
+      ['是什麼', '持續發出穩定光波的雷射，叫做<span class="key">連續波雷射（CW Laser）</span>。為什麼放外面？因為矽不會發光，得用磷化銦（InP）做；<strong>而 InP 雷射怕熱怕到極點</strong> —— 溫度差 1°C，波長就漂移、訊號就錯。所以放在 ASIC 旁邊（旁邊熱得要命）行不通，得放在「冷靜的地方」獨立散熱。'],
+      ['長什麼樣', '一顆封裝好的小盒子（約 1×2 cm），裡面有 InP 雷射晶片（小於 1 mm）+ 散熱片 + 對位光纖。輸出一條光纖，把純淨光送到 PIC。'],
+      ['做什麼', 'InP 晶片發出特定波長（如 1310 nm 或 1550 nm）的<strong>純淨、穩定光波</strong>。注意 ——「<em>這道光本身不帶資料</em>」，它只是一張白紙、一個載波。資料是後面在 PIC 內部由調製器寫上去的。<br><br>更先進的設計用<strong>多波長雷射</strong>（如 8 個波長），一條光纖同時跑 8 條資料流（WDM 多工），頻寬密度提升 8 倍。'],
+      ['為什麼放外部', '兩個理由：<br>① <strong>熱隔離</strong>：ASIC 滿載溫度可達 100°C，會把雷射煮壞。<br>② <strong>獨立可換</strong>：雷射如果壞了，不用換整顆 CPO，只需換 ELS 模組就好（這是 CPO 之所以還能商用的關鍵設計妥協）。NVIDIA Quantum-X 採用此設計。'],
+      ['難在哪', '高功率、高穩定性、長壽命的 InP CW 雷射全球只有 Lumentum、Coherent 等少數幾家做得到。Lumentum 在 2025 年拿到史上最大單筆 CPO 雷射訂單，靠的就是這個技術門檻。']
+    ]
+  },
+  fau: {
+    name: '光纖陣列單元 FAU',
+    en: 'Fiber Array Unit · 05',
+    qa: [
+      ['是什麼', '把幾十條光纖<strong>精準對到 PIC 邊緣或表面</strong>的小型耦合元件。誤差容許值 <span class="key">±0.5 微米</span>（人髮直徑的 1/200）—— 對歪一點點，光就漏一大半。'],
+      ['長什麼樣', '一塊小玻璃，上面有幾十條 V 型槽（V-groove），每條槽精確嵌入一條光纖（直徑 125μm）。這個 V-groove 的精度需要奈米等級的雷射加工或微影製程。'],
+      ['兩種主流耦合方式', '<strong>邊緣耦合（Edge Coupling, EC）</strong>：光從 PIC 側面水平進出。優點是耦合效率高（損失 < 1 dB），缺點是 PIC 邊緣得做特殊的「<em>逐漸縮小的波導（spot-size converter）</em>」把光擴大配合光纖直徑。<br><br><strong>光柵耦合（Grating Coupling, GC）</strong>：光從 PIC 表面垂直進出。優點是可在晶圓上一次測試所有元件、製造方便，缺點是耦合效率較低（損失 ~3 dB）且有波長依賴性。<br><br>台積電 COUPE 同時支援兩種。'],
+      ['做什麼', '把光從 PIC 引到光纖、或把光纖的光導入 PIC。<em>這個界面的耦合損耗，直接決定整顆 CPO 的能耗預算</em>。一顆 CPO 通常有 32–128 個 FAU 點位，每個點位多 0.5 dB 損失，整體就要多燒 10% 的雷射功率。'],
+      ['為什麼台廠強？', '光纖耦合需要 <em>20 年累積的 know-how</em>，且不適合 IDM 大廠垂直整合。上詮在 FAU 領域累積 22 項專利，是台積電矽光子體系唯一光通訊夥伴。波若威、合聖、奇景也是主要玩家。<span class="key">這是台灣 CPO 供應鏈最有結構性護城河的一層</span>。']
+    ]
+  },
+  fiber: {
+    name: '光纖出口（Fiber Shuffle）',
+    en: 'Fiber Shuffle · MPO Connector · 06',
+    qa: [
+      ['是什麼', '把 FAU 出來的幾十條（甚至上千條）光纖<strong>整理、彎折、編排</strong>成可管理的線束，最後通過 <span class="key">MPO 連接器</span>（一個連接器內含 12 或 24 條光纖）連到外部光纖網路。'],
+      ['長什麼樣', '從 CPO 模組出來看像一束細細的彩色光纖排線，最終匯入一個方形的 MPO 連接器。一台 NVIDIA Quantum-X 交換器可能要拉 1024 條以上的光纖出來。'],
+      ['做什麼', 'CPO 一旦把光帶出 ASIC 旁邊，後段就跟傳統光通訊一樣 —— 但<em>密度高得多</em>。原本插一根 QSFP 光模組的位置，現在要拉 32 條光纖出來。<strong>光纖管理變成一門新學問</strong>。'],
+      ['為什麼非有不可', '訊號要送到別的機架、別的機房，必須有實體光纖通道。Fiber Shuffle 把 CPO 內部高密度的光纖整理成業界標準的可插拔接頭，<span class="key">這是 CPO 系統能跟既有資料中心相容的最後一哩路</span>。']
+    ]
+  }
+};
+
+function renderAnatomy(key) {
+  const d = anatomyData[key];
+  const html = `
+    <h4>${d.name}</h4>
+    <div class="en">${d.en}</div>
+    ${d.qa.map(([q, a]) => `
+      <div class="qa">
+        <div class="q-label">${q}</div>
+        <div class="q-content">${a}</div>
+      </div>
+    `).join('')}
+  `;
+  document.getElementById('anatomyDetail').innerHTML = html;
+  // 高亮 SVG 中對應元件
+  document.querySelectorAll('#anatomyMain .part').forEach(p => {
+    p.style.opacity = p.dataset.part === key ? '1' : '0.4';
+    p.style.transition = 'opacity 0.4s';
+  });
+}
+document.querySelectorAll('.pick-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.pick-btn').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    renderAnatomy(b.dataset.anatomy);
+  });
+});
+document.querySelectorAll('#anatomyMain .part').forEach(p => {
+  p.addEventListener('click', () => {
+    const key = p.dataset.part;
+    document.querySelectorAll('.pick-btn').forEach(x => {
+      x.classList.toggle('active', x.dataset.anatomy === key);
+    });
+    renderAnatomy(key);
+  });
+});
+renderAnatomy('asic');
+
+/* ===== Eco Chain (Chapter 05 兩欄產業鏈互動圖) ===== */
+const ecoLayers = [
+  // 0
+  {
+    num: 'LAYER 01',
+    name: '化合物半導體基板',
+    en: 'InP / GaAs Substrate',
+    difficulty: '門檻 ●●●●● 極高 · 全球 3 家以內',
+    explain: `<p><strong>什麼是基板？</strong>磊晶之前最上游的「<em>白底畫布</em>」—— 一片高純度、無缺陷的單晶磷化銦（InP）或砷化鎵（GaAs）圓晶。直徑只有 3-6 吋（遠小於 12 吋的矽晶圓），但<em>每一片要價數千美元</em>。</p>
+<p><strong>為什麼難做？</strong>InP/GaAs 單晶生長過程在高溫熔爐中進行（500-1500°C），晶體要長得方向一致、無位錯缺陷、雜質低於 1 ppm。一爐長一塊晶錠要數天時間，且 InP 比矽脆得多，切片良率很低。<em>全世界做得到的廠商不到 5 家</em>，且 AXTI 的中國產線同時面臨美中出口管制壓力。</p>
+<p><strong>關鍵伏筆：</strong>沒有基板 → 沒有磊晶 → 沒有雷射 → 沒有 CPO。<span class="key">這是整條光通訊產業鏈的源頭</span>。</p>`,
+    companies: {
+      us: [
+        ['AXT Inc.', 'AXTI', '<strong>西方最大 InP/GaAs 基板獨立供應商</strong>，全球市佔約 30-35%。InP 是矽光子雷射唯一能用的基板，沒有替代品。'],
+      ],
+      other: [
+        ['Sumitomo Electric 住友電氣', 'JP', '日本 InP 基板大廠，主要供應內部使用。'],
+        ['JX Advanced Metals', 'JP', '日本第二大 InP 基板供應商。'],
+      ]
+    }
+  },
+  // 1
+  {
+    num: 'LAYER 02',
+    name: '磊晶（Epitaxy）',
+    en: 'MOCVD Epi-wafer',
+    difficulty: '門檻 ●●●●● 極高 · 原子級長膜技術',
+    explain: `<p><strong>什麼是磊晶？</strong>把 InP/GaAs 基板送進反應爐，<em>一層一層長</em>不同成分的化合物薄膜（每層只有幾十個原子厚）。每一層的成分、摻雜濃度都要精確到原子等級 —— 因為「<em>能不能發光、發什麼顏色（波長）</em>」全靠這幾層原子排列方式決定。</p>
+<p><strong>怎麼做？</strong>主流是 <span class="term">MOCVD（金屬有機化學氣相沉積）</span>：把 In、P、Ga、As 等元素的氣態化合物送入反應爐，加熱到 600-700°C 讓它們在晶圓表面分解、重組成完美晶格。一爐 8 小時，機台超過 500 萬美元。</p>
+<p><strong>為什麼難？</strong>不同層的晶格常數不能差太多（差一點就裂）、雜質要極乾淨（一個雜原子可能毀掉一整批）、6 吋晶圓上每個位置厚度要均勻在 ±1 nm 內。<span class="key">這是台廠最具結構性護城河的一層</span>。</p>`,
+    companies: {
+      tw: [
+        ['聯亞 LandMark', '3081', '<strong>業界除 IDM 外最大 InP 磊晶產能</strong>，1.6T 磊晶技術全球領先。供應 NVIDIA、Lumentum、Coherent 上游。CW 雷射磊晶片市佔率全球頂尖。'],
+        ['IET-KY', '4971', '<strong>磷化銦磊晶領頭羊之一</strong>，2025 年底與光通訊股王光聖換股結盟、推垂直整合。專攻三五族磊晶（InP、GaAs）切入 CPO 與矽光子。'],
+        ['全新 VPEC', '2455', 'GaAs / InP 磊晶代工龍頭，跨入矽光子發光元件磊晶。'],
+        ['環宇-KY', '4991', 'III-V 化合物半導體製造，<strong>光偵測器（PD）晶片</strong>主要供應商之一。'],
+        ['穩懋 WIN', '3105', 'GaAs 代工龍頭，跨入矽光子相關 III-V 製程。'],
+      ],
+      us: [
+        ['Lumentum', 'LITE', '自有 InP 磊晶廠（San Jose），<strong>內製 → 加工成成品雷射</strong>。垂直整合度最高，是 NVIDIA 投資對象。'],
+        ['Coherent', 'COHR', '自有 InP 與 GaAs 磊晶能力，<strong>正轉移到 6 吋 InP 晶圓</strong>挑戰 Lumentum 的 3 吋平台。NVIDIA $2B 投資對象。'],
+      ]
+    }
+  },
+  // 2
+  {
+    num: 'LAYER 03',
+    name: '雷射 / PD 晶片加工',
+    en: 'Laser Diode + Photodetector Fabrication',
+    difficulty: '門檻 ●●●●○ 高',
+    explain: `<p><strong>在做什麼？</strong>拿到磊晶片後，要把它「切」成幾千個獨立的雷射晶片或光偵測器（PD）晶片。中間還要做<em>蝕刻光柵</em>（決定波長精度的關鍵結構，叫 DFB / DBR）、鍍鏡面、鍍金屬電極、最後切割成單顆 + 測試。</p>
+<p><strong>為什麼難？</strong>雷射的鏡面是兩個垂直的解理面（cleaved facet），切割誤差不能超過幾十奈米；鏡面表面瑕疵會直接影響雷射輸出功率；切割完還要逐顆測試「<em>到底會不會發光、發的波長對不對</em>」，良率挑戰極大。</p>
+<p><strong>關鍵類型：</strong>CPO 主要用兩類光元件 —— ① <span class="term">CW Laser</span>（連續波雷射，發穩定光）+ ② <span class="term">EML</span>（電吸收調製雷射，雷射+調製器整合於一晶片，用於 200G/lane）。Lumentum 是<em>唯一量產 200G/lane EML</em> 的廠商，是 NVIDIA 1.6T 平台關鍵。</p>`,
+    companies: {
+      us: [
+        ['Lumentum', 'LITE', '<strong>200G/lane EML 唯一量產供應商</strong>，CPO 雷射霸主。NVIDIA 史上最大 CPO 雷射訂單。'],
+        ['Coherent', 'COHR', '與 Lumentum 並列 NVIDIA 雙供應商，<strong>CW Laser、EML 全產品線</strong>，6 吋 InP 量產推進中。'],
+        ['MACOM', 'MTSI', '高速類比光半導體、PD 與驅動 IC、LPO 主要推手之一。'],
+      ],
+      tw: [
+        ['華星光 Luxnet', '4979', '矽光子製程與 CPO 封裝、800G/1.6T 高速光通訊產品，Amazon / Google 認證護城河。'],
+        ['光環 EZconn', '3234', '與聯亞合作做 InP 雷射晶片切割與檢測。'],
+        ['聯鈞 Truelight', '3450', '旗下源傑做 400G/800G AOC，CW 雷射量產。'],
+        ['前鼎 Forward', '4908', '光收發次模組（TOSA/ROSA），跨入矽光子模組。'],
+      ]
+    }
+  },
+  // 3
+  {
+    num: 'LAYER 04',
+    name: '矽光子晶圓代工',
+    en: 'Silicon Photonics Foundry',
+    difficulty: '門檻 ●●●●● 極高 · 跟先進邏輯晶圓相當',
+    explain: `<p><strong>在做什麼？</strong>在 8 吋或 12 吋矽晶圓上「印」出光的電路：波導（光的導線）、調製器、光偵測器。同一片晶圓上一次做幾百個光引擎（PIC + EIC）。</p>
+<p><strong>為什麼難？</strong>矽光子製程要同時滿足兩個世界的要求：<em>對 CMOS 部分</em>要做到 65nm 甚至更小；對<em>光學部分</em>要做到表面粗糙度 &lt; 1nm（不然光會散射損失）。波導側壁的粗糙度直接決定整顆 PIC 的性能。</p>
+<p><strong>台積電 COUPE：</strong>結合 6nm EIC + 65nm PIC + SoIC-X 3D 堆疊，<span class="key">全球只有 2-3 家做得到</span>。NVIDIA Quantum-X 採用。</p>`,
+    companies: {
+      tw: [
+        ['台積電 TSMC', '2330', '<strong>COUPE 平台</strong>：6nm EIC + 65nm PIC + SoIC-X 封裝，NVIDIA Quantum-X 採用，CPO 高階首選。'],
+        ['聯電 UMC', '2303', '<strong>新加坡 Fab 12i P3 廠</strong>導入矽光子（授權 imec iSiPP300 製程），目標 2026-2027 量產。'],
+      ],
+      us: [
+        ['GlobalFoundries', 'GFS', '<strong>Fotonix 平台</strong>，整合 SiPh + CMOS 製程。<em>收購 AMF</em>、與 Corning 合作 GlassBridge 光纖耦合。Ayar Labs 早期合作對象。'],
+        ['Intel Foundry', 'INTC', '十年矽光子研發，<strong>自有 SiPh + 整合 CW 雷射</strong>製程（業界少見）。'],
+        ['Tower Semiconductor', 'TSEM', 'SiPh 平台，產能擴張 5 倍。支援單晶整合 CMOS + 光子。']
+      ]
+    }
+  },
+  // 4
+  {
+    num: 'LAYER 05',
+    name: '光纖耦合 FAU + 光纖',
+    en: 'Fiber Array Unit + Optical Fiber',
+    difficulty: '門檻 ●●●●○ 高 · 微米級對位 + 光纖製造',
+    explain: `<p><strong>什麼是 FAU？</strong>把幾十條（甚至幾百條）光纖<em>精準對到 PIC 的邊緣或表面</em>，誤差不能超過 ±0.5 微米（人髮直徑的 1/200）。對歪一點點，光就漏一大半。</p>
+<p><strong>為什麼難？</strong>FAU 要做 V 型槽（V-groove）精度奈米級、要選對玻璃膠、要在膠固化前主動對位（Active Alignment）—— 一邊打雷射一邊調光纖位置直到光最強，再把膠 UV 固化。<em>不適合 IDM 大廠垂直整合</em>，是台廠的結構優勢。</p>
+<p><strong>為什麼也包含光纖？</strong>CPO 需要<em>低彎曲損耗光纖</em>（短距高密度部署）、<em>偏振保持光纖</em>（雷射輸入用）—— Corning 是全球光纖龍頭、近期成為 Broadcom Bailly CPO 合格供應商，與 GlobalFoundries 合作 GlassBridge 耦合方案。</p>`,
+    companies: {
+      tw: [
+        ['上詮 Browave', '3363', '<strong>FAU 主力</strong>，<span class="key">台積電矽光子體系唯一光通訊夥伴、22 項關鍵專利</span>。NVIDIA CPO 主力供應商，CPO 量產進度超前。'],
+        ['光聖 Brilliance', '6442', '<strong>光通訊股王（破千元）</strong>。資料中心 cassette、光纖、cable 全方位，288 芯升級到 6,912 芯。<em>2025 年底與 IET-KY 換股結盟</em>。轉投資合聖做 FAU + ELS。'],
+        ['波若威 Browave', '3163', '<strong>光纖跳接線、CPO 關鍵耦合元件</strong>。AI 伺服器拉貨明顯，2026 第一季營收年增 25%。'],
+        ['奇景光電 Himax', 'HIMX', '透過微光學元件切入 FAU 領域。'],
+      ],
+      us: [
+        ['Corning', 'GLW', '<strong>全球光纖龍頭、Broadcom Bailly CPO 合格供應商</strong>，提供前面板連接器、雷射模組光纖、單模光纖、保偏光纖、FAU。<em>GlassBridge 玻璃波導</em>邊緣耦合方案與 GlobalFoundries 合作。'],
+      ]
+    }
+  },
+  // 5
+  {
+    num: 'LAYER 06',
+    name: '先進封裝 + 測試',
+    en: 'Advanced Packaging · Co-Packaging · OSAT',
+    difficulty: '門檻 ●●●●○ 高 · 整合電 + 光 + 熱',
+    explain: `<p><strong>在做什麼？</strong>把 PIC、EIC、ASIC、FAU、雷射這幾個本來分散的零件，<em>組裝在同一個基板上、密封、測試</em>。CPO 的封裝比一般晶片封裝難 10 倍 —— 因為它同時要顧電氣、光學、機械、熱設計。</p>
+<p><strong>為什麼難？</strong>矽光子對溫度極敏感（雷射波長會「紅移」），所以散熱不能像一般 ASIC 那樣只看 ASIC 本身，還要考慮光元件；同時光纖出口又必須對得很準。日月光（ASE）是 SiPhIA 聯盟領軍封測，<span class="key">台灣在這層有絕對話語權</span>。</p>
+<p><strong>同時也是 Fabrinet 的舞台：</strong>美廠 Fabrinet 是全球光收發模組組裝代工龍頭，Lumentum/Coherent 都是它客戶。</p>`,
+    companies: {
+      tw: [
+        ['日月光投控 ASE', '3711', '<strong>SiPhIA 聯盟領軍封測</strong>，CPO 共同封裝核心廠商。'],
+        ['訊芯-KY ShunSin', '6451', '光收發模組封裝，<strong>CSP AI 資料中心試產、矽光子題材高漲</strong>。'],
+        ['鴻騰精密 FIT', '6088', '深度參與 Broadcom CPO 計畫，<strong>Tomahawk 5 Bailly 平台量產關鍵元件</strong>，包括 LGA 對 LGA 插座、外部雷射源（PLS）介面、光連接器。'],
+        ['台星科 STATS', '3265', 'SiP 與光電封裝測試。'],
+        ['矽格 Sigurd', '6257', '光通訊模組測試。'],
+      ],
+      us: [
+        ['Fabrinet', 'FN', '<strong>全球最大光通訊代工組裝廠</strong>。不設計光晶片，但組裝測試大量光收發模組。Lumentum、Coherent 重要代工夥伴。'],
+        ['Applied Optoelectronics', 'AAOI', '<strong>垂直整合的光收發模組廠</strong>，自有美國產線（供應鏈主權題材），高功率雷射試樣中。'],
+      ]
+    }
+  },
+  // 6
+  {
+    num: 'LAYER 07',
+    name: '交換器晶片 + CPO 系統設計',
+    en: 'Switch ASIC · CPO Switch System · Coherent DCI',
+    difficulty: '門檻 ●●●●● 極高 · 美國寡占',
+    explain: `<p><strong>在做什麼？</strong><em>定義整個 CPO 系統長什麼樣</em>。設計交換器 ASIC、決定光引擎位置、規劃熱設計、選供應鏈。這一層分兩個子市場：</p>
+<p><strong>① 資料中心內部交換（Scale-out）：</strong>NVIDIA、Broadcom、Marvell 三家壟斷全球 95% 以上高階 AI 互連市場。</p>
+<p><strong>② 資料中心之間連接（DCI / Coherent）：</strong>Ciena 與 Nokia（含 Infinera）雙寡占，<em>長距離 1.6T 相干光通訊</em>。產品形式不同 —— 用 WaveLogic / PSE 自製 DSP + 矽光子前端做超長距傳輸（含跨海光纜）。</p>`,
+    companies: {
+      us: [
+        ['NVIDIA', 'NVDA', '<strong>Quantum-X Photonics</strong>（InfiniBand, 2026 H1）、<strong>Spectrum-X Photonics</strong>（Ethernet, 2026 H2）；2028 Feynman 共封裝 NVLink。對 Lumentum、Coherent 共 $4B 投資。'],
+        ['Broadcom', 'AVGO', 'Tomahawk 4-Humboldt（2021）→ TH5-Bailly（首款量產 CPO）→ <strong>2026 TH6-Davisson 200G/lane 第三代</strong>。與 Corning 合作。'],
+        ['Marvell', 'MRVL', '2025 年 12 月以 $5.5B 收購 <strong>Celestial AI</strong>；自製 XPU CPO 設計。400ZR 相干光通訊 DSP。'],
+        ['Ciena', 'CIEN', '<strong>長距相干光通訊龍頭</strong>。<em>WaveLogic 6 Extreme 1.6T 單波長</em>，自製 3nm 224G SerDes。DCI、海纜、長距骨幹網路。'],
+        ['Nokia', 'NOK', '<strong>2025 年收購 Infinera</strong>合併矽光子 + InP 能力，自有 CSTAR 矽光子 + PSE coherent DSP。2026 OFC 推出新一代 Building-block 架構，DCI 70% TCO 削減。'],
+        ['Cisco', 'CSCO', '收購 Acacia 後，矽光子模組與交換器整合。'],
+      ]
+    }
+  },
+  // 7
+  {
+    num: 'LAYER 08',
+    name: '系統整合 / ODM / 新創',
+    en: 'System Integrator · Optical I/O Startups',
+    difficulty: '門檻 ●●●○○ 中高 · 美國新創 + 台灣 ODM 兩條路',
+    explain: `<p><strong>兩條路：</strong></p>
+<p><strong>(A) 美國新創</strong>：挑戰現有架構，做 chiplet 化的光引擎，希望任何 ASIC 設計者都能買來組進自己的 SoC（像買一塊 IP）。代表 Ayar Labs、Lightmatter、Celestial AI、Lightwave Logic（電光聚合物）。</p>
+<p><strong>(B) 台灣 ODM</strong>：把 CPO 模組組進交換器、AI 伺服器、機櫃，最後交給雲端業者。</p>`,
+    companies: {
+      tw: [
+        ['智邦 Accton', '2345', '2020 年起與 Rockley、Molex 合作 CPO 交換器；800G 量產。<strong>法人最看好的台廠之一</strong>。'],
+        ['廣達 Quanta', '2382', 'AI 伺服器 ODM，整合 CPO 系統。'],
+        ['鴻海 Foxconn', '2317', '系統組裝，AI 機櫃 CPO 整合。'],
+        ['緯穎 Wiwynn', '6669', '資料中心伺服器整合。'],
+      ],
+      us: [
+        ['Ayar Labs', 'PRIVATE', '<strong>TeraPHY 光引擎 chiplet</strong>，與 GUC、TSMC COUPE 整合。NVIDIA、Intel 投資對象。'],
+        ['Celestial AI', '→ MRVL', 'Photonic Fabric，光學記憶體互連；<strong>2025 年 12 月被 Marvell 以 $5.5B 收購</strong>。'],
+        ['Lightmatter', 'PRIVATE', 'Passage 光學中介層；估值超 $4B。'],
+        ['POET Technologies', 'POET', '光學 Interposer 平台，整合雷射、調製器、電子於單晶片。與鴻海合作。'],
+        ['Lightwave Logic', 'LWLG', '<strong>電光聚合物（Perkinamine）調製器</strong>，可用 spin-coating 整合進矽光子廠線。已進 GlobalFoundries / GDSFactory PDK，2 家 Fortune 500 客戶 400G CPO 合作中。<em>挑戰矽材料調製器的另類路線</em>。'],
+      ]
+    }
+  },
+  // 8 - 旁支：檢測分析
+  {
+    num: 'CROSS-CUTTING',
+    name: '檢測 / 分析 / 驗證',
+    en: 'Failure / Material / Reliability Analysis',
+    difficulty: '門檻 ●●●○○ 中高 · 設備 CapEx 巨大',
+    explain: `<p><strong>為什麼是橫向支援？</strong>因為它<em>不在主流向圖上</em>，但<strong>每一層都需要它</strong> —— 從基板品質檢驗、磊晶薄膜分析、雷射晶片故障分析、PIC 波導粗糙度、到 CPO 封裝可靠度測試，<span class="key">每一個環節都要送樣到檢測公司做分析</span>。</p>
+<p><strong>三項主要服務：</strong><br>
+• <strong>MA</strong>（材料分析）：薄膜成分、界面品質、結構檢查<br>
+• <strong>FA</strong>（故障分析）：找出晶片為什麼壞掉<br>
+• <strong>RA</strong>（可靠度分析）：高溫高濕加速老化，預測壽命</p>
+<p><strong>為什麼跟 CPO 直接相關？</strong>CPO 把光學、電子、機械、熱整合在一起，<em>失效模式比一般晶片複雜 10 倍</em>，每一批新設計都要做完整的 FA + RA 才能量產。汎銓還取得「矽光子損壞檢測裝置」專利，宜特與光焱合作建立光電驗證能力。</p>`,
+    companies: {
+      tw: [
+        ['閎康 MA-tek', '3587', '<strong>檢測三雄之首、全球化佈局</strong>。日本插旗（JASM 效應）。AI 晶片 + 矽光子 MA/FA 服務需求大增，2026 Q1 營收創新高。'],
+        ['宜特 iST', '3289', '<strong>可靠度分析（RA）霸主</strong>。聚焦 2nm ALD 材料驗證 + AI ASIC 高速測試 + <em>矽光子與 CPO 光電整合分析</em>，與光焱科技合作建光電驗證能力。'],
+        ['汎銓 MSSCORPS', '6830', '<strong>先進製程材料分析技術領先</strong>，取得「<em>矽光子損壞檢測裝置</em>」專利。2026 年 4 月股價衝上 770 元創新高。'],
+      ]
+    }
+  }
+];
+
+function renderEcoDetail(idx) {
+  const layer = ecoLayers[idx];
+  if (!layer) return;
+  const groups = layer.companies;
+  let companiesHTML = '';
+  if (groups.tw) {
+    companiesHTML += `<div class="company-group"><div class="company-group-title tw">▍ 台灣廠商 · TW</div><div class="companies">${
+      groups.tw.map(([n, t, r]) => `<div class="company"><div class="company-name">${n}<span class="company-tag tw">${t}</span></div><div class="company-role">${r}</div></div>`).join('')
+    }</div></div>`;
+  }
+  if (groups.us) {
+    companiesHTML += `<div class="company-group"><div class="company-group-title us">▍ 美國廠商 · US</div><div class="companies">${
+      groups.us.map(([n, t, r]) => `<div class="company"><div class="company-name">${n}<span class="company-tag us">${t}</span></div><div class="company-role">${r}</div></div>`).join('')
+    }</div></div>`;
+  }
+  if (groups.other) {
+    companiesHTML += `<div class="company-group"><div class="company-group-title other">▍ 其他國家</div><div class="companies">${
+      groups.other.map(([n, t, r]) => `<div class="company"><div class="company-name">${n}<span class="company-tag">${t}</span></div><div class="company-role">${r}</div></div>`).join('')
+    }</div></div>`;
+  }
+  document.getElementById('ecoDetailPane').innerHTML = `
+    <div class="eco-detail-num">${layer.num}</div>
+    <h3 class="eco-detail-name">${layer.name}</h3>
+    <div class="eco-detail-en">${layer.en}</div>
+    <div class="eco-difficulty" style="margin-bottom:24px;">${layer.difficulty}</div>
+    <div class="eco-layer-explain" style="max-width:none;">${layer.explain}</div>
+    ${companiesHTML}
+  `;
+}
+
+document.querySelectorAll('#ecoFlow .eco-node').forEach(node => {
+  node.addEventListener('click', () => {
+    document.querySelectorAll('#ecoFlow .eco-node').forEach(n => n.classList.remove('active'));
+    node.classList.add('active');
+    renderEcoDetail(parseInt(node.dataset.layer));
+  });
+});
+renderEcoDetail(0);
+
+/* ===== Eco Tabs ===== */
+document.querySelectorAll('.eco-tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.eco-tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.eco-content').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('eco-' + t.dataset.eco).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
