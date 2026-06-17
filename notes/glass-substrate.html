@@ -181,6 +181,28 @@ ul.clean.r li:before{background:var(--red)}
 .pcol.g2{box-shadow:inset 0 3px 0 var(--blue)} .pcol.g2 .pn,.pcol.g2 .pbody li:before{color:var(--blue)} .pcol.g2 .pn i{background:var(--blue)}
 .pcol.g3{box-shadow:inset 0 3px 0 var(--copper)} .pcol.g3 .pn,.pcol.g3 .pbody li:before{color:var(--copper-l)} .pcol.g3 .pn i{background:var(--copper-l)}
 
+/* FOPLP 6-step flow */
+.flow6{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:16px 0}
+@media(max-width:900px){.flow6{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){.flow6{grid-template-columns:repeat(2,1fr)}}
+.fstep{background:var(--glass);border:1px solid var(--line);border-radius:12px;padding:11px 9px;text-align:center}
+.fstep .fn{font-family:var(--disp);font-weight:700;color:var(--green);font-size:.78rem;letter-spacing:.04em}
+.fstep svg{width:100%;max-width:92px;height:auto;margin:5px auto;display:block}
+.fstep .ft{font-size:.8rem;font-weight:700;color:#fff;margin:2px 0 4px;line-height:1.25}
+.fstep .fd{font-size:.72rem;color:var(--mut);line-height:1.5}
+
+/* FOPLP animated stepper */
+.fpv{margin:16px 0}
+.fpvstage{display:flex;align-items:center;justify-content:center;min-height:200px;background:radial-gradient(520px 220px at 50% 38%,rgba(77,163,255,.10),transparent 70%);border-radius:16px;border:1px solid var(--line)}
+.fpvstage svg{width:340px;max-width:100%}
+.fpvsteps{display:flex;gap:7px;margin-top:14px;flex-wrap:wrap;justify-content:center}
+.fpvstep{flex:1;min-width:104px;background:var(--glass);border:1px solid var(--line);border-radius:11px;padding:9px 8px;cursor:pointer;transition:.3s;text-align:center}
+.fpvstep.active{border-color:var(--blue);background:rgba(77,163,255,.14);box-shadow:0 0 18px rgba(77,163,255,.22)}
+.fpvstep .sn{font-family:var(--disp);font-weight:700;color:var(--cyan);font-size:1rem}
+.fpvstep .st2{font-size:.8rem;font-weight:700;color:#fff;margin-top:3px;line-height:1.2}
+.fpvdesc{margin-top:14px;padding:15px 18px;background:var(--glass);border:1px solid var(--line);border-radius:13px;min-height:66px;font-size:.92rem;line-height:1.7}
+.fpvdesc b{color:var(--cyan)}
+
 /* TGV stepper */
 .tgv{margin:28px 0}
 .tgvstage{display:flex;align-items:center;justify-content:center;min-height:230px;background:radial-gradient(500px 240px at 50% 30%,rgba(232,133,43,.10),transparent 70%);border-radius:18px;border:1px solid var(--line);position:relative}
@@ -282,8 +304,6 @@ ul.clean.r li:before{background:var(--red)}
 </style>
 </head>
 <body>
-<a href="../index.html" style="position:fixed;top:14px;left:14px;z-index:9999;font-family:'JetBrains Mono','Noto Sans TC',monospace;font-size:12px;letter-spacing:.06em;color:rgba(235,235,235,.75);background:rgba(10,12,20,.72);border:1px solid rgba(255,255,255,.18);padding:7px 14px;border-radius:99px;text-decoration:none;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,.45)'" onmouseout="this.style.color='rgba(235,235,235,.75)';this.style.borderColor='rgba(255,255,255,.18)'">← 檔案室首頁</a>
-
 <div class="grain"></div>
 
 <nav class="nav"><div class="inner">
@@ -360,6 +380,49 @@ ul.clean.r li:before{background:var(--red)}
     </svg>
     <div class="figcap"><b>CoWoS 剖面圖：</b>GPU 與 HBM 坐在矽中介層這塊「地基」上，下面再接塑膠封裝載板。地基的好壞，直接決定整台 AI 伺服器的速度。</div>
   </div>
+
+  <h3>先搞懂：晶圓 vs 晶片，差在哪？</h3>
+  <p><span class="hlb">晶圓（Wafer）</span>＝一整片<b>圓形的矽圓盤</b>（12 吋／300mm）。晶片是「長」在晶圓上的，一片晶圓能做出成百上千顆，最後再切開。
+  <span class="hlb">晶片（Chip / Die）</span>＝從晶圓上<b>切下來的單獨一顆</b>，例如一顆 GPU、一疊 HBM。簡單講：<b>晶圓是整片餅乾烤盤、晶片是切下來的一塊餅乾。</b></p>
+
+  <div class="fig sm">
+    <svg viewBox="0 0 460 150" xmlns="http://www.w3.org/2000/svg">
+      <!-- wafer -->
+      <circle cx="70" cy="72" r="58" fill="rgba(90,169,255,.08)" stroke="#5aa9ff" stroke-width="2"/>
+      <clipPath id="wc2"><circle cx="70" cy="72" r="58"/></clipPath>
+      <g clip-path="url(#wc2)" stroke="rgba(255,255,255,.25)" fill="rgba(90,169,255,.22)">
+        <rect x="22" y="24" width="20" height="20"/><rect x="46" y="24" width="20" height="20"/><rect x="70" y="24" width="20" height="20"/><rect x="94" y="24" width="20" height="20"/>
+        <rect x="22" y="48" width="20" height="20"/><rect x="46" y="48" width="20" height="20"/><rect x="70" y="48" width="20" height="20"/><rect x="94" y="48" width="20" height="20"/>
+        <rect x="22" y="72" width="20" height="20"/><rect x="46" y="72" width="20" height="20"/><rect x="70" y="72" width="20" height="20"/><rect x="94" y="72" width="20" height="20"/>
+        <rect x="22" y="96" width="20" height="20"/><rect x="46" y="96" width="20" height="20"/><rect x="70" y="96" width="20" height="20"/><rect x="94" y="96" width="20" height="20"/>
+      </g>
+      <text x="70" y="146" fill="#9ec8ff" font-size="11" text-anchor="middle" font-weight="700">① 晶圓 Wafer（圓盤）</text>
+      <!-- arrow -->
+      <text x="172" y="78" fill="#93a2bd" font-size="13" text-anchor="middle">切割 ✂</text>
+      <text x="172" y="95" fill="#93a2bd" font-size="20" text-anchor="middle">→</text>
+      <!-- single chips -->
+      <g fill="#5aa9ff" stroke="#9ec8ff"><rect x="232" y="44" width="26" height="26" rx="2"/><rect x="270" y="44" width="26" height="26" rx="2"/><rect x="232" y="80" width="26" height="26" rx="2"/><rect x="270" y="80" width="26" height="26" rx="2"/></g>
+      <text x="270" y="146" fill="#9ec8ff" font-size="11" text-anchor="middle" font-weight="700">② 晶片 Chip / Die（切下的單顆）</text>
+      <!-- mapping note -->
+      <line x1="330" y1="20" x2="330" y2="130" stroke="var(--line)"/>
+      <text x="346" y="42" fill="#fff" font-size="11" font-weight="700">CoWoS 三個字：</text>
+      <text x="346" y="64" fill="#5aa9ff" font-size="10.5"><tspan font-weight="700">Chip</tspan> = GPU/HBM 晶片</text>
+      <text x="346" y="84" fill="#73e3ff" font-size="10.5"><tspan font-weight="700">Wafer</tspan> = 矽中介層本身</text>
+      <text x="346" y="104" fill="#46e08a" font-size="10.5"><tspan font-weight="700">Substrate</tspan> = 封裝載板</text>
+    </svg>
+    <div class="figcap">CoWoS 裡的「<b>Wafer</b>」不是別的，<b>就是中間那塊矽中介層</b>——它本身是用一片矽晶圓做的。晶片貼到這片矽晶圓上、整組再貼到載板上，所以叫 Chip-on-Wafer-on-Substrate。</div>
+  </div>
+
+  <h3>那……晶圓「怎麼變成」一顆晶片？</h3>
+  <p>很多人以為晶片是「從一塊矽板上裁切出來」的，其實順序剛好相反：<b>晶片是「長」在晶圓上的，切割是最後一步。</b>整段旅程大致是這樣：</p>
+  <ul class="clean">
+    <li><b>① 長晶＋切片：</b>先把高純度的矽拉成一根圓柱形單晶（晶棒 ingot），再像切香腸一樣橫切成一片片薄圓盤、拋光到像鏡子般平——這就是<b>空白晶圓</b>。</li>
+    <li><b>② 製造（前段 Fab）：</b>在晶圓表面用「微影 → 蝕刻 → 沉積 → 摻雜」<b>重複數百道工序</b>，一層一層蓋出電晶體與金屬線路。關鍵在這：<b>同一顆晶片的圖案，會在整片晶圓上「重複印好幾百份」</b>，排成棋盤狀，每份之間留一條細細的<b>「切割道（scribe line）」</b>。</li>
+    <li><b>③ 針測（CP / 晶圓測試）：</b>用<b>探針卡</b>一顆一顆通電量測，先把好的、壞的晶片標記出來（這正是前面供應鏈提到「探針卡」的用途）。</li>
+    <li><b>④ 切割（Dicing / 切單）：</b>沿著切割道，用<b>鑽石刀或雷射</b>把整片晶圓切開 → 變成一顆顆獨立的<b>晶片（Die）</b>。</li>
+    <li><b>⑤ 封裝：</b>只有好的晶片才會進到封裝（例如 CoWoS / FOPLP），加上對外腳位與保護外殼，最後變成能裝進產品的成品。</li>
+  </ul>
+  <p>所以一片 12 吋晶圓，最後會切出<b>數百到上千顆</b>相同的晶片。再回到那個比喻：<b>晶圓是「同時烤好、彼此相連的一整盤餅乾」，晶片則是沿著縫線剝開後的單塊餅乾</b>——而餅乾上的花紋（電晶體與線路），是在還沒切開之前就一次印好的，不是切下來才畫的。</p>
 
   <h3>為什麼一定要「矽」中介層？</h3>
   <p>關鍵在<span class="hlb">「線路有多細」</span>。GPU 和 HBM 之間要拉成千上萬條訊號線（HBM 介面動輒上千條 bit），
@@ -483,7 +546,7 @@ ul.clean.r li:before{background:var(--red)}
   <h2>CoPoS：把「圓晶圓」換成「方面板」</h2>
   <p class="lead"><b>CoPoS = Chip-on-Panel-on-Substrate</b>。
   名字的差別只有一個字：CoWoS 的 <b>W</b>afer（晶圓）變成 CoPoS 的 <b>P</b>anel（面板）。
-  但這一個字，背後是整條產線的革命。</p>
+  講白話就是把<span class="hlb">原本「圓形的矽晶圓」換成「大尺寸的方形玻璃面板」</span>（也有有機面板路線）——圓盤變方板。但這一個字，背後是整條產線的革命。</p>
 
   <div class="callout"><div class="t">先講清楚一個常見誤會</div>
   很多人說「CoPoS 就是把矽中介層直接換成玻璃」。但<b>台積電目前在做的 CoPoS，第一步其實是升級封裝過程中的「臨時載板（施工托盤）」</b>——
@@ -559,22 +622,22 @@ ul.clean.r li:before{background:var(--red)}
   <h2>玻璃的三種玩法（戰略地位完全不同）</h2>
   <p class="lead">同樣是玻璃，用在不同地方就是完全不同的故事。搞懂這三種，看新聞才不會霧裡看花。下面三張剖面圖<b>並排對比</b>，你會一眼看出差別。</p>
 
-  <div class="callout b"><div class="t">先補一個關鍵字：RDL 是什麼？</div>
-  <b>RDL = Redistribution Layer，重分布層（重佈線層）。</b>晶片出廠時，對外的接腳又多又密、間距只有幾微米，沒辦法直接焊到大板子上。
-  RDL 就是在晶片表面<b>「再畫一層超細的金屬走線 + 絕緣層」</b>，把這些密集腳位<span class="hl">重新分配、攤開</span>到比較鬆的間距，或是<b>把晶片與晶片之間連起來</b>。
-  在<b>扇出型封裝（FOPLP / InFO）</b>裡，根本沒有中介層那塊板子，<span class="hlb">高密度互連完全靠 RDL 做出來</span>——可以想成「直接在封裝體裡長出一塊主機板」。
+  <div class="callout b"><div class="t">先補一個關鍵字：RDL 是什麼？（用比喻一次懂）</div>
+  <b>RDL = Redistribution Layer，重分布層。</b>想像演唱會散場，<b>上千人全擠在一個小出口</b>——這就是晶片中央的腳位：又多又密，間距只有幾微米。可是外面的大馬路（載板／主機板）的接點又大又疏，這上千人沒辦法直接衝出去。
+  <br><br><b>RDL 就是蓋在中間的一層「分流走廊」</b>：把每一個擠在中央的小腳位，用一條細金屬線<span class="hl">一條一條往外牽</span>，接到一個比較大、排得比較鬆的接點。於是密集的腳位被「<b>重新分配</b>」成稀疏的大接點，大板子才焊得上去。
+  <br><br>而且因為線可以往<b>晶片外面</b>牽，接點數量還能比晶片本身容納的更多——這就是下面 FOPLP 的「<span class="hlb">扇出（Fan-Out）</span>」。在扇出型封裝裡沒有中介層那塊板子，<b>高密度互連完全靠 RDL 做出來</b>。
   <div class="fig sm" style="margin:14px auto 2px;background:rgba(0,0,0,.18)">
-    <svg viewBox="0 0 240 116" xmlns="http://www.w3.org/2000/svg">
-      <rect x="82" y="12" width="76" height="20" rx="3" fill="#5aa9ff"/><text x="120" y="26" fill="#fff" font-size="9" text-anchor="middle" font-weight="700">晶片 Die</text>
-      <g fill="#f4ad3e"><rect x="92" y="32" width="3" height="5"/><rect x="104" y="32" width="3" height="5"/><rect x="116" y="32" width="3" height="5"/><rect x="128" y="32" width="3" height="5"/><rect x="140" y="32" width="3" height="5"/></g>
-      <text x="186" y="40" fill="#ffd089" font-size="8" text-anchor="start">密腳位</text>
-      <g stroke="#f4ad3e" stroke-width="1.4" fill="none" opacity=".9">
-        <path d="M93,37 L40,64"/><path d="M105,37 L78,64"/><path d="M117,37 L120,64"/><path d="M129,37 L162,64"/><path d="M141,37 L200,64"/>
+    <svg viewBox="0 0 240 128" xmlns="http://www.w3.org/2000/svg">
+      <rect x="96" y="10" width="48" height="16" rx="3" fill="#5aa9ff"/><text x="120" y="22" fill="#fff" font-size="8.5" text-anchor="middle" font-weight="700">晶片 Die</text>
+      <g fill="#f4ad3e"><rect x="100" y="26" width="2.4" height="5"/><rect x="106" y="26" width="2.4" height="5"/><rect x="112" y="26" width="2.4" height="5"/><rect x="118" y="26" width="2.4" height="5"/><rect x="124" y="26" width="2.4" height="5"/><rect x="130" y="26" width="2.4" height="5"/><rect x="136" y="26" width="2.4" height="5"/></g>
+      <text x="174" y="33" fill="#ffd089" font-size="8" text-anchor="start">又多又密的腳位</text>
+      <g stroke="#f4ad3e" stroke-width="1.4" fill="none" opacity=".95">
+        <path d="M101,31 C90,46 50,52 30,66"/><path d="M113,31 C108,48 84,54 72,66"/><path d="M125,31 L120,66"/><path d="M131,31 C138,48 160,54 168,66"/><path d="M137,31 C150,46 196,52 210,66"/>
       </g>
-      <rect x="20" y="46" width="200" height="20" rx="2" fill="rgba(244,173,62,.14)" stroke="#f4ad3e" stroke-dasharray="3 2"/>
-      <text x="120" y="60" fill="#f4ad3e" font-size="8.5" text-anchor="middle">RDL 重佈線層（把腳位攤開 / 連晶片）</text>
-      <g fill="#9aa6bd"><circle cx="40" cy="80" r="7"/><circle cx="80" cy="80" r="7"/><circle cx="120" cy="80" r="7"/><circle cx="160" cy="80" r="7"/><circle cx="200" cy="80" r="7"/></g>
-      <text x="120" y="104" fill="#9aa6bd" font-size="8" text-anchor="middle">攤開後的大接點 → 焊到下方載板</text>
+      <rect x="14" y="46" width="212" height="22" rx="3" fill="rgba(244,173,62,.13)" stroke="#f4ad3e" stroke-dasharray="3 2"/>
+      <text x="120" y="61" fill="#f4ad3e" font-size="8.5" text-anchor="middle" font-weight="700">RDL：一條一條往外牽（分流走廊）</text>
+      <g fill="#9aa6bd"><circle cx="30" cy="84" r="8"/><circle cx="72" cy="84" r="8"/><circle cx="120" cy="84" r="8"/><circle cx="168" cy="84" r="8"/><circle cx="210" cy="84" r="8"/></g>
+      <text x="120" y="112" fill="#9aa6bd" font-size="8.5" text-anchor="middle">輸出：又大又疏的接點 → 大板子焊得上、還能往晶片外多長幾顆</text>
     </svg>
   </div>
   </div>
@@ -605,9 +668,34 @@ ul.clean.r li:before{background:var(--red)}
       <div class="pnote">⚠ 這正是台積電現在 CoPoS 在做的——<b>不是最終產品</b>。</div>
     </div>
 
-    <!-- ② 玻璃中介層 -->
+    <!-- ② 玻璃核心基板 -->
     <div class="pcol g2">
-      <div class="ph"><div class="pn"><i>2</i> 終極大魔王</div><div class="ptitle">玻璃中介層（Glass Interposer）</div><div class="psub">取代矽中介層 → 變「Glass CoWoS」</div></div>
+      <div class="ph"><div class="pn"><i>2</i> 取代 ABF 有機核心</div><div class="ptitle">玻璃核心基板（Glass Core）</div><div class="psub">把 ABF 載板的塑膠芯換成玻璃芯（較易、較早）</div></div>
+      <div class="pfig">
+        <svg viewBox="0 0 240 152" xmlns="http://www.w3.org/2000/svg">
+          <rect x="48" y="14" width="48" height="16" rx="2" fill="#5aa9ff"/><text x="72" y="25" fill="#fff" font-size="7" text-anchor="middle">GPU/CPU</text>
+          <rect x="120" y="14" width="34" height="16" rx="2" fill="#b48bff"/><text x="137" y="25" fill="#fff" font-size="7" text-anchor="middle">HBM</text>
+          <rect x="168" y="14" width="34" height="16" rx="2" fill="#b48bff"/><text x="185" y="25" fill="#fff" font-size="7" text-anchor="middle">HBM</text>
+          <rect x="30" y="34" width="180" height="7" fill="rgba(70,160,90,.45)" stroke="rgba(120,220,150,.5)" stroke-width=".6"/>
+          <text x="214" y="40" fill="#9be0b0" font-size="6.5" text-anchor="end">ABF 上層</text>
+          <rect x="30" y="46" width="180" height="34" rx="2" fill="#b9651b" stroke="#ffb978" stroke-width="1.2"/>
+          <g stroke="#5a2f0c" stroke-width="3"><line x1="58" y1="46" x2="58" y2="80"/><line x1="100" y1="46" x2="100" y2="80"/><line x1="142" y1="46" x2="142" y2="80"/><line x1="184" y1="46" x2="184" y2="80"/></g>
+          <text x="120" y="67" fill="#fff" font-size="8" text-anchor="middle" font-weight="700">玻璃核心 Glass Core</text>
+          <rect x="30" y="85" width="180" height="7" fill="rgba(70,160,90,.45)" stroke="rgba(120,220,150,.5)" stroke-width=".6"/>
+          <text x="214" y="91" fill="#9be0b0" font-size="6.5" text-anchor="end">ABF 下層</text>
+          <g fill="#9aa6bd"><circle cx="52" cy="104" r="4.5"/><circle cx="90" cy="104" r="4.5"/><circle cx="128" cy="104" r="4.5"/><circle cx="166" cy="104" r="4.5"/><circle cx="198" cy="104" r="4.5"/></g>
+          <text x="120" y="124" fill="#9aa6bd" font-size="7.5" text-anchor="middle">上下兩層綠色 = ABF 增層線路</text>
+        </svg>
+      </div>
+      <div class="pbody">不丟掉玻璃——把它當成<b>載板的核心層</b>，永久留在成品裡，取代 ABF 的有機塑膠芯。
+        <ul><li>線寬線距更細（可到 2µm）</li><li>bump 密度更高、翹曲更少</li><li>難度較低，較早商用</li></ul>
+      </div>
+      <div class="pnote">★ Intel 主推、研究逾十年；是通往 ③ 的墊腳石。</div>
+    </div>
+
+<!-- ③ 玻璃中介層 -->
+    <div class="pcol g3">
+      <div class="ph"><div class="pn"><i>3</i> 終極大魔王・CoPoS 終點</div><div class="ptitle">玻璃中介層（Glass Interposer）</div><div class="psub">取代矽中介層 → 變「Glass CoWoS」</div></div>
       <div class="pfig">
         <svg viewBox="0 0 240 152" xmlns="http://www.w3.org/2000/svg">
           <rect x="40" y="16" width="34" height="16" rx="2" fill="#b48bff"/><text x="57" y="27" fill="#fff" font-size="7" text-anchor="middle">HBM</text>
@@ -624,34 +712,35 @@ ul.clean.r li:before{background:var(--red)}
       <div class="pbody">把整塊矽中介層換成玻璃，GPU 與 HBM 靠玻璃裡的銅柱（TGV）上下導通。
         <ul><li>訊號損耗更低</li><li>可做更大尺寸</li><li>不彎曲破裂</li></ul>
       </div>
-      <div class="pnote">⌛ 技術還沒成熟，先進 AI 封裝還要幾年；卡關在 TGV。</div>
-    </div>
-
-    <!-- ③ 玻璃核心基板 -->
-    <div class="pcol g3">
-      <div class="ph"><div class="pn"><i>3</i> 取代 ABF 有機核心</div><div class="ptitle">玻璃核心基板（Glass Core）</div><div class="psub">把 ABF 載板的塑膠芯換成玻璃芯</div></div>
-      <div class="pfig">
-        <svg viewBox="0 0 240 152" xmlns="http://www.w3.org/2000/svg">
-          <rect x="48" y="14" width="48" height="16" rx="2" fill="#5aa9ff"/><text x="72" y="25" fill="#fff" font-size="7" text-anchor="middle">GPU/CPU</text>
-          <rect x="120" y="14" width="34" height="16" rx="2" fill="#b48bff"/><text x="137" y="25" fill="#fff" font-size="7" text-anchor="middle">HBM</text>
-          <rect x="168" y="14" width="34" height="16" rx="2" fill="#b48bff"/><text x="185" y="25" fill="#fff" font-size="7" text-anchor="middle">HBM</text>
-          <rect x="30" y="34" width="180" height="7" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.18)" stroke-width=".6"/>
-          <rect x="30" y="46" width="180" height="34" rx="2" fill="#b9651b" stroke="#ffb978" stroke-width="1.2"/>
-          <g stroke="#5a2f0c" stroke-width="3"><line x1="58" y1="46" x2="58" y2="80"/><line x1="100" y1="46" x2="100" y2="80"/><line x1="142" y1="46" x2="142" y2="80"/><line x1="184" y1="46" x2="184" y2="80"/></g>
-          <text x="120" y="67" fill="#fff" font-size="8" text-anchor="middle" font-weight="700">玻璃核心 Glass Core</text>
-          <rect x="30" y="85" width="180" height="7" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.18)" stroke-width=".6"/>
-          <g fill="#9aa6bd"><circle cx="52" cy="104" r="4.5"/><circle cx="90" cy="104" r="4.5"/><circle cx="128" cy="104" r="4.5"/><circle cx="166" cy="104" r="4.5"/><circle cx="198" cy="104" r="4.5"/></g>
-          <text x="120" y="124" fill="#9aa6bd" font-size="7.5" text-anchor="middle">上下還有增層線路（build-up）</text>
-        </svg>
-      </div>
-      <div class="pbody">不丟掉玻璃——把它當成<b>載板的核心層</b>，永久留在成品裡，取代 ABF 的有機塑膠芯。
-        <ul><li>線寬線距更細（可到 2µm）</li><li>bump 密度更高、翹曲更少</li><li>更適合大 AI 晶片、高速傳輸更好</li></ul>
-      </div>
-      <div class="pnote">★ Intel 主推、研究逾十年，喊「延續摩爾定律到 2030」。</div>
+      <div class="pnote">⌛ 最難最晚（卡在 TGV 與散熱）——這才是 <b>CoPoS 的終極目標</b>。</div>
     </div>
   </div>
 
-  <p class="mut" style="font-size:.9rem">一句話分清楚：<b>①</b> 玻璃是「<b>用完即丟的托盤</b>」；<b>②</b> 玻璃是「<b>夾在晶片正下方的薄中介層</b>」；<b>③</b> 玻璃是「<b>整片載板的核心骨架</b>」。② 和 ③ 都把玻璃永久留下，差別在玻璃放的「位置與厚度」。</p>
+  <p class="mut" style="font-size:.9rem">一句話分清楚：<b>①</b> 玻璃是「<b>用完即丟的托盤</b>」；<b>②</b> 玻璃是「<b>整片載板的核心骨架</b>」；<b>③</b> 玻璃是「<b>夾在晶片正下方的薄中介層</b>」（CoPoS 的終點）。② 和 ③ 都把玻璃永久留下，差別在玻璃放的「位置與厚度」。</p>
+
+  <h3>放大看 ①：玻璃載板那一步，其實就是 FOPLP 製程</h3>
+  <p>第 ① 種玩法（玻璃當暫時載板）不是獨立技術，它就是 <b>FOPLP（Fan-Out Panel-Level Packaging，扇出型面板級封裝）</b>裡的「載具」。
+  「扇出（Fan-Out）」的精髓在：<b>晶片之間刻意留間距、再灌入比晶片更大的樹脂封膜</b>，多出來的空間才能讓 RDL 把腳位、錫球長到<b>晶片外側</b>。</p>
+  <div class="callout b"><div class="t">方向小抄（最容易搞錯的地方）</div>
+  這是「<b>晶片面朝下</b>」流程：全程 <b>樹脂封膜在上、晶片在下且主動面朝下</b>；移除底部玻璃後，<b>RDL 與錫球做在最底部、朝下</b>（朝下接 PCB）。下面動畫會自動播放，也可以點步驟看：</div>
+  <div class="fpv">
+    <div class="fpvstage"><svg id="fpvsvg" viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg"><g id="fpvc"></g></svg></div>
+    <div class="fpvsteps" id="fpvsteps"></div>
+    <div class="fpvdesc" id="fpvdesc"></div>
+  </div>
+  <p class="mut" style="font-size:.85rem">重點：玻璃只在第 ①–③ 步當「平台」用，<b>最終成品裡沒有玻璃</b>。而 FOPLP 的價值在「<b>樹脂封膜把面積撐大 + RDL 朝下扇出</b>」，讓錫球範圍超過晶片本身、I/O 數量大增。</p>
+
+  <div class="callout"><div class="t">超常見的錯誤標示：別把「玻璃核心」叫成「玻璃中介層」</div>
+  很多 CoPoS 介紹會畫一張「晶片 → ABF 上層 → 玻璃 → ABF 下層 → 錫球」的圖，然後標成<b>「玻璃中介層」——這是錯的</b>。那張圖畫的其實是<b>玻璃核心基板（Glass Core，上面第 ② 種）</b>。一秒判斷法：<br>
+  ・玻璃<b>上面還隔著一層 ABF</b> 才碰到晶片 → 那是<b>核心層（Core）</b>，埋在載板裡當骨架。<br>
+  ・玻璃<b>直接貼著晶片、下面才是載板</b> → 那才是<b>中介層（Interposer，第 ③）</b>。<br>
+  一句話：<span class="hlb">中介層緊貼晶片、核心層埋在載板中間</span>。所以那種圖是「畫得對、名字叫錯」——它是 Glass Core，不是 Glass Interposer。</div>
+
+  <div class="callout"><div class="t">那 ② 核心 和 ③ 中介層，哪個才是「最終解」？CoPoS 要做到哪一個？</div>
+  兩個都不是「取代對方」的關係——它們在封裝的<b>不同樓層、解決不同問題，未來很可能同一顆高階封裝裡兩個都用</b>。
+  <br>・<b>玻璃核心（②）</b>＝較好做、較早普及，改善整塊載板的剛性與翹曲，受惠產品廣（Intel、三星在推），也是墊腳石。
+  <br>・<b>玻璃中介層（③）</b>＝最難、最晚（散熱最致命，因為它就壓在最燙的晶片下），但這是頂規 AI 晶片間互連的<b>聖杯</b>。
+  <br><b>而 CoPoS 的終極目標就是 ③ 玻璃中介層。</b>名字裡的「<b>Panel</b>」站的正是 CoWoS 裡「<b>Wafer（＝矽中介層）</b>」的位置，所以 CoPoS 的終點，就是把那層用玻璃面板做出來；現在只是先拿玻璃當暫時托盤（①）過渡。終局長相：<span class="hlb">晶片 → 玻璃中介層 → 玻璃核心載板 → 主機板</span>，兩種玻璃並存。</div>
 
   <div class="callout b"><div class="t">那為什麼台積電現在「不敢」直接用玻璃中介層？</div>
   因為卡在一道魔王級難題——玻璃本身<b>不導電</b>。要讓上下晶片通電溝通，得先解決下一段的關卡：<span class="hlb">TGV</span>。</div>
@@ -1053,6 +1142,103 @@ tgvIO.observe(document.querySelector('.tgv'));
     tabs.forEach(x=>x.classList.toggle('active',x===t));
     panels.forEach(p=>p.classList.toggle('active',p.dataset.layer===n));
   }));
+})();
+/* FOPLP fan-out animated stepper */
+(function(){
+  const C=document.getElementById('fpvc');
+  if(!C) return;
+  const stepsEl=document.getElementById('fpvsteps');
+  const descEl=document.getElementById('fpvdesc');
+  const FP=[
+    {n:'①',t:'晶圓切割',svg:'dice',d:'把晶圓切成單顆晶片（Die）。'},
+    {n:'②',t:'重排到暫時面板',svg:'place',d:'晶片<b>主動面朝下</b>貼到下方的玻璃面板上，並<b>刻意留間距</b>——兩側與晶片之間的留白，就是之後要長腳位的<b>扇出區</b>。'},
+    {n:'③',t:'樹脂封膜＋去除玻璃',svg:'mold',d:'從<b>上方</b>灌入樹脂封膜包覆晶片（封膜面積比晶片大），再<b>移除下方的玻璃載板</b>。此時：封膜在上、晶片主動面朝下、露在底部。'},
+    {n:'④',t:'製作 RDL（朝下）',svg:'rdl',d:'在<b>底部</b>（晶片主動面那側）做 RDL，把腳位<b>往晶片邊界外</b>牽。所以 RDL 是<b>朝下</b>、做在封膜的下方。'},
+    {n:'⑤',t:'扇出植球',svg:'ball',d:'在 RDL 上植錫球，<b>錫球範圍會超過晶片本身</b>——這就是「扇出（Fan-Out）」的本質。'},
+    {n:'⑥',t:'切割',svg:'cut',d:'切成單顆 FOPLP 封裝：<b>封膜在上、晶片主動面朝下、RDL 與錫球在最下面</b>（朝下接 PCB）。'}
+  ];
+  function dieFD(x){return '<rect x="'+x+'" y="70" width="34" height="24" rx="2" fill="#2a3142" stroke="#5a6d96"/>'+
+    '<g fill="#f4ad3e"><rect x="'+(x+6)+'" y="90.5" width="2.6" height="3.5"/><rect x="'+(x+14)+'" y="90.5" width="2.6" height="3.5"/><rect x="'+(x+22)+'" y="90.5" width="2.6" height="3.5"/></g>';}
+  function dieOutline(x){return '<rect x="'+x+'" y="70" width="34" height="24" rx="2" fill="none" stroke="#6a7894" stroke-width="1" stroke-dasharray="3 2"/>';}
+  function draw(s){
+    let h='';
+    if(s==='dice'){
+      h+='<circle cx="66" cy="74" r="38" fill="rgba(90,169,255,.1)" stroke="#5aa9ff" stroke-width="1.5"/>';
+      h+='<clipPath id="fwc"><circle cx="66" cy="74" r="38"/></clipPath>';
+      h+='<g clip-path="url(#fwc)" stroke="rgba(255,255,255,.22)" fill="rgba(90,169,255,.28)"><rect x="42" y="50" width="14" height="14"/><rect x="59" y="50" width="14" height="14"/><rect x="76" y="50" width="14" height="14"/><rect x="42" y="67" width="14" height="14"/><rect x="59" y="67" width="14" height="14"/><rect x="76" y="67" width="14" height="14"/><rect x="42" y="84" width="14" height="14"/><rect x="59" y="84" width="14" height="14"/><rect x="76" y="84" width="14" height="14"/></g>';
+      h+='<text x="66" y="124" fill="#9ec8ff" font-size="10" text-anchor="middle" font-weight="700">晶圓 Wafer</text>';
+      h+='<text x="160" y="68" fill="#93a2bd" font-size="11" text-anchor="middle">切割 ✂</text><text x="160" y="86" fill="#93a2bd" font-size="20" text-anchor="middle">→</text>';
+      h+='<g fill="#5aa9ff" stroke="#9ec8ff"><rect x="219" y="43" width="28" height="28" rx="2"/><rect x="253" y="43" width="28" height="28" rx="2"/><rect x="219" y="77" width="28" height="28" rx="2"/><rect x="253" y="77" width="28" height="28" rx="2"/></g>';
+      h+='<text x="250" y="124" fill="#9ec8ff" font-size="10" text-anchor="middle" font-weight="700">單顆晶片 Die</text>';
+    } else if(s==='place'){
+      h+='<rect x="72" y="94" width="196" height="13" rx="2" fill="rgba(115,227,255,.2)" stroke="#73e3ff" stroke-width="1.2"/>';
+      h+='<text x="170" y="130" fill="#9ad8ff" font-size="10" text-anchor="middle">暫時面板（玻璃）Carrier — 在下方</text>';
+      // fan-out reserved bands (left margin, center gap, right margin)
+      h+='<g fill="rgba(244,173,62,.16)"><rect x="84" y="70" width="36" height="24"/><rect x="154" y="70" width="32" height="24"/><rect x="220" y="70" width="36" height="24"/></g>';
+      h+='<text x="170" y="46" fill="#ffd089" font-size="8.5" text-anchor="middle">橘色＝刻意留的間距（扇出區）</text>';
+      h+=dieFD(120)+dieFD(186);
+      h+='<text x="137" y="66" fill="#9aa6bd" font-size="8" text-anchor="middle">晶片</text><text x="203" y="66" fill="#9aa6bd" font-size="8" text-anchor="middle">晶片</text>';
+      h+='<text x="170" y="120" fill="#f4ad3e" font-size="8.5" text-anchor="middle">↑ 金色腳位＝主動面「朝下」貼著面板</text>';
+    } else if(s==='mold'){
+      // resin mold on TOP, wider than dies; carrier removed (dashed) below
+      h+='<rect x="78" y="56" width="184" height="38" rx="3" fill="#15192a" stroke="#4a5468" stroke-width="1.2"/>';
+      h+='<text x="170" y="50" fill="#cdd6e6" font-size="9" text-anchor="middle">樹脂封膜（上方）— 面積 > 晶片</text>';
+      // fan-out filled regions tint
+      h+='<g fill="rgba(244,173,62,.14)"><rect x="84" y="70" width="36" height="24"/><rect x="154" y="70" width="32" height="24"/><rect x="220" y="70" width="36" height="24"/></g>';
+      h+=dieOutline(120)+dieOutline(186);
+      h+='<g fill="#f4ad3e"><rect x="126" y="90.5" width="2.6" height="3.5"/><rect x="134" y="90.5" width="2.6" height="3.5"/><rect x="142" y="90.5" width="2.6" height="3.5"/><rect x="192" y="90.5" width="2.6" height="3.5"/><rect x="200" y="90.5" width="2.6" height="3.5"/><rect x="208" y="90.5" width="2.6" height="3.5"/></g>';
+      // carrier removed (dashed, peeling down)
+      h+='<rect x="72" y="104" width="196" height="11" rx="2" fill="none" stroke="#5a6d96" stroke-width="1" stroke-dasharray="4 3" opacity=".6"/>';
+      h+='<text x="170" y="113" fill="#8a93a8" font-size="8.5" text-anchor="middle">✕ 下方玻璃載板已移除 → 晶片主動面露在底部</text>';
+    } else if(s==='rdl'||s==='ball'){
+      h+='<rect x="78" y="56" width="184" height="38" rx="3" fill="#15192a" stroke="#4a5468" stroke-width="1.2"/>';
+      h+=dieOutline(120)+dieOutline(186);
+      // die-edge markers
+      h+='<g stroke="#6a7894" stroke-width="1" stroke-dasharray="3 2"><line x1="120" y1="58" x2="120" y2="120"/><line x1="220" y1="58" x2="220" y2="120"/></g>';
+      h+='<text x="120" y="54" fill="#6a7894" font-size="7" text-anchor="middle">晶片邊界</text><text x="220" y="54" fill="#6a7894" font-size="7" text-anchor="middle">晶片邊界</text>';
+      // RDL layer at the BOTTOM (faces down)
+      h+='<rect x="84" y="94" width="172" height="5" rx="1" fill="rgba(244,173,62,.18)" stroke="#f4ad3e" stroke-width=".8"/>';
+      // fan-out traces from die pads downward/outward
+      h+='<g stroke="#f4ad3e" stroke-width="1.4" fill="none"><path d="M134,94 C118,97 100,99 92,101"/><path d="M142,94 C140,98 120,100 114,101"/><path d="M170,94 L170,101"/><path d="M200,94 C204,98 224,100 228,101"/><path d="M208,94 C224,97 244,99 250,101"/></g>';
+      h+='<text x="170" y="70" fill="#f4ad3e" font-size="8.5" text-anchor="middle">RDL 做在「底部」、朝下</text>';
+      if(s==='rdl'){
+        h+='<g fill="#f4ad3e"><circle cx="92" cy="101" r="2.6"/><circle cx="114" cy="101" r="2.6"/><circle cx="170" cy="101" r="2.6"/><circle cx="228" cy="101" r="2.6"/><circle cx="250" cy="101" r="2.6"/></g>';
+        h+='<text x="170" y="120" fill="#f4ad3e" font-size="9" text-anchor="middle">把腳位往「晶片邊界以外」牽</text>';
+      } else {
+        h+='<g fill="#9aa6bd"><circle cx="114" cy="110" r="6"/><circle cx="170" cy="110" r="6"/><circle cx="228" cy="110" r="6"/></g>';
+        h+='<g fill="#9aa6bd" stroke="#ff9a5c" stroke-width="2"><circle cx="92" cy="110" r="6"/><circle cx="250" cy="110" r="6"/></g>';
+        h+='<text x="170" y="128" fill="#ff9a5c" font-size="8.5" text-anchor="middle">橘圈：錫球落在「晶片外側」→ 錫球範圍 > 晶片</text>';
+      }
+    } else if(s==='cut'){
+      const units=[40,135,230];
+      units.forEach(function(x){
+        h+='<rect x="'+x+'" y="60" width="70" height="22" rx="3" fill="#15192a" stroke="#4a5468" stroke-width="1.1"/>';
+        h+='<rect x="'+(x+22)+'" y="64" width="26" height="13" rx="1" fill="none" stroke="#6a7894" stroke-dasharray="2 2"/>';
+        h+='<rect x="'+(x+8)+'" y="82" width="54" height="4" rx="1" fill="rgba(244,173,62,.2)" stroke="#f4ad3e" stroke-width=".6"/>';
+        h+='<g fill="#9aa6bd"><circle cx="'+(x+14)+'" cy="94" r="4"/><circle cx="'+(x+35)+'" cy="94" r="4"/><circle cx="'+(x+56)+'" cy="94" r="4"/></g>';
+      });
+      h+='<text x="170" y="118" fill="#9ad8ff" font-size="9" text-anchor="middle">封膜在上、晶片主動面朝下、RDL+錫球在下（朝下接 PCB）</text>';
+    }
+    C.innerHTML=h;
+  }
+  let cur=-1,timer=null;
+  function set(i){cur=i;
+    document.querySelectorAll('.fpvstep').forEach(function(el,k){el.classList.toggle('active',k===i);});
+    descEl.innerHTML='<b>'+FP[i].n+' '+FP[i].t+'</b>　'+FP[i].d;
+    draw(FP[i].svg);
+  }
+  FP.forEach(function(st,i){
+    const d=document.createElement('div');d.className='fpvstep';
+    d.innerHTML='<div class="sn">'+st.n+'</div><div class="st2">'+st.t+'</div>';
+    d.onclick=function(){set(i);stop();};
+    stepsEl.appendChild(d);
+  });
+  function play(){set((cur+1)%FP.length);}
+  function start(){if(!timer)timer=setInterval(play,2800);}
+  function stop(){if(timer){clearInterval(timer);timer=null;}}
+  set(0);
+  const ob=new IntersectionObserver(function(es){es.forEach(function(e){e.isIntersecting?start():stop();});},{threshold:.3});
+  ob.observe(document.querySelector('.fpv'));
 })();
 </script>
 </body>
