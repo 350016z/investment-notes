@@ -45,11 +45,13 @@ h1 .thin{font-weight:400;color:var(--mut)}
 
 /* ===== ARCHIVE LIST ===== */
 .section-label{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--mut2);text-transform:uppercase;padding:56px 0 28px}
+/* 卡片組:主筆記 + 衛星(公司專題)的容器 */
+.dossier-group{margin-bottom:22px}
 .dossier{
   display:block; text-decoration:none; color:inherit;
   border:1px solid var(--line-soft); border-radius:14px;
   background:linear-gradient(180deg,var(--bg2),rgba(17,20,28,.4));
-  margin-bottom:22px; position:relative; overflow:hidden;
+  position:relative; overflow:hidden;
   transition:border-color .35s, transform .35s, box-shadow .35s;
 }
 .dossier:hover{transform:translateY(-3px);border-color:var(--c1);box-shadow:0 18px 50px -22px var(--glow)}
@@ -77,6 +79,43 @@ h1 .thin{font-weight:400;color:var(--mut)}
 .motif{position:absolute;right:-10px;bottom:-14px;width:200px;height:120px;opacity:0;transition:opacity .5s;pointer-events:none}
 .dossier:hover .motif{opacity:.5}
 
+/* 衛星列:掛在主筆記下方的公司專題/延伸閱讀 */
+.satellites{
+  margin:4px 0 0 32px;
+  padding:10px 0 6px 22px;
+  display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+  position:relative;
+}
+/* └─ 連接線:把衛星視覺上掛在父卡片下 */
+.satellites::before{
+  content:''; position:absolute;
+  left:0; top:-10px; width:14px; height:24px;
+  border-left:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  border-bottom-left-radius:10px;
+}
+.sat-label{
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--mut2);
+  padding-right:4px;
+}
+.sat-pill{
+  font-family:var(--sans);font-size:13px;
+  color:var(--mut);text-decoration:none;
+  padding:5px 13px; border:1px solid var(--line); border-radius:99px;
+  background:rgba(255,255,255,.015);
+  transition:color .3s, border-color .3s, background .3s, transform .3s;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.sat-pill::after{content:'→';color:var(--mut2);transition:transform .3s,color .3s;font-family:var(--mono)}
+.sat-pill:hover{
+  color:var(--c1);
+  border-color:color-mix(in srgb,var(--c1) 50%,transparent);
+  background:rgba(255,255,255,.04);
+}
+.sat-pill:hover::after{color:var(--c1);transform:translateX(3px)}
+.sat-pill:focus-visible{outline:2px solid var(--c1);outline-offset:2px}
+
 /* per-note palettes */
 .d-cpo{--c1:#4dd0e1;--c2:#ff5577;--glow:rgba(77,208,225,.35)}
 .d-glass{--c1:#f4ad3e;--c2:#4da3ff;--glow:rgba(244,173,62,.35)}
@@ -91,6 +130,7 @@ footer p+p{margin-top:8px}
   .dossier-inner{grid-template-columns:1fr;padding:24px 22px 22px 26px}
   .d-go{grid-row:auto;grid-column:1;margin-top:14px;justify-self:start}
   .hero-meta{gap:24px}
+  .satellites{margin-left:20px;padding-left:18px}
 }
 @media(prefers-reduced-motion:reduce){
   *{transition:none!important}
@@ -117,49 +157,67 @@ footer p+p{margin-top:8px}
 <!--
   ★ 新增筆記的方法:
   1. 把新的 HTML 筆記放進 notes/ 資料夾(建議用英文檔名)
-  2. 複製下面一個 <a class="dossier"> 區塊,改 href、標題、摘要、標籤
+  2. 複製下面一個 <section class="dossier-group"> 區塊,改 href、標題、摘要、標籤
   3. 想換卡片配色:在 CSS 加一組 .d-xxx{--c1:主色;--c2:次色;--glow:光暈色}
+       並把 d-xxx 放在 <section class="dossier-group d-xxx"> 上
+
+  ★ 新增公司專題的方法:
+  1. 把公司 HTML 放進 notes/companies/ 資料夾
+  2. 在對應筆記的 dossier-group 內、</a> 之後,加一個 <div class="satellites">,
+     裡面用 <a class="sat-pill" href="notes/companies/xxx.html">公司名</a>
+  3. 同一家公司可以同時掛在多份筆記下(例如康寧也與玻璃基板相關)
 -->
 
-<a class="dossier d-cpo" href="notes/silicon-photonics-cpo.html">
-  <div class="dossier-inner">
-    <div class="d-tags">
-      <span class="tag hl">光通訊</span><span class="tag">矽光子</span><span class="tag">CPO</span><span class="tag">AI 資料中心</span>
+<section class="dossier-group d-cpo">
+  <a class="dossier" href="notes/silicon-photonics-cpo.html">
+    <div class="dossier-inner">
+      <div class="d-tags">
+        <span class="tag hl">光通訊</span><span class="tag">矽光子</span><span class="tag">CPO</span><span class="tag">AI 資料中心</span>
+      </div>
+      <div>
+        <div class="d-title">矽光子 × CPO 圖鑑</div>
+        <div class="d-sub">AI 時代的傳輸神經 — 從光模組到共封裝光學</div>
+        <p class="d-desc">拆解光收發模組的內部構造、EML 與矽光子兩條技術路線的差異,以及 CPO 如何重塑交換器與供應鏈版圖。</p>
+      </div>
+      <div class="d-go">閱讀檔案 →</div>
     </div>
-    <div>
-      <div class="d-title">矽光子 × CPO 圖鑑</div>
-      <div class="d-sub">AI 時代的傳輸神經 — 從光模組到共封裝光學</div>
-      <p class="d-desc">拆解光收發模組的內部構造、EML 與矽光子兩條技術路線的差異,以及 CPO 如何重塑交換器與供應鏈版圖。</p>
-    </div>
-    <div class="d-go">閱讀檔案 →</div>
+    <svg class="motif" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M0 60 Q25 20 50 60 T100 60 T150 60 T200 60" fill="none" stroke="#4dd0e1" stroke-width="2"/>
+      <path d="M0 60 Q25 100 50 60 T100 60 T150 60 T200 60" fill="none" stroke="#ff5577" stroke-width="1.5" opacity=".6"/>
+    </svg>
+  </a>
+  <div class="satellites">
+    <span class="sat-label">公司專題</span>
+    <a class="sat-pill" href="notes/companies/corning.html">康寧 GLW</a>
+    <!-- 之後加更多公司就再加 <a class="sat-pill"> 即可 -->
   </div>
-  <svg class="motif" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M0 60 Q25 20 50 60 T100 60 T150 60 T200 60" fill="none" stroke="#4dd0e1" stroke-width="2"/>
-    <path d="M0 60 Q25 100 50 60 T100 60 T150 60 T200 60" fill="none" stroke="#ff5577" stroke-width="1.5" opacity=".6"/>
-  </svg>
-</a>
+</section>
 
-<a class="dossier d-glass" href="notes/glass-substrate.html">
-  <div class="dossier-inner">
-    <div class="d-tags">
-      <span class="tag hl">先進封裝</span><span class="tag">CoPoS</span><span class="tag">玻璃基板</span>
+<section class="dossier-group d-glass">
+  <a class="dossier" href="notes/glass-substrate.html">
+    <div class="dossier-inner">
+      <div class="d-tags">
+        <span class="tag hl">先進封裝</span><span class="tag">CoPoS</span><span class="tag">玻璃基板</span>
+      </div>
+      <div>
+        <div class="d-title">CoPoS 與玻璃基板</div>
+        <div class="d-sub">視覺化解說 — 封裝基板的下一場材料革命</div>
+        <p class="d-desc">為什麼大晶片時代需要玻璃?從有機基板的極限談起,理解 CoPoS 架構、玻璃基板的優劣勢與供應鏈卡位。</p>
+      </div>
+      <div class="d-go">閱讀檔案 →</div>
     </div>
-    <div>
-      <div class="d-title">CoPoS 與玻璃基板</div>
-      <div class="d-sub">視覺化解說 — 封裝基板的下一場材料革命</div>
-      <p class="d-desc">為什麼大晶片時代需要玻璃?從有機基板的極限談起,理解 CoPoS 架構、玻璃基板的優劣勢與供應鏈卡位。</p>
-    </div>
-    <div class="d-go">閱讀檔案 →</div>
-  </div>
-  <svg class="motif" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <rect x="30" y="78" width="140" height="10" rx="2" fill="none" stroke="#4da3ff" stroke-width="1.5"/>
-    <rect x="50" y="60" width="100" height="12" rx="2" fill="none" stroke="#f4ad3e" stroke-width="2"/>
-    <rect x="70" y="42" width="28" height="12" rx="2" fill="#f4ad3e" opacity=".55"/>
-    <rect x="104" y="42" width="28" height="12" rx="2" fill="#e8852b" opacity=".55"/>
-  </svg>
-</a>
+    <svg class="motif" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="30" y="78" width="140" height="10" rx="2" fill="none" stroke="#4da3ff" stroke-width="1.5"/>
+      <rect x="50" y="60" width="100" height="12" rx="2" fill="none" stroke="#f4ad3e" stroke-width="2"/>
+      <rect x="70" y="42" width="28" height="12" rx="2" fill="#f4ad3e" opacity=".55"/>
+      <rect x="104" y="42" width="28" height="12" rx="2" fill="#e8852b" opacity=".55"/>
+    </svg>
+  </a>
+  <!-- 想把康寧也掛在這份(玻璃基板)下,複製上方的 <div class="satellites"> 即可 -->
+</section>
 
-<a class="dossier d-passive" href="notes/passive-components.html">
+<section class="dossier-group d-passive">
+  <a class="dossier" href="notes/passive-components.html">
   <div class="dossier-inner">
     <div class="d-tags">
       <span class="tag hl">被動元件</span><span class="tag">MLCC</span><span class="tag">電感 / 電阻</span>
@@ -176,7 +234,8 @@ footer p+p{margin-top:8px}
     <path d="M82 36 V84 M96 36 V84" stroke="#c9a961" stroke-width="3"/>
     <path d="M104 60 q6-18 12 0 q6 18 12 0 q6-18 12 0" fill="none" stroke="#b8743f" stroke-width="2" transform="translate(8,0)"/>
   </svg>
-</a>
+  </a>
+</section>
 
 <footer>
   <p>Personal Research Notes · 資料整理自公開資訊與產業報導,內容可能隨技術演進更新</p>
